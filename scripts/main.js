@@ -88,7 +88,7 @@ $(document).ready(function () {
 
 // js
 
-$(document).on('mouseenter', '.list-item', function () {
+$(document).on('mouseenter touchstart', '.list-item', function () {
     var index = $(this).index();
     setActive(index);
     centerSlide(index);
