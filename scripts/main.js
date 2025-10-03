@@ -88,14 +88,18 @@ $(document).ready(function () {
 
 // js
 
-$(document).on('mouseenter touchstart', '.list-item', function (e) {
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
+
+const eventType = isTouchDevice ? 'touchstart' : 'mouseenter';
+
+$(document).on(eventType, '.list-item', function (e) {
     e.preventDefault();
     var index = $(this).index();
     setActive(index);
     centerSlide(index);
 });
 
-$(document).on('mouseenter touchstart', '#gallery .post', function (e) {
+$(document).on(eventType, '#gallery .post', function (e) {
     e.preventDefault();
     var index = $(this).data('index');
     setActive(index);
@@ -109,7 +113,6 @@ function setActive(index) {
 
     var posts = $('#gallery .post');
     posts.removeClass('active unactive');
-    posts.filter(`[data-index="${index}"]`).addClass('active');
     posts.not(posts.filter(`[data-index="${index}"]`)).addClass('unactive');
 }
 
