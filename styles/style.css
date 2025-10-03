@@ -207,10 +207,11 @@ nav>*:not(:last-child) {
 	/*gallery*/
 
 	#gallery-container {
-	position: relative;
-	height: fit-content;
-	overflow: initial;
-}
+		position: relative;
+		height: fit-content;
+		overflow: initial;
+		z-index: 0;
+	}
 
 	.post:not(:last-child) {
 		margin-bottom: 0;
