@@ -49,7 +49,7 @@ const content = {
         title: "Oxígeno",
         client: "Ipsum Dolor",
         category: "Photo",
-        duration: "00:00",
+        duration: "00",
       },
       media: [
         { type: "image", src: "images/estergmera_5.webp" }
@@ -104,7 +104,7 @@ const content = {
         title: "Oxígeno",
         client: "Ipsum Dolor",
         category: "Photo",
-        duration: "00:00",
+        duration: "00",
       },
       media: [
         { type: "image", src: "images/estergmera_5.webp" }
