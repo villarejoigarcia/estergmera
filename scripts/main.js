@@ -8,50 +8,95 @@ $(document).ready(function () {
 	const $carousel = $('#gallery');
 	$carousel.empty();
 
-	c.projects.forEach((project, index) => {
-		const $slide = $('<div>')
-			.addClass('post')
-			.attr('data-index', index);
+	function handleResponsive() {
+		const isMobile = window.innerWidth <= 768;
 
-		if (project.media) {
-			project.media.forEach(m => {
-				if (m.type === "image") {
-					const $media = $('<img>').attr('src', m.src);
-					$slide.append($media);
+		if (isMobile) {
+
+			$carousel.empty();
+
+			c.projects.forEach((project, index) => {
+				const $slide = $('<div>')
+					.addClass('post')
+					.attr('data-index', index);
+
+				if (project.media) {
+					project.media.forEach(m => {
+						if (m.type === "image") {
+							const $media = $('<img>').attr('src', m.src);
+							$slide.append($media);
+						}
+					});
 				}
+
+				if (project.fields) {
+					const $fieldsContainer = $('<div>').addClass('list-item');
+					Object.entries(project.fields).forEach(([key, value]) => {
+						$fieldsContainer.append($('<span>').text(value));
+					});
+					$slide.append($fieldsContainer);
+				}
+
+				$carousel.append($slide);
+			});			
+
+		} else {
+
+			c.projects.forEach((project, index) => {
+				const $slide = $('<div>')
+					.addClass('post')
+					.attr('data-index', index);
+
+				if (project.media) {
+					project.media.forEach(m => {
+						if (m.type === "image") {
+							const $media = $('<img>').attr('src', m.src);
+							$slide.append($media);
+						}
+					});
+				}
+
+				$carousel.append($slide);
 			});
-		}
 
-		$carousel.append($slide);
-	});
+			const $list = $('#list');
+			$list.empty();
 
-	const $list = $('#list');
-	$list.empty();
+			c.projects.forEach((project, index) => {
 
-	c.projects.forEach((project, index) => {
+				if (project.fields) {
+					const $fields = $('<a>').addClass('list-item');
+					$fields.append($('<span>').addClass('index').text(`${index + 1}.`));
+					Object.entries(project.fields).forEach(([key, value]) => {
+						$fields.append($('<span>').text(value));
+					});
+					$list.append($fields);
+				}
 
-		if (project.fields) {
-			const $fields = $('<a>').addClass('list-item');
-			$fields.append($('<span>').text(`${index + 1}.`));
-			Object.entries(project.fields).forEach(([key, value]) => {
-				$fields.append($('<span>').text(value));
 			});
-			$list.append($fields);
-		}
 
+		}
+	}
+
+	handleResponsive();
+
+	$(window).on('resize', function () {
+		handleResponsive();
 	});
 
 });
 
 // js
 
-$(document).on('mouseenter', '.list-item', function () {
+$(document).on('mouseenter touchstart', '.list-item', function (e) {
+    e.preventDefault();
     var index = $(this).index();
     setActive(index);
     centerSlide(index);
 });
 
-$(document).on('mouseenter', '#gallery .post', function () {
+$(document).on('mouseenter touchstart', '#gallery .post', function (e) {
+    e.preventDefault();
     var index = $(this).data('index');
     setActive(index);
 });
