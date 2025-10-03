@@ -1,0 +1,83 @@
+// content
+
+$(document).ready(function () {
+
+	if (!window.content || !window.content.projects) return;
+	const c = window.content;
+
+	const $carousel = $('#gallery');
+	$carousel.empty();
+
+	c.projects.forEach((project, index) => {
+		const $slide = $('<div>')
+			.addClass('post')
+			.attr('data-index', index);
+
+		if (project.media) {
+			project.media.forEach(m => {
+				if (m.type === "image") {
+					const $media = $('<img>').attr('src', m.src);
+					$slide.append($media);
+				}
+			});
+		}
+
+		$carousel.append($slide);
+	});
+
+	const $list = $('#list');
+	$list.empty();
+
+	c.projects.forEach((project, index) => {
+
+		if (project.fields) {
+			const $fields = $('<a>').addClass('list-item');
+			$fields.append($('<span>').text(`${index + 1}.`));
+			Object.entries(project.fields).forEach(([key, value]) => {
+				$fields.append($('<span>').text(value));
+			});
+			$list.append($fields);
+		}
+
+	});
+
+});
+
+// js
+
+$(document).on('mouseenter', '.list-item', function () {
+    var index = $(this).index();
+    setActive(index);
+    centerSlide(index);
+});
+
+$(document).on('mouseenter', '#gallery .post', function () {
+    var index = $(this).data('index');
+    setActive(index);
+});
+
+function setActive(index) {
+    var items = $('.list-item');
+    items.removeClass('active unactive');
+    items.eq(index).addClass('active');
+    items.not(items.eq(index)).addClass('unactive');
+
+    var posts = $('#gallery .post');
+    posts.removeClass('active unactive');
+    posts.filter(`[data-index="${index}"]`).addClass('active');
+    posts.not(posts.filter(`[data-index="${index}"]`)).addClass('unactive');
+}
+
+function centerSlide(index) {
+    var $container = $('#gallery-container');
+    var $slide = $('#gallery .post').filter(`[data-index="${index}"]`).first();
+
+    if ($slide.length) {
+        var containerScroll = $container.scrollTop();
+        var containerHeight = $container.height();
+        var slideTop = $slide.position().top + containerScroll;
+        var slideHeight = $slide.outerHeight(true);
+        var scrollTo = slideTop + slideHeight / 2 - containerHeight / 2;
+        $container.stop().animate({ scrollTop: scrollTo }, 1000, 'easeOutQuad');
+    }
+}
