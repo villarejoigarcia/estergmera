@@ -88,39 +88,58 @@ $(document).ready(function () {
 
 // js
 
-$(document).on('mouseenter touchstart', '.list-item', function () {
-    var index = $(this).index();
-    setActive(index);
-    centerSlide(index);
-});
+$(document).ready(function () {
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
 
-$(document).on('mouseenter touchstart', '#gallery .post', function () {
-    var index = $(this).data('index');
-    setActive(index);
-});
+    if (isTouchDevice) {
+        $(document).on('touchstart', '.list-item', function (e) {
+            e.preventDefault();
+            var index = $(this).closest('.post').data('index'); 
+            setActive(index);
+            centerSlide(index);
+        });
 
-function setActive(index) {
-    var items = $('.list-item');
-    items.removeClass('active unactive');
-    items.eq(index).addClass('active');
-    items.not(items.eq(index)).addClass('unactive');
+        $(document).on('touchstart', '#gallery .post', function (e) {
+            e.preventDefault();
+            var index = $(this).data('index');
+            setActive(index);
+        });
+    } else {
+        $(document).on('mouseenter', '.list-item', function () {
+            var index = $(this).index();
+            setActive(index);
+            centerSlide(index);
+        });
 
-    var posts = $('#gallery .post');
-    posts.removeClass('active unactive');
-    posts.filter(`[data-index="${index}"]`).addClass('active');
-    posts.not(posts.filter(`[data-index="${index}"]`)).addClass('unactive');
-}
-
-function centerSlide(index) {
-    var $container = $('#gallery-container');
-    var $slide = $('#gallery .post').filter(`[data-index="${index}"]`).first();
-
-    if ($slide.length) {
-        var containerScroll = $container.scrollTop();
-        var containerHeight = $container.height();
-        var slideTop = $slide.position().top + containerScroll;
-        var slideHeight = $slide.outerHeight(true);
-        var scrollTo = slideTop + slideHeight / 2 - containerHeight / 2;
-        $container.stop().animate({ scrollTop: scrollTo }, 1000, 'easeOutQuad');
+        $(document).on('mouseenter', '#gallery .post', function () {
+            var index = $(this).data('index');
+            setActive(index);
+        });
     }
-}
+
+    function setActive(index) {
+        var items = $('.list-item');
+        items.removeClass('active unactive');
+        items.eq(index).addClass('active');
+        items.not(items.eq(index)).addClass('unactive');
+
+        var posts = $('#gallery .post');
+        posts.removeClass('active unactive');
+        posts.filter(`[data-index="${index}"]`).addClass('active');
+        posts.not(posts.filter(`[data-index="${index}"]`)).addClass('unactive');
+    }
+
+    function centerSlide(index) {
+        var $container = $('#gallery-container');
+        var $slide = $('#gallery .post').filter(`[data-index="${index}"]`).first();
+
+        if ($slide.length) {
+            var containerScroll = $container.scrollTop();
+            var containerHeight = $container.height();
+            var slideTop = $slide.position().top + containerScroll;
+            var slideHeight = $slide.outerHeight(true);
+            var scrollTo = slideTop + slideHeight / 2 - containerHeight / 2;
+            $container.stop().animate({ scrollTop: scrollTo }, 1000, 'easeOutQuad');
+        }
+    }
+});
