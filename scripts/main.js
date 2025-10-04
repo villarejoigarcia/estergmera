@@ -94,11 +94,8 @@ $(document).ready(function () {
 
 	if (isTouchDevice) {
 
-		$(document).on('touchstart', '#gallery .post', function (e) {
+		$(document).on('touchend', '#gallery .post', function (e) {
 			var index = $(this).data('index');
-
-			if ($(this).hasClass('active')) return;
-
 			setActive(index);
 		});
 
