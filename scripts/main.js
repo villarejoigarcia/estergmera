@@ -9,6 +9,7 @@ $(document).ready(function () {
 	$carousel.empty();
 
 	function handleResponsive() {
+		
 		const isMobile = window.innerWidth <= 768;
 
 		if (isMobile) {
@@ -41,6 +42,8 @@ $(document).ready(function () {
 			});			
 
 		} else {
+
+			$carousel.empty();
 
 			c.projects.forEach((project, index) => {
 				const $slide = $('<div>')
@@ -80,8 +83,14 @@ $(document).ready(function () {
 
 	handleResponsive();
 
+	let lastIsMobile = window.innerWidth <= 768;
+
 	$(window).on('resize', function () {
-		handleResponsive();
+		const isMobile = window.innerWidth <= 768;
+		if (isMobile !== lastIsMobile) {
+			handleResponsive();
+			lastIsMobile = isMobile;
+		}
 	});
 
 });
