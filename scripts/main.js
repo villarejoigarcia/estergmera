@@ -93,7 +93,7 @@ $(document).ready(function () {
 
 	if (isTouchDevice) {
 
-		$(document).on('touchend', '#gallery .post', function (e) {
+		$(document).on('touchstart', '#gallery .post', function (e) {
 			e.preventDefault();
 			var index = $(this).data('index');
 			setActive(index);
