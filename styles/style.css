@@ -169,7 +169,7 @@ nav>*:not(:last-child) {
 
 /*responsive*/
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
 
 	/*settings*/
 
@@ -209,6 +209,8 @@ nav>*:not(:last-child) {
 
 	#gallery-container {
 		position: relative;
+		height: initial;
+		overflow: initial;
 		z-index: 0;
 	}
 

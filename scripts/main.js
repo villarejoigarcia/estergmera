@@ -89,17 +89,15 @@ $(document).ready(function () {
 // js
 
 $(document).on('mouseenter', '.list-item', function () {
-    var index = $(this).index();
-    setActiveList(index);
-    setActivePost(index);
-    centerSlide(index);
+	var index = $(this).index();
+	setActive(index);
+	centerSlide(index);
 });
 
 $(document).on('mouseenter', '#gallery .post', function () {
-    var $this = $(this);
-    var index = $this.data('index');
-    setActiveList(index);
-    setActivePost(index);
+	var $this = $(this);
+	var index = $this.data('index');
+	setActive(index);
 });
 
 $(document).on('touchstart', '#gallery .post', function () {
@@ -110,15 +108,13 @@ $(document).on('touchend', '#gallery .post', function () {
 	$('#gallery .post').not(this).removeClass('unactive');
 });
 
-function setActiveList(index) {
+function setActive(index) {
     var items = $('.list-item');
     items.removeClass('active unactive');
     items.eq(index).addClass('active');
     items.not(items.eq(index)).addClass('unactive');
-}
 
-function setActivePost(index) {
-    var posts = $('#gallery .post');
+	var posts = $('#gallery .post');
     posts.removeClass('active unactive');
     posts.filter(`[data-index="${index}"]`).addClass('active');
     posts.not(posts.filter(`[data-index="${index}"]`)).addClass('unactive');
