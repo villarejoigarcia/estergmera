@@ -93,13 +93,6 @@ $(document).ready(function () {
 
 	if (isTouchDevice) {
 
-		$(document).on('touchend', '.list-item', function (e) {
-			e.preventDefault();
-			var index = $(this).index();
-			setActive(index);
-			centerSlide(index);
-		});
-
 		$(document).on('touchend', '#gallery .post', function (e) {
 			e.preventDefault();
 			var index = $(this).data('index');
@@ -107,7 +100,6 @@ $(document).ready(function () {
 		});
 
 	} else {
-
 		$(document).on('mouseenter', '.list-item', function () {
 			var index = $(this).index();
 			setActive(index);
