@@ -209,8 +209,6 @@ nav>*:not(:last-child) {
 
 	#gallery-container {
 		position: relative;
-		height: fit-content;
-		overflow: initial;
 		z-index: 0;
 	}
 

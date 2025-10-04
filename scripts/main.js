@@ -95,13 +95,19 @@ $(document).on('mouseenter', '.list-item', function () {
     centerSlide(index);
 });
 
-$(document).on('mouseenter touchstart', '#gallery .post', function () {
+$(document).on('mouseenter', '#gallery .post', function () {
     var $this = $(this);
-    if ($this.hasClass('active')) return;
-
     var index = $this.data('index');
     setActiveList(index);
     setActivePost(index);
+});
+
+$(document).on('touchstart', '#gallery .post', function () {
+	$('#gallery .post').not(this).addClass('unactive');
+});
+
+$(document).on('touchend', '#gallery .post', function () {
+	$('#gallery .post').not(this).removeClass('unactive');
 });
 
 function setActiveList(index) {
