@@ -38,7 +38,7 @@ $(document).ready(function () {
 				}
 
 				$carousel.append($slide);
-			});
+			});			
 
 		} else {
 
@@ -88,55 +88,43 @@ $(document).ready(function () {
 
 // js
 
-$(document).ready(function () {
-
-	let touchStartY = 0;
-
-	$(document).on('mouseenter', '.list-item', function () {
-		var index = $(this).index();
-		setActive(index);
-		centerSlide(index);
-	});
-
-	$(document).on('mouseenter', '#gallery .post', function () {
-		var index = $(this).data('index');
-		setActive(index);
-	});
-
-	$(document).on('touchstart', '#gallery .post', function (e) {
-		touchStartY = e.originalEvent.touches[0].clientY;
-	});
-
-	$(document).on('touchend', '#gallery .post', function (e) {
-		let touchEndY = e.originalEvent.changedTouches[0].clientY;
-		let diff = Math.abs(touchEndY - touchStartY);
-		if (diff > 10) return;
-		var index = $(this).data('index');
-		if ($(this).hasClass('active')) return;
-		setActive(index);
-	});
-
-	function setActive(index) {
-		var items = $('.list-item');
-		items.removeClass('active unactive');
-		items.eq(index).addClass('active');
-		items.not(items.eq(index)).addClass('unactive');
-		var posts = $('#gallery .post');
-		posts.removeClass('active unactive');
-		posts.filter(`[data-index="${index}"]`).addClass('active');
-		posts.not(posts.filter(`[data-index="${index}"]`)).addClass('unactive');
-	}
-
-	function centerSlide(index) {
-		var $container = $('#gallery-container');
-		var $slide = $('#gallery .post').filter(`[data-index="${index}"]`).first();
-		if ($slide.length) {
-			var containerScroll = $container.scrollTop();
-			var containerHeight = $container.height();
-			var slideTop = $slide.position().top + containerScroll;
-			var slideHeight = $slide.outerHeight(true);
-			var scrollTo = slideTop + slideHeight / 2 - containerHeight / 2;
-			$container.stop().animate({ scrollTop: scrollTo }, 1000, 'easeOutQuad');
-		}
-	}
+$(document).on('mouseenter', '.list-item', function () {
+    var index = $(this).index();
+    setActiveList(index);
+	setActivePost(index);
+    centerSlide(index);
 });
+
+$(document).on('mouseenter touchstart', '#gallery .post', function () {
+    var index = $(this).data('index');
+    setActiveList(index);
+	setActivePost(index);
+});
+
+function setActiveList(index) {
+    var items = $('.list-item');
+    items.removeClass('active unactive');
+    items.eq(index).addClass('active');
+    items.not(items.eq(index)).addClass('unactive');
+}
+
+function setActivePost(index) {
+    var posts = $('#gallery .post');
+    posts.removeClass('active unactive');
+    posts.filter(`[data-index="${index}"]`).addClass('active');
+    posts.not(posts.filter(`[data-index="${index}"]`)).addClass('unactive');
+}
+
+function centerSlide(index) {
+    var $container = $('#gallery-container');
+    var $slide = $('#gallery .post').filter(`[data-index="${index}"]`).first();
+
+    if ($slide.length) {
+        var containerScroll = $container.scrollTop();
+        var containerHeight = $container.height();
+        var slideTop = $slide.position().top + containerScroll;
+        var slideHeight = $slide.outerHeight(true);
+        var scrollTo = slideTop + slideHeight / 2 - containerHeight / 2;
+        $container.stop().animate({ scrollTop: scrollTo }, 1000, 'easeOutQuad');
+    }
+}
