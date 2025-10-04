@@ -89,6 +89,7 @@ $(document).ready(function () {
 // js
 
 $(document).ready(function () {
+	
 	const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
 	if (isTouchDevice) {
@@ -96,10 +97,14 @@ $(document).ready(function () {
 		$(document).on('touchstart', '#gallery .post', function (e) {
 			e.preventDefault();
 			var index = $(this).data('index');
+
+			if ($(this).hasClass('active')) return;
+
 			setActive(index);
 		});
 
 	} else {
+
 		$(document).on('mouseenter', '.list-item', function () {
 			var index = $(this).index();
 			setActive(index);
