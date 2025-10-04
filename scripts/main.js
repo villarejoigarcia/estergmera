@@ -95,7 +95,6 @@ $(document).ready(function () {
 	if (isTouchDevice) {
 
 		$(document).on('touchstart', '#gallery .post', function (e) {
-			e.preventDefault();
 			var index = $(this).data('index');
 
 			if ($(this).hasClass('active')) return;
