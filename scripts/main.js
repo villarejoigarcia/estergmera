@@ -91,14 +91,17 @@ $(document).ready(function () {
 $(document).on('mouseenter', '.list-item', function () {
     var index = $(this).index();
     setActiveList(index);
-	setActivePost(index);
+    setActivePost(index);
     centerSlide(index);
 });
 
 $(document).on('mouseenter touchstart', '#gallery .post', function () {
-    var index = $(this).data('index');
+    var $this = $(this);
+    if ($this.hasClass('active')) return;
+
+    var index = $this.data('index');
     setActiveList(index);
-	setActivePost(index);
+    setActivePost(index);
 });
 
 function setActiveList(index) {
