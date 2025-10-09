@@ -50,6 +50,14 @@ $(document).ready(function () {
 					.addClass('post')
 					.attr('data-index', index);
 
+				if (project.fields && project.fields.category) {
+					const categoryClass = project.fields.category
+						.toLowerCase()
+						.replace(/\s+/g, '-');
+
+					$slide.addClass(categoryClass);
+				}
+
 				if (project.media) {
 					project.media.forEach(m => {
 						if (m.type === "image") {
@@ -66,16 +74,22 @@ $(document).ready(function () {
 			$list.empty();
 
 			c.projects.forEach((project, index) => {
-
 				if (project.fields) {
-					const $fields = $('<a>').addClass('list-item');
+					const $fields = $('<a>')
+						.addClass('list-item');
+
+					if (project.fields.category) {
+						$fields.addClass(project.fields.category.toLowerCase().replace(/\s+/g, '-'));
+					}
+
 					$fields.append($('<span>').addClass('index').text(`${index + 1}.`));
+
 					Object.entries(project.fields).forEach(([key, value]) => {
 						$fields.append($('<span>').text(value));
 					});
+
 					$list.append($fields);
 				}
-
 			});
 
 		}
@@ -93,9 +107,37 @@ $(document).ready(function () {
 		}
 	});
 
+	registerImgs();
+
 });
 
 // js
+
+// register img sizes
+
+function registerImgs() {
+	const imageHeights = new Map();
+
+	document.querySelectorAll('img').forEach(img => {
+		function setHeight() {
+			const h = img.offsetHeight;
+			const parent = img.closest('.post');
+			if (!parent) return;
+
+			imageHeights.set(parent, h);
+			parent.style.height = h + 'px';
+		}
+
+		if (img.complete) {
+			setHeight();
+		} else {
+			img.addEventListener('load', setHeight);
+		}
+	});
+
+}
+
+// list
 
 $(document).on('mouseenter', '.list-item', function () {
 	var index = $(this).index();
@@ -142,3 +184,19 @@ function centerSlide(index) {
         $container.stop().animate({ scrollTop: scrollTo }, 1000, 'easeOutQuad');
     }
 }
+
+// category filter
+
+$(document).on('click', '#film-button', function () {
+	const unactivePosts = $('.photo');
+
+	$(this).toggleClass('active');
+	unactivePosts.toggleClass('filter');
+});
+
+$(document).on('click', '#photo-button', function () {
+	const unactivePosts = $('.film');
+
+	$(this).toggleClass('active');
+	unactivePosts.toggleClass('filter');
+});

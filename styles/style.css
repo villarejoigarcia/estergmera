@@ -23,7 +23,7 @@ body {
 img,
 video {
 	display: block;
-	width: calc(100vw/24*10 + 20px);
+	width: calc(100vw/24*8);
 	height: auto;
 	object-fit: cover;
 }
@@ -37,6 +37,7 @@ video {
 
 a {
 	all: unset;
+	display: block;
 	cursor: pointer;
 	color: var(--color-grey);
 	transition: var(--transition);
@@ -97,12 +98,20 @@ nav {
 	gap: 3px;
 }
 
+nav a {
+	width: fit-content;
+}
+
 #about-button {
 	margin-left: auto;
 }
 
 nav>*:not(:last-child) {
 	width: calc(100vw/24);
+}
+
+nav>*.active a {
+	color: black;
 }
 
 /*info*/
@@ -119,6 +128,9 @@ nav>*:not(:last-child) {
 
 .list-item {
 	display: flex;
+	overflow: hidden;
+	height: 15px;
+	transition: var(--transition);
 }
 
 .list-item>* {
@@ -138,6 +150,12 @@ nav>*:not(:last-child) {
 	flex-grow: 6;
 }
 
+.list-item.filter,
+.post.filter {
+	height: 0!important;
+	margin-bottom: 0!important;
+}
+
 /*gallery*/
 
 #gallery-container {
@@ -150,16 +168,17 @@ nav>*:not(:last-child) {
 	z-index: -1;
 }
 
+.post {
+	transition: var(--transition);
+	overflow: hidden;
+}
+
 .post:not(:last-child) {
 	margin-bottom: 5px;
 }
 
 .post>* {
 	margin: 0 auto;
-}
-
-.post {
-	transition: var(--transition);
 }
 
 .post.unactive {
