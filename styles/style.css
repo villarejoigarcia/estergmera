@@ -131,6 +131,7 @@ nav>*.active a {
 	overflow: hidden;
 	height: 15px;
 	transition: var(--transition);
+	position: relative;
 }
 
 .list-item>* {
@@ -150,10 +151,9 @@ nav>*.active a {
 	flex-grow: 6;
 }
 
-.list-item.filter,
-.post.filter {
-	height: 0!important;
-	margin-bottom: 0!important;
+.list-item.filter {
+	height: 0 !important;
+	padding: 0 !important;
 }
 
 /*gallery*/
@@ -173,7 +173,7 @@ nav>*.active a {
 	overflow: hidden;
 }
 
-.post:not(:last-child) {
+.post:not(:last-child) img {
 	margin-bottom: 5px;
 }
 
@@ -184,6 +184,15 @@ nav>*.active a {
 .post.unactive {
 	filter: blur(3px);
 	opacity: .3;
+}
+
+.post img {
+	transition: var(--transition);
+}
+
+.post img.filter {
+	height: 0 !important;
+	margin-bottom: 0 !important;
 }
 
 /*responsive*/
@@ -233,7 +242,7 @@ nav>*.active a {
 		z-index: 0;
 	}
 
-	.post:not(:last-child) {
+	.post:not(:last-child) img {
 		margin-bottom: 0;
 	}
 

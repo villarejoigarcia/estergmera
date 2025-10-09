@@ -25,6 +25,15 @@ $(document).ready(function () {
 					project.media.forEach(m => {
 						if (m.type === "image") {
 							const $media = $('<img>').attr('src', m.src);
+
+							if (project.fields && project.fields.category) {
+								const categoryClass = project.fields.category
+									.toLowerCase()
+									.replace(/\s+/g, '-');
+
+								$media.addClass(categoryClass);
+							}
+
 							$slide.append($media);
 						}
 					});
@@ -32,9 +41,18 @@ $(document).ready(function () {
 
 				if (project.fields) {
 					const $fieldsContainer = $('<div>').addClass('list-item');
+
+					if (project.fields.category) {
+						const categoryClass = project.fields.category
+							.toLowerCase()
+							.replace(/\s+/g, '-');
+						$fieldsContainer.addClass(categoryClass);
+					}
+
 					Object.entries(project.fields).forEach(([key, value]) => {
 						$fieldsContainer.append($('<span>').text(value));
 					});
+
 					$slide.append($fieldsContainer);
 				}
 
@@ -50,18 +68,19 @@ $(document).ready(function () {
 					.addClass('post')
 					.attr('data-index', index);
 
-				if (project.fields && project.fields.category) {
-					const categoryClass = project.fields.category
-						.toLowerCase()
-						.replace(/\s+/g, '-');
-
-					$slide.addClass(categoryClass);
-				}
-
 				if (project.media) {
 					project.media.forEach(m => {
 						if (m.type === "image") {
 							const $media = $('<img>').attr('src', m.src);
+
+							if (project.fields && project.fields.category) {
+								const categoryClass = project.fields.category
+									.toLowerCase()
+									.replace(/\s+/g, '-');
+
+								$media.addClass(categoryClass);
+							}
+
 							$slide.append($media);
 						}
 					});
@@ -121,11 +140,11 @@ function registerImgs() {
 	document.querySelectorAll('img').forEach(img => {
 		function setHeight() {
 			const h = img.offsetHeight;
-			const parent = img.closest('.post');
-			if (!parent) return;
+			// const parent = img.closest('.post');
+			// if (!parent) return;
 
 			imageHeights.set(parent, h);
-			parent.style.height = h + 'px';
+			img.style.height = h + 'px';
 		}
 
 		if (img.complete) {
@@ -187,16 +206,26 @@ function centerSlide(index) {
 
 // category filter
 
-$(document).on('click', '#film-button', function () {
-	const unactivePosts = $('.photo');
+$(document).ready(function () {
 
-	$(this).toggleClass('active');
-	unactivePosts.toggleClass('filter');
-});
+	const filmButton = $('#film-button');
+	const photoButton = $('#photo-button');
 
-$(document).on('click', '#photo-button', function () {
-	const unactivePosts = $('.film');
+	const postPhoto = $('.photo');
+	const postFilm = $('.film');
 
-	$(this).toggleClass('active');
-	unactivePosts.toggleClass('filter');
+	filmButton.on('click', function () {
+		$(this).toggleClass('active');
+		$(this).siblings().removeClass('active');
+		postPhoto.toggleClass('filter');
+		postFilm.removeClass('filter');
+	});
+
+	photoButton.on('click', function () {
+		$(this).toggleClass('active');
+		$(this).siblings().removeClass('active');
+		postFilm.toggleClass('filter');
+		postPhoto.removeClass('filter');
+	});
+
 });
