@@ -1,9 +1,11 @@
 /*general*/
 
 :root {
-	--key_value: 0px;
+	--key_value: 10px;
 	--color-grey: #ababab;
 	--transition: all .666s;
+	--transition_s: all .333s ease-in-out;
+	--header: 25px;
 }
 
 body {
@@ -23,9 +25,15 @@ body {
 img,
 video {
 	display: block;
-	width: calc(100vw/24*8);
-	height: auto;
+	max-width: 100vw;
+	max-height: 100vh;
 	object-fit: cover;
+	transform: translate3d(0,0,0);
+}
+
+#archive img {
+	width: calc(100vw/24*10);
+	padding: 0 45px;
 }
 
 /*fonts*/
@@ -114,6 +122,14 @@ nav>*.active a {
 	color: black;
 }
 
+#title a {
+	color: black;
+}
+
+#title a:hover {
+	color: var(--color-grey);
+}
+
 /*info*/
 
 #info-container {
@@ -168,31 +184,78 @@ nav>*.active a {
 	z-index: -1;
 }
 
-.post {
+.thumbnail {
 	transition: var(--transition);
 	overflow: hidden;
 }
 
-.post:not(:last-child) img {
+.thumbnail:not(:last-child) img {
 	margin-bottom: 5px;
 }
 
-.post>* {
+.thumbnail>* {
 	margin: 0 auto;
 }
 
-.post.unactive {
+.thumbnail.unactive {
 	filter: blur(3px);
 	opacity: .3;
 }
 
-.post img {
+.thumbnail img {
 	transition: var(--transition);
 }
 
-.post img.filter {
+.thumbnail img.filter {
 	height: 0 !important;
 	margin-bottom: 0 !important;
+}
+
+/*single*/
+
+#gallery-container.single-view {
+	height: initial;
+	overflow: initial;
+	/* z-index: 0; */
+}
+
+#post>img {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	max-width: 55vw;
+	transition: var(--transition_s);
+	opacity: 0;
+}
+
+#post>img.active {
+	opacity: 1;
+}
+
+#single-index {
+	position: absolute;
+	left: calc(100vw/24);
+	top: 50vh;
+}
+
+#thumbnails {
+	position: absolute;
+	top: calc(var(--header) + 100vw/24);
+	right: var(--key_value);
+	width: calc(100vw/24);
+}
+
+#thumbnails img {
+	width: 100%;
+	height: auto;
+	margin-bottom: 5px;
+	transition: var(--transition_s);
+	opacity: .333;
+}
+
+#thumbnails img.active {
+	opacity: 1;
 }
 
 /*responsive*/
@@ -211,7 +274,8 @@ nav>*.active a {
 
 	img,
 	video {
-		width: 100%;
+		width: 100% !important;
+		padding: 0 !important;
 	}
 
 	/*header*/
@@ -242,7 +306,7 @@ nav>*.active a {
 		z-index: 0;
 	}
 
-	.post:not(:last-child) img {
+	.thumbnail:not(:last-child) img {
 		margin-bottom: 0;
 	}
 
