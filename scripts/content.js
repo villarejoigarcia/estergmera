@@ -7,6 +7,13 @@ const content = {
         category: "Film",
         duration: "00:00",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       slug: "huevos",
       media: [
         { type: "image", src: "images/estergmera_1.webp" },

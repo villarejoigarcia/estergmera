@@ -282,6 +282,8 @@ function showProject(slug) {
 
 	const $postContainer = $('<div>').attr('id', 'post');
 
+	const singleGallery = $('<div>').attr('id', 'single-gallery');
+
 	if (project.media && project.media.length > 0) {
 		project.media.forEach((m, i) => {
 			if (m.type === 'image') {
@@ -290,10 +292,14 @@ function showProject(slug) {
 					.attr('alt', project.fields.title)
 					.addClass('post-image')
 					.toggleClass('active', i === 0);
-				$postContainer.append($img);
+				singleGallery.append($img);
 			}
 		});
 	}
+
+	$postContainer.append(singleGallery);
+
+	// single thumbnails
 
 	const $thumbContainer = $('<div>').attr('id', 'thumbnails');
 	if (project.media && project.media.length > 0) {
@@ -310,7 +316,9 @@ function showProject(slug) {
 	}
 	$postContainer.append($thumbContainer);
 
-	const $index = $('<div>').attr('id', 'single-index');
+	// single index
+
+	const singleIndex = $('<div>').attr('id', 'single-index');
 
 	const relatedProjects = window.content.projects.filter(
 		p => p.fields.category.toLowerCase() === category
@@ -325,13 +333,44 @@ function showProject(slug) {
 		if (p.slug === slug) $link.addClass('active');
 
 		$item.append($link);
-		$index.append($item);
+		singleIndex.append($item);
 	});
-	$postContainer.append($index);
+
+	$postContainer.append(singleIndex);
+
+	// credits
+
+	const creditsButton = $('<div>').attr('id', 'credits-button');
+	const creditsButtonText = $('<a>').text('Credits');
+
+	creditsButton.append(creditsButtonText);
+	$postContainer.append(creditsButton);
+
+	const creditsContainer = $('<div>').attr('id', 'credits');
+
+	if (project.credits) {
+		
+		const entries = Object.entries(project.credits);
+
+		entries.forEach(([key, value], index) => {
+			creditsContainer.append($('<span>').text(value));
+			if (index < entries.length - 1) {
+				creditsContainer.append($('<span>').text(' / '));
+			}
+		});
+
+		$postContainer.append(creditsContainer);
+	}
 
 	container.append($postContainer);
 
-	$('#thumbnails .thumbnail-item').on('mouseenter', function() {
+	const creditsHeight = creditsContainer.outerHeight(); 
+
+	console.log(creditsHeight);
+
+	// functions
+
+	$('#thumbnails .thumbnail-item').on('mouseenter', function () {
 		const index = $(this).index();
 
 		$('#thumbnails .thumbnail-item').removeClass('active');
@@ -340,4 +379,30 @@ function showProject(slug) {
 		$('#post .post-image').removeClass('active');
 		$('#post .post-image').eq(index).addClass('active');
 	});
+
+	creditsButton.on('click', function () {
+
+		creditsButton.toggleClass('active');
+		const creditsHeight = creditsContainer.outerHeight();
+
+		singleGallery.toggleClass('credits');
+		singleIndex.toggleClass('credits');
+
+		creditsContainer.toggleClass('active');
+
+		document.documentElement.style.setProperty('--credits-height', `-${creditsHeight}px`);
+	});
 };
+
+// about
+
+$(document).ready(function () {
+
+	const aboutButton = $('#about-button');
+	const about = $('#about');
+	
+	aboutButton.on('click', function () {
+		about.toggleClass('active');
+		aboutButton.toggleClass('active');
+	});
+});
