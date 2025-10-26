@@ -171,26 +171,73 @@ function registerImgs() {
 	});
 }
 
-// --- LIST HOVER ---
+//
+
+let mouseTimer = null;
+let isScrolling = false;
+
+$(document).on('mousemove', function (e) {
+	clearTimeout(mouseTimer);
+	mouseTimer = setTimeout(() => {
+
+		if (isScrolling) return;
+
+		const $target = $(e.target).closest('.list-item');
+		if ($target.length) {
+			const index = $target.data('index');
+			setActive(index);
+			centerSlide(index);
+		}
+	}, 100);
+});
+
+$(document).on('mousemove', function (e) {
+    const $target = $(e.target).closest('#archive .thumbnail');
+    if ($target.length) {
+      const index = $target.data('index');
+      setActive(index);
+    }
+});
+
 $(document).on('mouseenter', '.list-item', function () {
-	var index = $(this).data('index');
-	setActive(index);
-	centerSlide(index);
+	isScrolling = false;
+	console.log(isScrolling);
 });
 
-$(document).on('mouseenter', '#archive .thumbnail', function () {
-	var $this = $(this);
-	var index = $this.data('index');
-	setActive(index);
+function checkActivePostOnScroll() {
+	const $container = $('#gallery-container');
+	const containerScroll = $container.scrollTop();
+	const containerHeight = $container.height();
+	const containerCenter = containerScroll + containerHeight / 2;
+
+	let closestIndex = null;
+	let closestDistance = Infinity;
+	const sensitivity = 500; // Ajusta la "sensibilidad" del centrado
+
+	$('#archive .thumbnail').each(function () {
+		const $thumb = $(this);
+		const thumbTop = $thumb.position().top + containerScroll;
+		const thumbHeight = $thumb.outerHeight(true);
+		const thumbCenter = thumbTop + thumbHeight / 2;
+
+		const distance = Math.abs(containerCenter - thumbCenter);
+		if (distance < sensitivity && distance < closestDistance) {
+			closestDistance = distance;
+			closestIndex = $thumb.data('index');
+		}
+	});
+
+	if (closestIndex !== null) {
+		setActive(closestIndex);
+	}
+
+}
+
+$('#gallery-container').on('scroll', function () {
+	checkActivePostOnScroll();
 });
 
-$(document).on('touchstart', '#archive .thumbnail', function () {
-	$('#archive .thumbnail').not(this).addClass('unactive');
-});
-
-$(document).on('touchend', '#archive .thumbnail', function () {
-	$('#archive .thumbnail').not(this).removeClass('unactive');
-});
+//
 
 function setActive(index) {
 	var items = $('.list-item');

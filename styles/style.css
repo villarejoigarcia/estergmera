@@ -1,11 +1,11 @@
 /*general*/
 
 :root {
-	--key_value: 10px;
+	--key_value: 15px;
 	--color-grey: #ababab;
 	--transition: all .666s;
 	--transition_s: all .333s ease-in-out;
-	--header: 25px;
+	--header: 30px;
 }
 
 body {
@@ -87,7 +87,7 @@ header {
 	position: sticky;
 	top: 0;
 	left: 0;
-	padding: 10px 10px 0;
+	padding: var(--key_value) var(--key_value) 0;
 	z-index: 2;
 }
 
@@ -139,13 +139,16 @@ nav>*.active a {
 /*list*/
 
 #list {
-	padding: calc(100vw/24);
+	padding: calc(100vw/24 + var(--header)) calc(100vw/24) 0;
+	position: fixed;
+	width: 100vw;
+	top: 0
 }
 
 .list-item {
 	display: flex;
 	overflow: hidden;
-	height: 15px;
+	height: var(--key_value);
 	transition: var(--transition);
 	position: relative;
 }
@@ -314,11 +317,65 @@ nav>*.active a {
 	pointer-events: none;
 	transition: var(--transition);
 	backdrop-filter: blur(10px);
+	display: flex;
+	align-items: end;
+	padding: var(--key_value);
 }
 
 #about.active {
 	opacity: 1;
 	pointer-events: auto;
+}
+
+#about h1,
+#social a {
+	text-transform: uppercase;
+}
+
+#about>* {
+	flex: 1;
+}
+
+#about a,
+#about p {
+	font-weight: normal;
+}
+
+#contact a,
+#contact p {
+	color: black;
+}
+
+#contact a:hover {
+	color: var(--color-grey);
+}
+
+#about h1,
+#contact>div>div:not(:last-child) {
+	margin-bottom: var(--key_value);
+}
+
+#press {
+	flex-grow: 3.8;
+}
+
+#contact>div {
+	padding-right: calc(100vw/24);
+}
+
+#press>div {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	max-height: 120px;
+	gap: var(--key_value) 0;
+	overflow: scroll;
+}
+
+#press a {
+	/* flex: 1 1 calc(100%/4); */
+	width: calc((100%/4) - calc(100vw/24));
+	margin-right: calc(100vw/24);
 }
 
 /*responsive*/
