@@ -171,8 +171,6 @@ function registerImgs() {
 	});
 }
 
-//
-
 let mouseTimer = null;
 let isScrolling = false;
 
@@ -188,7 +186,7 @@ $(document).on('mousemove', function (e) {
 			setActive(index);
 			centerSlide(index);
 		}
-	}, 100);
+	}, 50);
 });
 
 $(document).on('mousemove', function (e) {
@@ -212,7 +210,7 @@ function checkActivePostOnScroll() {
 
 	let closestIndex = null;
 	let closestDistance = Infinity;
-	const sensitivity = 500; // Ajusta la "sensibilidad" del centrado
+	const sensitivity = 500;
 
 	$('#archive .thumbnail').each(function () {
 		const $thumb = $(this);
@@ -231,13 +229,13 @@ function checkActivePostOnScroll() {
 		setActive(closestIndex);
 	}
 
+	isScrolling = true;
+
 }
 
 $('#gallery-container').on('scroll', function () {
 	checkActivePostOnScroll();
 });
-
-//
 
 function setActive(index) {
 	var items = $('.list-item');
