@@ -55,7 +55,7 @@ span {
 	all: unset;
 }
 
-a:hover,
+a:not(.list-item):hover,
 a.active {
 	color: black;
 }

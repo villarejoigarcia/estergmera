@@ -186,7 +186,7 @@ $(document).on('mousemove', function (e) {
 			setActive(index);
 			centerSlide(index);
 		}
-	}, 50);
+	}, 20);
 });
 
 $(document).on('mousemove', function (e) {
@@ -206,31 +206,30 @@ function checkActivePostOnScroll() {
 	const $container = $('#gallery-container');
 	const containerScroll = $container.scrollTop();
 	const containerHeight = $container.height();
-	const containerCenter = containerScroll + containerHeight / 2;
+	const scrollBottom = containerScroll + containerHeight;
 
-	let closestIndex = null;
-	let closestDistance = Infinity;
-	const sensitivity = 500;
+	const $thumbnails = $('#archive .thumbnail');
+	let activeIndex = null;
 
-	$('#archive .thumbnail').each(function () {
+	$thumbnails.each(function () {
 		const $thumb = $(this);
 		const thumbTop = $thumb.position().top + containerScroll;
-		const thumbHeight = $thumb.outerHeight(true);
-		const thumbCenter = thumbTop + thumbHeight / 2;
 
-		const distance = Math.abs(containerCenter - thumbCenter);
-		if (distance < sensitivity && distance < closestDistance) {
-			closestDistance = distance;
-			closestIndex = $thumb.data('index');
+		if (thumbTop <= containerScroll + containerHeight / 2) {
+			activeIndex = $thumb.data('index');
 		}
 	});
 
-	if (closestIndex !== null) {
-		setActive(closestIndex);
+	const container = $container[0];
+	if (container.scrollHeight - scrollBottom <= 5) { 
+		activeIndex = $thumbnails.last().data('index');
+	}
+
+	if (activeIndex !== null) {
+		setActive(activeIndex);
 	}
 
 	isScrolling = true;
-
 }
 
 $('#gallery-container').on('scroll', function () {
@@ -259,7 +258,7 @@ function centerSlide(index) {
 		var slideTop = $slide.position().top + containerScroll;
 		var slideHeight = $slide.outerHeight(true);
 		var scrollTo = slideTop + slideHeight / 2 - containerHeight / 2;
-		$container.stop().animate({ scrollTop: scrollTo }, 2000, 'easeOutQuad');
+		$container.stop().animate({ scrollTop: scrollTo }, 1000, 'easeOutQuad');
 	}
 }
 
