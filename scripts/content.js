@@ -5,7 +5,7 @@ const content = {
         title: "Huevos",
         client: "Ministerio de Igualdad",
         category: "Film",
-        duration: "00:00",
+        duration: "",
       },
       credits: [
         "Direction Ester G. Mera",
@@ -14,8 +14,8 @@ const content = {
         "Art Direction Joel Izeon & Aitor Rubio",
         "Stylist Marta Rosmeri",
       ],
-      slug: "huevos",
       media: [
+        { type: "video", id: "1119488041" },
         { type: "image", src: "images/estergmera_1.webp" },
         { type: "image", src: "images/estergmera_2.webp" },
         { type: "image", src: "images/estergmera_3.webp" },
@@ -28,10 +28,10 @@ const content = {
         title: "A Mar Libre",
         client: "A Mar Libre",
         category: "Film",
-        duration: "00:00",
+        duration: "",
       },
-      slug: "a-mar-libre",
       media: [
+        { type: "video", id: "1093329338" },
         { type: "image", src: "images/estergmera_2.webp" },
         { type: "image", src: "images/estergmera_3.webp" },
         { type: "image", src: "images/estergmera_4.webp" },
@@ -44,11 +44,10 @@ const content = {
         title: "Music Makers",
         client: "Caixa Forum +",
         category: "Film",
-        duration: "00:00",
+        duration: "",
       },
-      slug: "music-makers",
       media: [
-        { type: "image", src: "images/estergmera_3.webp" }
+        { type: "video", id: "1128803603" },
       ]
     },
     {
@@ -56,11 +55,10 @@ const content = {
         title: "Parajumpers",
         client: "METAL",
         category: "Film",
-        duration: "00:00",
+        duration: "",
       },
-      slug: "parajumpers",
       media: [
-        { type: "image", src: "images/estergmera_4.webp" }
+        { type: "video", id: "1128799092" },
       ]
     },
     {
@@ -70,9 +68,8 @@ const content = {
         category: "Photo",
         duration: "00",
       },
-      slug: "uoc-manifesto",
       media: [
-        { type: "image", src: "images/estergmera_5.webp" }
+        { type: "video", id: "1026899601" },
       ]
     },
     {
@@ -80,11 +77,10 @@ const content = {
         title: "ISDIN Body Oil",
         client: "ISDIN",
         category: "Film",
-        duration: "00:00",
+        duration: "",
       },
-      slug: "isdin-body-oil",
       media: [
-        { type: "image", src: "images/estergmera_1.webp" }
+        { type: "video", id: "983143474" },
       ]
     },
     {
@@ -92,11 +88,10 @@ const content = {
         title: "Soul Blackout",
         client: "Hadren",
         category: "Film",
-        duration: "00:00",
+        duration: "",
       },
-      slug: "soul-blackout",
       media: [
-        { type: "image", src: "images/estergmera_2.webp" }
+        { type: "video", id: "815613535" },
       ]
     },
     {
@@ -104,11 +99,10 @@ const content = {
         title: "Equilibrio",
         client: "Sila Lua",
         category: "Film",
-        duration: "00:00",
+        duration: "",
       },
-      slug: "equilibrio",
       media: [
-        { type: "image", src: "images/estergmera_3.webp" }
+        { type: "video", id: "941912084" },
       ]
     },
     {
@@ -116,11 +110,10 @@ const content = {
         title: "Lo Que Romp Es Coret",
         client: "Maria Jaume",
         category: "Film",
-        duration: "00:00",
+        duration: "",
       },
-      slug: "lo-que-romp-es-coret",
       media: [
-        { type: "image", src: "images/estergmera_4.webp" }
+        { type: "video", id: "836491645" },
       ]
     },
     {
@@ -130,9 +123,8 @@ const content = {
         category: "Photo",
         duration: "00",
       },
-      slug: "feitizo",
       media: [
-        { type: "image", src: "images/estergmera_5.webp" }
+        { type: "video", id: "705712476" },
       ]
     },
     {
@@ -140,11 +132,10 @@ const content = {
         title: "Qué Voy a Hacer?",
         client: "shego, Natalia Lacunza",
         category: "Film",
-        duration: "00:00",
+        duration: "",
       },
-      slug: "que-voy-a-hacer",
       media: [
-        { type: "image", src: "images/estergmera_1.webp" }
+        { type: "video", id: "1128849070" },
       ]
     },
     {
@@ -152,11 +143,22 @@ const content = {
         title: "Mal de Ojo",
         client: "Anaju",
         category: "Film",
-        duration: "00:00",
+        duration: "",
       },
       slug: "mal-de-ojo",
       media: [
-        { type: "image", src: "images/estergmera_2.webp" }
+        { type: "video", id: "1128818616" },
+      ]
+    },
+    {
+      fields: {
+        title: "Le Plaisir",
+        client: "Anna Puigpinòs",
+        category: "Film",
+        duration: "",
+      },
+      media: [
+        { type: "video", id: "729579141" },
       ]
     },
     {
@@ -164,11 +166,10 @@ const content = {
         title: "Lucky",
         client: "shego",
         category: "Film",
-        duration: "00:00",
+        duration: "",
       },
-      slug: "lucky",
       media: [
-        { type: "image", src: "images/estergmera_3.webp" }
+        { type: "video", id: "1128822383" },
       ]
     },
     {
@@ -176,11 +177,10 @@ const content = {
         title: "Buenísssima",
         client: "Raúl Clyde",
         category: "Film",
-        duration: "00:00",
+        duration: "",
       },
-      slug: "buenisssima",
       media: [
-        { type: "image", src: "images/estergmera_4.webp" }
+        { type: "video", id: "841190921" },
       ]
     },
     {
@@ -188,11 +188,10 @@ const content = {
         title: "Oxígeno",
         client: "Álvaro Soler",
         category: "Film",
-        duration: "00:00",
+        duration: "",
       },
-      slug: "oxigeno",
       media: [
-        { type: "image", src: "images/estergmera_5.webp" }
+        { type: "video", id: "862437822" },
       ]
     },
   ]

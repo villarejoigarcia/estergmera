@@ -1,11 +1,12 @@
-// --- CONTENT ---
+// content
 
 $(document).ready(function () {
 
 	if (!window.content || !window.content.projects) return;
 	const c = window.content;
 
-	// --- GENERAR SLUGS ---
+	// slugs
+
 	c.projects.forEach(project => {
 		const title = project.fields?.title || '';
 		const slug = title
@@ -23,119 +24,205 @@ $(document).ready(function () {
 	$carousel.empty();
 
 	function handleResponsive() {
-	const isMobile = window.innerWidth <= 768;
+		const isMobile = window.innerWidth <= 768;
 
-	$carousel.empty();
+		$carousel.empty();
 
-	if (isMobile) {
+		if (isMobile) {
 
-		// --- MOBILE ---
-		c.projects.forEach((project, index) => {
-			const category = project.fields.category.toLowerCase();
+			// mobile
 
-			const $slide = $('<div>')
-				.addClass('thumbnail')
-				.attr('data-index', index)
-				.attr('data-category', category);
+			c.projects.forEach((project, index) => {
+				const category = project.fields.category.toLowerCase();
 
-			// Añadir solo la primera imagen del proyecto
-			if (project.media && project.media.length > 0) {
-				const firstMedia = project.media[0];
+				const $slide = $('<div>')
+					.addClass('thumbnail')
+					.attr('data-index', index)
+					.attr('data-category', category);
 
-				if (firstMedia.type === "image") {
-					const $media = $('<img>').attr('src', firstMedia.src);
+				if (project.media && project.media.length > 0) {
+					const firstMedia = project.media[0];
+
+					let $media;
+
+					if (firstMedia.type === "image") {
+						$media = $('<img>').attr('src', firstMedia.src);
+						$slide.append($media);
+					} else if (firstMedia.type === "video") {
+						const videoId = firstMedia.id;
+						const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
+
+						// 1️⃣ Crear el img vacío y añadirlo inmediatamente
+						const $thumbImg = $('<img>')
+							.addClass('vimeo-thumb')
+
+						$slide.append($thumbImg);
+
+						// 2️⃣ fetch para cargar la URL real
+						fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
+							.then(res => res.json())
+							.then(data => {
+								const thumb = data[0].thumbnail_large;
+								const w = data[0].thumbnail_width;
+								const h = data[0].thumbnail_height;
+								$thumbImg.attr('src', thumb).addClass('vimeo-thumb').attr('style', `aspect-ratio: ${w} / ${h};`);
+								player.on('play', () => {
+									$thumbImg.css('opacity', 0);
+								});
+
+								const durationSeconds = data[0].duration;
+								const minutes = Math.floor(durationSeconds / 60);
+								const seconds = durationSeconds % 60;
+								const formattedDuration = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+								console.log(formattedDuration);
+
+								project.fields.duration = formattedDuration;
+
+								const $durationField = $(`.thumbnail[data-index="${index}"] .list-item span:last-child`);
+								if ($durationField.length) {
+									$durationField.text(formattedDuration);
+								}
+							});
+
+						const $iframe = $('<iframe>')
+							.attr('src', vimeoUrl)
+							.attr('frameborder', '0')
+							.attr('allow', 'autoplay; fullscreen; picture-in-picture')
+							.attr('allowfullscreen', true)
+
+						const player = new Vimeo.Player($iframe[0]);
+						Promise.all([player.getVideoWidth(), player.getVideoHeight()])
+							.then(([w, h]) => {
+								const ratio = w / h;
+								$iframe[0].style.aspectRatio = ratio;
+							})
+
+						$slide.append($iframe);
+					}
+				}
+
+				// info
+
+				if (project.fields) {
+					const $fieldsContainer = $('<div>').addClass('list-item');
 
 					if (project.fields.category) {
 						const categoryClass = project.fields.category
 							.toLowerCase()
 							.replace(/\s+/g, '-');
-						$media.addClass(categoryClass);
+						$fieldsContainer.addClass(categoryClass);
 					}
 
-					$slide.append($media);
-				}
-			}
+					Object.entries(project.fields).forEach(([key, value]) => {
+						$fieldsContainer.append($('<span>').text(value));
+					});
 
-			// Añadir info (solo mobile)
-			if (project.fields) {
-				const $fieldsContainer = $('<div>').addClass('list-item');
+					$slide.append($fieldsContainer);
+				}
+
+				$carousel.append($slide);
+
+			});
+
+		} else {
+
+			// desktop
+
+			c.projects.forEach((project, index) => {
+				const category = project.fields.category.toLowerCase();
+
+				const $slide = $('<div>')
+					.addClass('thumbnail')
+					.attr('data-index', index)
+					.attr('data-category', category);
+
+				if (project.media && project.media.length > 0) {
+					const firstMedia = project.media[0];
+					let $media;
+
+					if (firstMedia.type === "image") {
+						$media = $('<img>').attr('src', firstMedia.src);
+						$slide.append($media);
+					} else if (firstMedia.type === "video") {
+						const videoId = firstMedia.id;
+						const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
+
+						fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
+							.then(res => res.json())
+							.then(data => {
+								const thumb = data[0].thumbnail_large;
+								const $thumbImg = $('<img>').attr('src', thumb).addClass('vimeo-thumb');
+								$slide.append($thumbImg);
+								player.on('play', () => {
+									$thumbImg.css('opacity', 0);
+								});
+
+								const durationSeconds = data[0].duration;
+								const minutes = Math.floor(durationSeconds / 60);
+								const seconds = durationSeconds % 60;
+								const formattedDuration = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+								console.log(formattedDuration);
+
+								project.fields.duration = formattedDuration;
+
+								const $durationField = $(`#list .list-item[data-index="${index}"] span:last-child`);
+								if ($durationField.length) {
+									$durationField.text(formattedDuration);
+								}
+
+							})
+
+						const $iframe = $('<iframe>')
+							.attr('src', vimeoUrl)
+							.attr('frameborder', '0')
+							.attr('allow', 'autoplay; fullscreen; picture-in-picture')
+							.attr('allowfullscreen', true)
+
+						const player = new Vimeo.Player($iframe[0]);
+						Promise.all([player.getVideoWidth(), player.getVideoHeight()])
+							.then(([w, h]) => {
+								const ratio = w / h;
+								$iframe[0].style.aspectRatio = ratio;
+							})
+
+						$slide.append($iframe);
+					}
+				}
 
 				if (project.fields.category) {
-					const categoryClass = project.fields.category
-						.toLowerCase()
-						.replace(/\s+/g, '-');
-					$fieldsContainer.addClass(categoryClass);
+					const categoryClass = project.fields.category.toLowerCase().replace(/\s+/g, '-');
+					$slide.addClass(categoryClass);
 				}
 
-				Object.entries(project.fields).forEach(([key, value]) => {
-					$fieldsContainer.append($('<span>').text(value));
-				});
+				$carousel.append($slide);
 
-				
-				$slide.append($fieldsContainer);
-			}
+			});
 
-			$carousel.append($slide);
-		});
+			const $list = $('#list');
+			$list.empty();
 
-	} else {
-
-		// --- DESKTOP ---
-		c.projects.forEach((project, index) => {
-			const category = project.fields.category.toLowerCase();
-
-			const $slide = $('<div>')
-				.addClass('thumbnail')
-				.attr('data-index', index)
-				.attr('data-category', category);
-
-			// Solo la primera imagen en el carrusel
-			if (project.media && project.media.length > 0) {
-				const firstMedia = project.media[0];
-
-				if (firstMedia.type === "image") {
-					const $media = $('<img>').attr('src', firstMedia.src);
+			c.projects.forEach((project, index) => {
+				if (project.fields) {
+					const $fields = $('<a>')
+						.addClass('list-item')
+						.attr('href', `#${project.slug}`)
+						.attr('data-index', index);
 
 					if (project.fields.category) {
-						const categoryClass = project.fields.category
-							.toLowerCase()
-							.replace(/\s+/g, '-');
-						$media.addClass(categoryClass);
+						$fields.addClass(project.fields.category.toLowerCase().replace(/\s+/g, '-'));
 					}
 
-					$slide.append($media);
+					$fields.append($('<span>').addClass('index').text(`${index + 1}.`));
+
+					Object.entries(project.fields).forEach(([key, value]) => {
+						$fields.append($('<span>').text(value));
+					});
+
+					$list.append($fields);
 				}
-			}
-
-			$carousel.append($slide);
-		});
-
-		// Crear lista textual separada
-		const $list = $('#list');
-		$list.empty();
-
-		c.projects.forEach((project, index) => {
-			if (project.fields) {
-				const $fields = $('<a>')
-					.addClass('list-item')
-					.attr('href', `#${project.slug}`)
-					.attr('data-index', index);
-
-				if (project.fields.category) {
-					$fields.addClass(project.fields.category.toLowerCase().replace(/\s+/g, '-'));
-				}
-
-				$fields.append($('<span>').addClass('index').text(`${index + 1}.`));
-
-				Object.entries(project.fields).forEach(([key, value]) => {
-					$fields.append($('<span>').text(value));
-				});
-
-				$list.append($fields);
-			}
-		});
+			});
+		}
 	}
-}
 
 	handleResponsive();
 
@@ -150,9 +237,11 @@ $(document).ready(function () {
 	});
 
 	registerImgs();
+	
 });
 
-// --- REGISTER IMG SIZES ---
+// img sizes
+
 function registerImgs() {
 	const imageHeights = new Map();
 
@@ -171,35 +260,40 @@ function registerImgs() {
 	});
 }
 
-let mouseTimer = null;
-let isScrolling = false;
+// list
+
+let lastMousePos = { x: 0, y: 0 };
+let isMoving = false;
+let hoverTimer = null;
+const stopThreshold = 2;
+const stopDelay = 50;
 
 $(document).on('mousemove', function (e) {
-	clearTimeout(mouseTimer);
-	mouseTimer = setTimeout(() => {
+	const dx = Math.abs(e.pageX - lastMousePos.x);
+	const dy = Math.abs(e.pageY - lastMousePos.y);
 
-		if (isScrolling) return;
+	// Actualizamos posición
+	lastMousePos.x = e.pageX;
+	lastMousePos.y = e.pageY;
 
+	// Si se mueve más que stopThreshold → está moviéndose
+	if (dx > stopThreshold || dy > stopThreshold) {
+		isMoving = true;
+		clearTimeout(hoverTimer);
+	}
+
+	// Si no se mueve mucho por stopDelay ms → se considera detenido
+	hoverTimer = setTimeout(() => {
+		isMoving = false;
+
+		// Solo activar si el cursor está sobre un list-item
 		const $target = $(e.target).closest('.list-item');
 		if ($target.length) {
 			const index = $target.data('index');
 			setActive(index);
 			centerSlide(index);
 		}
-	}, 20);
-});
-
-$(document).on('mousemove', function (e) {
-    const $target = $(e.target).closest('#archive .thumbnail');
-    if ($target.length) {
-      const index = $target.data('index');
-      setActive(index);
-    }
-});
-
-$(document).on('mouseenter', '.list-item', function () {
-	isScrolling = false;
-	console.log(isScrolling);
+	}, stopDelay);
 });
 
 function checkActivePostOnScroll() {
@@ -207,22 +301,26 @@ function checkActivePostOnScroll() {
 	const containerScroll = $container.scrollTop();
 	const containerHeight = $container.height();
 	const scrollBottom = containerScroll + containerHeight;
+	const scrollHeight = $container[0].scrollHeight;
 
 	const $thumbnails = $('#archive .thumbnail');
 	let activeIndex = null;
 
-	$thumbnails.each(function () {
-		const $thumb = $(this);
-		const thumbTop = $thumb.position().top + containerScroll;
-
-		if (thumbTop <= containerScroll + containerHeight / 2) {
-			activeIndex = $thumb.data('index');
-		}
-	});
-
-	const container = $container[0];
-	if (container.scrollHeight - scrollBottom <= 5) { 
+	if (containerScroll <= 0) {
+		activeIndex = $thumbnails.first().data('index');
+	} else if (scrollBottom >= scrollHeight - 2) {
 		activeIndex = $thumbnails.last().data('index');
+	}
+
+	else {
+		$thumbnails.each(function () {
+			const $thumb = $(this);
+			const thumbTop = $thumb.position().top + containerScroll;
+
+			if (thumbTop <= containerScroll + containerHeight / 2) {
+				activeIndex = $thumb.data('index');
+			}
+		});
 	}
 
 	if (activeIndex !== null) {
@@ -262,7 +360,8 @@ function centerSlide(index) {
 	}
 }
 
-// --- CATEGORY FILTER ---
+// category filter
+
 $(document).ready(function () {
 	const filmButton = $('#film-button');
 	const photoButton = $('#photo-button');
@@ -313,6 +412,8 @@ $(document).ready(function () {
 	}
 });
 
+// single
+
 function showProject(slug) {
 	const project = window.content.projects.find(p => p.slug === slug);
 	const container = $('#gallery-container');
@@ -337,6 +438,40 @@ function showProject(slug) {
 					.addClass('post-image')
 					.toggleClass('active', i === 0);
 				singleGallery.append($img);
+			} else if (m.type === "video") {
+				const videoId = m.id;
+				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
+				const videoWrapper = $('<div>')
+				.addClass('video-wrapper post-image')
+				.toggleClass('active', i === 0);
+				
+				fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
+					.then(res => res.json())
+					.then(data => {
+						const thumb = data[0].thumbnail_large;
+						const $thumbImg = $('<img>').attr('src', thumb).addClass('vimeo-thumb');
+						videoWrapper.append($thumbImg);
+						player.on('play', () => {
+							$thumbImg.css('opacity', 0);
+						});
+
+					})
+
+				const $iframe = $('<iframe>')
+					.attr('src', vimeoUrl)
+					.attr('frameborder', '0')
+					.attr('allow', 'autoplay; fullscreen; picture-in-picture')
+					.attr('allowfullscreen', true)
+
+				const player = new Vimeo.Player($iframe[0]);
+				Promise.all([player.getVideoWidth(), player.getVideoHeight()])
+					.then(([w, h]) => {
+						const ratio = w / h;
+						$iframe[0].style.aspectRatio = ratio;
+					})
+
+				videoWrapper.append($iframe);
+				singleGallery.append(videoWrapper);
 			}
 		});
 	}
@@ -345,7 +480,7 @@ function showProject(slug) {
 
 	// single thumbnails
 
-	const $thumbContainer = $('<div>').attr('id', 'thumbnails');
+	const thumbContainer = $('<div>').attr('id', 'thumbnails');
 	if (project.media && project.media.length > 0) {
 		project.media.forEach((m, i) => {
 			if (m.type === 'image') {
@@ -354,11 +489,45 @@ function showProject(slug) {
 					.attr('alt', project.fields.title)
 					.addClass('thumbnail-item')
 					.toggleClass('active', i === 0);
-				$thumbContainer.append($thumb);
+				thumbContainer.append($thumb);
+			} else if (m.type === "video") {
+				const videoId = m.id;
+				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
+				const videoWrapper = $('<div>')
+				.addClass('video-wrapper thumbnail-item')
+				.toggleClass('active', i === 0);
+
+				fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
+					.then(res => res.json())
+					.then(data => {
+						const thumb = data[0].thumbnail_large;
+						const $thumbImg = $('<img>').attr('src', thumb).addClass('vimeo-thumb');
+						videoWrapper.append($thumbImg);
+						player.on('play', () => {
+							$thumbImg.css('opacity', 0);
+						});
+
+					})
+
+				const $iframe = $('<iframe>')
+					.attr('src', vimeoUrl)
+					.attr('frameborder', '0')
+					.attr('allow', 'autoplay; fullscreen; picture-in-picture')
+					.attr('allowfullscreen', true)
+
+				const player = new Vimeo.Player($iframe[0]);
+				Promise.all([player.getVideoWidth(), player.getVideoHeight()])
+					.then(([w, h]) => {
+						const ratio = w / h;
+						$iframe[0].style.aspectRatio = ratio;
+					})
+
+				videoWrapper.append($iframe);
+				thumbContainer.append(videoWrapper);
 			}
 		});
 	}
-	$postContainer.append($thumbContainer);
+	$postContainer.append(thumbContainer);
 
 	// single index
 
@@ -393,7 +562,7 @@ function showProject(slug) {
 	const creditsContainer = $('<div>').attr('id', 'credits');
 
 	if (project.credits) {
-		
+
 		const entries = Object.entries(project.credits);
 
 		entries.forEach(([key, value], index) => {
@@ -408,7 +577,7 @@ function showProject(slug) {
 
 	container.append($postContainer);
 
-	const creditsHeight = creditsContainer.outerHeight(); 
+	const creditsHeight = creditsContainer.outerHeight();
 
 	console.log(creditsHeight);
 
@@ -444,7 +613,7 @@ $(document).ready(function () {
 
 	const aboutButton = $('#about-button');
 	const about = $('#about');
-	
+
 	aboutButton.on('click', function () {
 		about.toggleClass('active');
 		aboutButton.toggleClass('active');
