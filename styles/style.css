@@ -26,14 +26,17 @@ img,
 video,
 iframe {
 	display: block;
-	max-width: 100vw;
-	max-height: 100vh;
 	object-fit: cover;
 	transform: translate3d(0,0,0);
 }
 
+.single-view img,
+.single-view iframe {
+	max-width: 100vw;
+	max-height: 100vh;
+}
+
 #archive img {
-	/* width: calc((100vw/24*10) - 90px); */
 	width: 100%;
 }
 
