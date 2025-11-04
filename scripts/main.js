@@ -488,7 +488,7 @@ function showProject(slug) {
 				singleGallery.append($img);
 			} else if (m.type === "video") {
 				const videoId = m.id;
-				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
+				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&controls=0`;
 				const videoWrapper = $('<div>')
 				.addClass('video-wrapper post-image')
 				.toggleClass('active', i === 0);
