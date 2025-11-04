@@ -15,7 +15,7 @@ const content = {
         "Stylist Marta Rosmeri",
       ],
       media: [
-        { type: "video", id: "1119488041" },
+        { type: "video", id: "1119488041", start: 30, end: 35 },
         { type: "image", src: "images/estergmera_1.webp" },
         { type: "image", src: "images/estergmera_2.webp" },
         { type: "image", src: "images/estergmera_3.webp" },
@@ -30,8 +30,15 @@ const content = {
         category: "Film",
         duration: "",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "1093329338" },
+        { type: "video", id: "1093329338", start: 30, end: 35 },
         { type: "image", src: "images/estergmera_2.webp" },
         { type: "image", src: "images/estergmera_3.webp" },
         { type: "image", src: "images/estergmera_4.webp" },
@@ -46,8 +53,15 @@ const content = {
         category: "Film",
         duration: "",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "1128803603" },
+        { type: "video", id: "1128803603", start: 30, end: 35 },
       ]
     },
     {
@@ -57,8 +71,15 @@ const content = {
         category: "Film",
         duration: "",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "1128799092" },
+        { type: "video", id: "1128799092", start: 30, end: 35 },
       ]
     },
     {
@@ -68,8 +89,15 @@ const content = {
         category: "Photo",
         duration: "00",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "1026899601" },
+        { type: "video", id: "1026899601", start: 30, end: 35 },
       ]
     },
     {
@@ -79,8 +107,15 @@ const content = {
         category: "Film",
         duration: "",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "983143474" },
+        { type: "video", id: "983143474", start: 30, end: 35 },
       ]
     },
     {
@@ -90,8 +125,15 @@ const content = {
         category: "Film",
         duration: "",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "815613535" },
+        { type: "video", id: "815613535", start: 30, end: 35 },
       ]
     },
     {
@@ -101,8 +143,15 @@ const content = {
         category: "Film",
         duration: "",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "941912084" },
+        { type: "video", id: "941912084", start: 30, end: 35 },
       ]
     },
     {
@@ -112,8 +161,15 @@ const content = {
         category: "Film",
         duration: "",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "836491645" },
+        { type: "video", id: "836491645", start: 30, end: 35 },
       ]
     },
     {
@@ -123,8 +179,15 @@ const content = {
         category: "Photo",
         duration: "00",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "705712476" },
+        { type: "video", id: "705712476", start: 30, end: 35 },
       ]
     },
     {
@@ -134,8 +197,15 @@ const content = {
         category: "Film",
         duration: "",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "1128849070" },
+        { type: "video", id: "1128849070", start: 30, end: 35 },
       ]
     },
     {
@@ -145,9 +215,15 @@ const content = {
         category: "Film",
         duration: "",
       },
-      slug: "mal-de-ojo",
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "1128818616" },
+        { type: "video", id: "1128818616", start: 30, end: 35 },
       ]
     },
     {
@@ -157,8 +233,15 @@ const content = {
         category: "Film",
         duration: "",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "729579141" },
+        { type: "video", id: "729579141", start: 30, end: 35 },
       ]
     },
     {
@@ -168,8 +251,15 @@ const content = {
         category: "Film",
         duration: "",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "1128822383" },
+        { type: "video", id: "1128822383", start: 30, end: 35 },
       ]
     },
     {
@@ -179,8 +269,15 @@ const content = {
         category: "Film",
         duration: "",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "841190921" },
+        { type: "video", id: "841190921", start: 30, end: 35 },
       ]
     },
     {
@@ -190,8 +287,15 @@ const content = {
         category: "Film",
         duration: "",
       },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
       media: [
-        { type: "video", id: "862437822" },
+        { type: "video", id: "862437822", start: 30, end: 35 },
       ]
     },
   ]

@@ -91,11 +91,34 @@ $(document).ready(function () {
 							.attr('allowfullscreen', true)
 
 						const player = new Vimeo.Player($iframe[0]);
+
 						Promise.all([player.getVideoWidth(), player.getVideoHeight()])
 							.then(([w, h]) => {
 								const ratio = w / h;
 								$iframe[0].style.aspectRatio = ratio;
-							})
+							});
+
+						if (firstMedia.start !== undefined && firstMedia.end !== undefined) {
+							const start = Number(firstMedia.start);
+							const end = Number(firstMedia.end);
+
+							player.ready().then(() => {
+								player.setCurrentTime(start).then(() => player.play())
+							});
+
+							player.on('timeupdate', data => {
+
+								if (data.seconds >= end) {
+
+									player.setCurrentTime(start).then(() => {
+										player.play();
+									});
+								}
+							});
+
+						} else {
+							player.ready().then(() => player.play()).catch(() => { });
+						}
 
 						$slide.append($iframe);
 					}
@@ -179,11 +202,34 @@ $(document).ready(function () {
 							.attr('allowfullscreen', true)
 
 						const player = new Vimeo.Player($iframe[0]);
+
 						Promise.all([player.getVideoWidth(), player.getVideoHeight()])
 							.then(([w, h]) => {
 								const ratio = w / h;
 								$iframe[0].style.aspectRatio = ratio;
-							})
+							});
+
+						if (firstMedia.start !== undefined && firstMedia.end !== undefined) {
+							const start = Number(firstMedia.start);
+							const end = Number(firstMedia.end);
+
+							player.ready().then(() => {
+								player.setCurrentTime(start).then(() => player.play())
+							});
+
+							player.on('timeupdate', data => {
+
+								if (data.seconds >= end) {
+
+									player.setCurrentTime(start).then(() => {
+										player.play();
+									});
+								}
+							});
+
+						} else {
+							player.ready().then(() => player.play()).catch(() => { });
+						}
 
 						$slide.append($iframe);
 					}
@@ -268,30 +314,40 @@ let hoverTimer = null;
 const stopThreshold = 2;
 const stopDelay = 50;
 
+let scrollLock = false;
+let lockedIndex = null;
+
 $(document).on('mousemove', function (e) {
 	const dx = Math.abs(e.pageX - lastMousePos.x);
 	const dy = Math.abs(e.pageY - lastMousePos.y);
 
-	// Actualizamos posición
 	lastMousePos.x = e.pageX;
 	lastMousePos.y = e.pageY;
 
-	// Si se mueve más que stopThreshold → está moviéndose
 	if (dx > stopThreshold || dy > stopThreshold) {
 		isMoving = true;
 		clearTimeout(hoverTimer);
 	}
 
-	// Si no se mueve mucho por stopDelay ms → se considera detenido
 	hoverTimer = setTimeout(() => {
 		isMoving = false;
 
-		// Solo activar si el cursor está sobre un list-item
 		const $target = $(e.target).closest('.list-item');
 		if ($target.length) {
 			const index = $target.data('index');
-			setActive(index);
-			centerSlide(index);
+
+			if (scrollLock) {
+				if (index !== lockedIndex) {
+					scrollLock = false;
+					lockedIndex = null;
+					setActive(index);
+					centerSlide(index);
+				}
+			} else {
+				setActive(index);
+				centerSlide(index);
+				console.log('bbb');
+			}
 		}
 	}, stopDelay);
 });
@@ -310,9 +366,7 @@ function checkActivePostOnScroll() {
 		activeIndex = $thumbnails.first().data('index');
 	} else if (scrollBottom >= scrollHeight - 2) {
 		activeIndex = $thumbnails.last().data('index');
-	}
-
-	else {
+	} else {
 		$thumbnails.each(function () {
 			const $thumb = $(this);
 			const thumbTop = $thumb.position().top + containerScroll;
@@ -327,7 +381,9 @@ function checkActivePostOnScroll() {
 		setActive(activeIndex);
 	}
 
-	isScrolling = true;
+	const $active = $('.list-item.active').first();
+	lockedIndex = $active.length ? $active.data('index') : null;
+	scrollLock = true;
 }
 
 $('#gallery-container').on('scroll', function () {
@@ -385,13 +441,12 @@ $(document).ready(function () {
 });
 
 // --- PROJECT ROUTING WITH HASH ---
-$(document).on('click', '.list-item, #archive .thumbnail a', function (e) {
-	e.preventDefault(); // prevenir recarga
-	const href = $(this).attr('href'); // ejemplo: "#parajumpers"
-	const slug = href.substring(1);    // quitar el '#'
+$(document).on('click', '.list-item, #archive .thumbnail a, #single-index a', function(e) {
+    e.preventDefault();
+    const slug = $(this).attr('href').substring(1);
 
-	history.pushState({ slug }, '', href);
-	showProject(slug);
+    history.pushState({ slug }, '', `#${slug}`);
+    showProject(slug);
 });
 
 $(window).on('popstate', function () {
@@ -529,27 +584,21 @@ function showProject(slug) {
 	}
 	$postContainer.append(thumbContainer);
 
-	// single index
-
-	const singleIndex = $('<div>').attr('id', 'single-index');
-
-	const relatedProjects = window.content.projects.filter(
-		p => p.fields.category.toLowerCase() === category
-	);
-
+	// Single index
+	const relatedProjects = window.content.projects.filter(p => p.fields.category.toLowerCase() === category);
+	const singleIndex = $('#single-index');
+	singleIndex.empty();
 	relatedProjects.forEach(p => {
 		const $item = $('<div>');
-		const $link = $('<a>')
-			.attr('href', `#${p.slug}`)
-			.text(p.fields.title);
-
+		const $link = $('<a>').attr('href', `#${p.slug}`).text(p.fields.title);
 		if (p.slug === slug) $link.addClass('active');
-
 		$item.append($link);
 		singleIndex.append($item);
 	});
 
-	$postContainer.append(singleIndex);
+	// Centrar el item activo usando transform
+	const activeIndex = relatedProjects.findIndex(p => p.slug === slug);
+	centerSingleIndexItem(activeIndex);
 
 	// credits
 
@@ -583,6 +632,15 @@ function showProject(slug) {
 
 	// functions
 
+	function centerSingleIndexItem(index) {
+		const $container = $('#single-index');
+		const itemHeight = $container.children().first().outerHeight(true);
+
+		const offset = -index * itemHeight;
+
+		$container.css('transform', `translateY(${offset}px)`);
+	}
+
 	$('#thumbnails .thumbnail-item').on('mouseenter', function () {
 		const index = $(this).index();
 
@@ -610,12 +668,19 @@ function showProject(slug) {
 // about
 
 $(document).ready(function () {
+    const aboutButton = $('#about-button');
+    const about = $('#about');
 
-	const aboutButton = $('#about-button');
-	const about = $('#about');
+    aboutButton.on('click', function (e) {
+        e.stopPropagation();
+        about.toggleClass('active');
+        aboutButton.toggleClass('active');
+    });
 
-	aboutButton.on('click', function () {
-		about.toggleClass('active');
-		aboutButton.toggleClass('active');
-	});
+    about.on('click', function (e) {
+        if (e.target === this) {
+            about.removeClass('active');
+            aboutButton.removeClass('active');
+        }
+    });
 });

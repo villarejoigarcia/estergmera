@@ -1,7 +1,7 @@
 /*general*/
 
 :root {
-	--key_value: 15px;
+	--key_value: 18px;
 	--color-grey: #ababab;
 	--transition: all .666s;
 	--transition_s: all .333s ease-in-out;
@@ -54,10 +54,10 @@ iframe {
 
 /*fonts*/
 
-@font-face {
-	font-family: '';
-	src: url('') format('');
-}
+/* @font-face {
+	font-family: 'HelveticaNeue';
+	src: url('/Users/axvgarcia/Documents/WORK/2511_estergmera/estergmera.com/styles/fonts/HelveticaNeue.ttc') format('ttc');
+} */
 
 a {
 	all: unset;
@@ -81,11 +81,14 @@ h2,
 p,
 a,
 span {
-	font-family: 'Arial';
-	font-size: 13px;
-	font-weight: bold;
+	font-family: "Inter", Arial, sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 500;
+	font-style: normal;
+	font-size: 15px;
 	margin: 0;
 	padding: 0;
+	line-height: var(--key_value);
 }
 
 h1,
@@ -177,13 +180,16 @@ nav>*.active a {
 	flex-grow: 5;
 }
 
-.list-item>*:last-child,
-.list-item>*:nth-last-child(2) {
+.list-item>*:last-child {
 	text-align: right;
 }
 
+.list-item>*:nth-last-child(3) {
+	flex-grow: 10;
+}
+
 .list-item>*:last-child {
-	flex-grow: 6;
+	flex-grow: 1;
 }
 
 .list-item.filter {
@@ -207,8 +213,9 @@ nav>*.active a {
 	transition: var(--transition);
 	overflow: hidden;
 	position: relative;
-	width: calc(100vw/24*10 - 90px);
+	width: calc(100vw/24*10 - 80px);
 	margin: 0 auto;
+	transition: all va;
 }
 
 .thumbnail:not(:last-child) img {
@@ -224,7 +231,12 @@ nav>*.active a {
 	transition: var(--transition);
 }
 
-.thumbnail img.filter {
+/* .thumbnail img.filter {
+	height: 0 !important;
+	margin-bottom: 0 !important;
+} */
+
+.thumbnail.filter {
 	height: 0 !important;
 	margin-bottom: 0 !important;
 }
@@ -283,6 +295,7 @@ nav>*.active a {
 	left: calc(100vw/24);
 	top: 50vh;
 	transform: translateY(0);
+	transition: var(--transition);
 }
 
 #thumbnails {
@@ -326,7 +339,7 @@ nav>*.active a {
 }
 
 #single-index.credits {
-	transform: translateY(calc(var(--credits-height)));
+	top: calc(50vh + var(--credits-height))
 }
 
 #credits {
@@ -338,8 +351,8 @@ nav>*.active a {
 }
 
 #credits span {
-	font-weight: normal;
-	color: var(--color-grey);
+	font-weight: 400;
+	/* color: var(--color-grey); */
 }
 
 #credits.active {
