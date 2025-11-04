@@ -372,6 +372,7 @@ nav>*.active a {
 	gap: var(--key_value);
 	transition: var(--transition);
 	opacity: 1;
+	cursor: pointer;
 }
 
 .video-controls.hidden {
@@ -393,7 +394,6 @@ input[type="range"] {
 	all: unset;
 	width: 100%;
 	position: relative;
-	cursor: pointer;
 }
 
 input[type="range"]::before {
