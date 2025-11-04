@@ -488,23 +488,11 @@ function showProject(slug) {
 				singleGallery.append($img);
 			} else if (m.type === "video") {
 				const videoId = m.id;
-				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&controls=0`;
+				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
 				const videoWrapper = $('<div>')
 				.addClass('video-wrapper post-image')
 				.toggleClass('active', i === 0);
 				
-				fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
-					.then(res => res.json())
-					.then(data => {
-						const thumb = data[0].thumbnail_large;
-						const $thumbImg = $('<img>').attr('src', thumb).addClass('vimeo-thumb');
-						videoWrapper.append($thumbImg);
-						player.on('play', () => {
-							$thumbImg.css('opacity', 0);
-						});
-
-					})
-
 				const $iframe = $('<iframe>')
 					.attr('src', vimeoUrl)
 					.attr('frameborder', '0')
