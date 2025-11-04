@@ -511,15 +511,103 @@ function showProject(slug) {
 					.attr('allow', 'autoplay; fullscreen; picture-in-picture')
 					.attr('allowfullscreen', true)
 
+				// Crear controles
+				const controls = $(`
+					<div class="video-controls">
+					<p class="play-pause">Pause</p>
+					<p class="mute-toggle">Sound</p>
+					<p class="fullscreen-toggle">Full screen</p>
+					<input type="range" class="timeline" min="0" max="100" value="0">
+					</div>
+				`);
+
+				videoWrapper.append(controls);
+
 				const player = new Vimeo.Player($iframe[0]);
+				// ratio
 				Promise.all([player.getVideoWidth(), player.getVideoHeight()])
 					.then(([w, h]) => {
 						const ratio = w / h;
 						$iframe[0].style.aspectRatio = ratio;
 					})
+				// PLAY / PAUSE
+				const $playPause = controls.find('.play-pause');
+				$playPause.on('click', () => {
+					player.getPaused().then(paused => {
+						if (paused) {
+							player.play();
+							$playPause.text('Pause');
+						} else {
+							player.pause();
+							$playPause.text('Play');
+						}
+					});
+				});
+
+				// MUTE / SOUND
+				const $muteToggle = controls.find('.mute-toggle');
+				let isMuted = true;
+				$muteToggle.on('click', () => {
+					if (isMuted) {
+						player.setVolume(1);
+						$muteToggle.text('Mute');
+					} else {
+						player.setVolume(0);
+						$muteToggle.text('Sound');
+					}
+					isMuted = !isMuted;
+				});
+
+				// TIMELINE
+				const $timeline = controls.find('.timeline');
+
+				// Actualizar barra de progreso
+				player.on('timeupdate', (data) => {
+					const progress = (data.seconds / data.duration) * 100;
+					$timeline.val(progress);
+				});
+
+				// Buscar al mover slider
+				$timeline.on('input', (e) => {
+					const percent = e.target.value;
+					player.getDuration().then(duration => {
+						const newTime = (percent / 100) * duration;
+						player.setCurrentTime(newTime);
+					});
+				});
+
+				// FULLSCREEN
+				const $fullscreenToggle = controls.find('.fullscreen-toggle');
+
+				$fullscreenToggle.on('click', () => {
+					const iframe = $iframe[0];
+
+					// El iframe está dentro de videoWrapper, lo ponemos en fullscreen
+					if (!document.fullscreenElement) {
+						videoWrapper[0].requestFullscreen?.() ||
+							videoWrapper[0].webkitRequestFullscreen?.() ||
+							videoWrapper[0].msRequestFullscreen?.();
+						$fullscreenToggle.text('Exit');
+					} else {
+						document.exitFullscreen?.() ||
+							document.webkitExitFullscreen?.() ||
+							document.msExitFullscreen?.();
+						$fullscreenToggle.text('Full screen');
+					}
+				});
+
+				// Cambiar texto cuando cambia el estado de fullscreen
+				document.addEventListener('fullscreenchange', () => {
+					if (!document.fullscreenElement) {
+						$fullscreenToggle.text('Full screen');
+					} else {
+						$fullscreenToggle.text('Exit');
+					}
+				});
 
 				videoWrapper.append($iframe);
 				singleGallery.append(videoWrapper);
+
 			}
 		});
 	}
@@ -624,6 +712,26 @@ function showProject(slug) {
 	console.log(creditsHeight);
 
 	// functions
+
+	// hide controls
+	let hideTimeout;
+	const videoControls = $('.video-controls');
+	const videoWrap = $('.video-wrapper');
+
+	function showControls() {
+		console.log('hola');
+		videoControls.removeClass('hidden');
+		clearTimeout(hideTimeout);
+		hideTimeout = setTimeout(() => {
+			videoControls.addClass('hidden');
+		}, 1500);
+
+		console.log(videoWrap.height());
+	}
+
+	videoWrap.on('mousemove', showControls);
+
+	// showControls();
 
 	function centerSingleIndexItem(index) {
 		const $container = $('#single-index');

@@ -359,6 +359,68 @@ nav>*.active a {
 	transform: translateY(0);
 }
 
+.video-controls {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	/* transform: translateY(-50%); */
+	display: flex;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	padding: 0 var(--key_value);
+	gap: var(--key_value);
+	transition: var(--transition);
+	opacity: 1;
+}
+
+.video-controls.hidden {
+  opacity: 0;
+}
+
+.video-controls p {
+	color: white;
+	/* width: calc(100vw/24); */
+	transition: var(--transition);
+	white-space: nowrap;
+}
+
+.video-controls p:hover {
+	opacity: .333;
+}
+
+input[type="range"] {
+	all: unset;
+	width: 100%;
+	position: relative;
+	cursor: pointer;
+}
+
+input[type="range"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: white;
+  transform: translateY(-50%);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	height: 5px;
+	width: 5px;
+	border-radius: 50%;
+	background: white;
+	transition: var(--transition_s);
+}
+
+input[type="range"]:hover::-webkit-slider-thumb {
+	height: 10px;
+	width: 10px;
+}
+
 /* about */
 
 #about {
