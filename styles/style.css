@@ -309,7 +309,7 @@ nav>*.active a {
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
+	transform: translate(-50%, 0);
 	color: var(--color-grey);
 	animation: blink 1s ease-in-out infinite;
 }
@@ -541,9 +541,9 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	transition: var(--transition_l);
 }
 
-#press .content.active {
-	/* max-height: calc(144px*4); */
-}
+/* #press .content.active {
+	max-height: calc(144px*4);
+} */
 
 #press .heading {
 	display: flex;

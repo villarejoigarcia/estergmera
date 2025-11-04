@@ -667,16 +667,30 @@ function showProject(slug) {
 	}
 	$postContainer.append(thumbContainer);
 
-	// Single index
-	const relatedProjects = window.content.projects.filter(p => p.fields.category.toLowerCase() === category);
+	const relatedProjects = window.content.projects.filter(
+		p => p.fields.category.toLowerCase() === category
+	);
+
 	const singleIndex = $('#single-index');
-	singleIndex.empty();
-	relatedProjects.forEach(p => {
-		const $item = $('<div>');
-		const $link = $('<a>').attr('href', `#${p.slug}`).text(p.fields.title);
-		if (p.slug === slug) $link.addClass('active');
-		$item.append($link);
-		singleIndex.append($item);
+
+	if (singleIndex.children().length === 0) {
+		relatedProjects.forEach(p => {
+			const $item = $('<div>');
+			const $link = $('<a>')
+				.attr('href', `#${p.slug}`)
+				.text(p.fields.title);
+			$item.append($link);
+			singleIndex.append($item);
+		});
+	}
+
+	singleIndex.find('a').each(function () {
+		const $link = $(this);
+		if ($link.attr('href') === `#${slug}`) {
+			$link.addClass('active');
+		} else {
+			$link.removeClass('active');
+		}
 	});
 
 	// Centrar el item activo usando transform
