@@ -731,7 +731,7 @@ function showProject(slug) {
 
 	videoWrap.on('mousemove', showControls);
 
-	// showControls();
+	showControls();
 
 	function centerSingleIndexItem(index) {
 		const $container = $('#single-index');
