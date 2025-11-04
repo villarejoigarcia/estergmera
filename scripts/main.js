@@ -340,13 +340,12 @@ $(document).on('mousemove', function (e) {
 				if (index !== lockedIndex) {
 					scrollLock = false;
 					lockedIndex = null;
-					setActive(index);
-					centerSlide(index);
+					// setActive(index);
+					// centerSlide(index);
 				}
 			} else {
 				setActive(index);
 				centerSlide(index);
-				console.log('bbb');
 			}
 		}
 	}, stopDelay);
