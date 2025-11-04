@@ -492,6 +492,19 @@ function showProject(slug) {
 				const videoWrapper = $('<div>')
 				.addClass('video-wrapper post-image')
 				.toggleClass('active', i === 0);
+
+				// fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
+				// 	.then(res => res.json())
+				// 	.then(data => {
+				// 		const thumb = data[0].thumbnail_large;
+				// 		const $thumbImg = $('<img>').attr('src', thumb).addClass('vimeo-thumb');
+				// 		videoWrapper.append($thumbImg);
+				// 		player.on('play', () => {
+				// 			$thumbImg.css('opacity', 0);
+				// 			// $thumbImg.css('filter', 'blur(0)');
+				// 		});
+
+				// 	})
 				
 				const $iframe = $('<iframe>')
 					.attr('src', vimeoUrl)
@@ -503,7 +516,7 @@ function showProject(slug) {
 				const controls = $(`
 					<div class="video-controls">
 					<p class="play-pause">Pause</p>
-					<p class="mute-toggle">Sound</p>
+					<p class="mute-toggle">Mute</p>
 					<p class="fullscreen-toggle">Full screen</p>
 					<input type="range" class="timeline" min="0" max="100" value="0">
 					</div>
@@ -517,6 +530,7 @@ function showProject(slug) {
 					.then(([w, h]) => {
 						const ratio = w / h;
 						$iframe[0].style.aspectRatio = ratio;
+						controls[0].style.aspectRatio = ratio;
 					})
 				// PLAY / PAUSE
 				const $playPause = controls.find('.play-pause');
@@ -537,11 +551,11 @@ function showProject(slug) {
 				let isMuted = true;
 				$muteToggle.on('click', () => {
 					if (isMuted) {
-						player.setVolume(1);
-						$muteToggle.text('Mute');
-					} else {
 						player.setVolume(0);
 						$muteToggle.text('Sound');
+					} else {
+						player.setVolume(1);
+						$muteToggle.text('Mute');
 					}
 					isMuted = !isMuted;
 				});
@@ -712,7 +726,7 @@ function showProject(slug) {
 		clearTimeout(hideTimeout);
 		hideTimeout = setTimeout(() => {
 			videoControls.addClass('hidden');
-		}, 1500);
+		}, 2000);
 
 		console.log(videoWrap.height());
 	}
