@@ -315,7 +315,6 @@ const stopThreshold = 2;
 const stopDelay = 50;
 
 let scrollLock = false;
-let lockedIndex = null;
 
 $(document).on('mousemove', function (e) {
 	const dx = Math.abs(e.pageX - lastMousePos.x);
@@ -337,15 +336,12 @@ $(document).on('mousemove', function (e) {
 			const index = $target.data('index');
 
 			if (scrollLock) {
-				if (index !== lockedIndex) {
-					scrollLock = false;
-					lockedIndex = null;
-					// setActive(index);
-					// centerSlide(index);
-				}
+				scrollLock = false;
 			} else {
 				setActive(index);
 				centerSlide(index);
+				console.log('bbb');
+				console.log(scrollLock);
 			}
 		}
 	}, stopDelay);
@@ -380,8 +376,6 @@ function checkActivePostOnScroll() {
 		setActive(activeIndex);
 	}
 
-	const $active = $('.list-item.active').first();
-	lockedIndex = $active.length ? $active.data('index') : null;
 	scrollLock = true;
 }
 
