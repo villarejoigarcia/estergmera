@@ -305,7 +305,7 @@ nav>*.active a {
 	left: 50%;
 	transform: translate(-50%, -50%);
 	color: var(--color-grey);
-	animation: blink .666s ease-in-out infinite;
+	animation: blink 1s ease-in-out infinite;
 }
 
 /* Animación de parpadeo suave */
