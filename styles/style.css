@@ -3,8 +3,9 @@
 :root {
 	--key_value: 18px;
 	--color-grey: #ababab;
-	--transition: all .666s;
-	--transition_s: all .333s ease-in-out;
+	--transition: all .666s cubic-bezier(0.5,0,0.5,1);
+	--transition_s: all .333s cubic-bezier(0.5,0,0.5,1);
+	--transition_l: all 1.333s cubic-bezier(0.5,0,0.5,1);
 	--header: 30px;
 }
 
@@ -290,6 +291,11 @@ nav>*.active a {
 	width: 100%;
 }
 
+.video-wrapper:fullscreen .video-controls {
+	aspect-ratio: auto !important;
+	width: 100% !important;
+}
+
 .single-view iframe {
 	position: absolute;
 }
@@ -399,7 +405,6 @@ nav>*.active a {
 	align-items: end;
 	width: auto!important;
 	height: 100%;
-	padding: var(--key_value);
 	gap: var(--key_value);
 	transition: var(--transition);
 	opacity: 1;
@@ -412,17 +417,20 @@ nav>*.active a {
 
 .video-controls p {
 	color: white;
-	/* width: calc(100vw/24); */
 	transition: var(--transition);
 	white-space: nowrap;
 }
 
+.video-controls>* {
+	margin-bottom: var(--key_value) !important;
+}
+
 .play-pause {
-	padding-left: 20px;
+	padding-left: var(--key_value);
 }
 
 .fullscreen-toggle {
-	padding-right: 20px;
+	padding-right: var(--key_value);
 }
 
 .video-controls p:hover {
@@ -524,19 +532,43 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	padding-right: calc(100vw/24);
 }
 
-#press>div {
+#press .content {
 	display: flex;
 	flex-wrap: wrap;
-	flex-direction: column;
-	max-height: 120px;
+	max-height: 144px;
 	gap: var(--key_value) 0;
-	overflow: scroll;
+	padding-right: calc(100vw/24*4);
+	transition: var(--transition_l);
 }
 
-#press a {
+#press .content.active {
+	/* max-height: calc(144px*4); */
+}
+
+#press .heading {
+	display: flex;
+	gap: var(--key_value);
+}
+
+#press .heading>* {
+	width: calc(100vw/24);
+	white-space: nowrap;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+
+.content a {
 	/* flex: 1 1 calc(100%/4); */
-	width: calc((100%/4) - calc(100vw/24));
+	width: calc((100%/3) - calc(100vw/24));
 	margin-right: calc(100vw/24);
+}
+
+#press-button {
+	transition: var(--transition);
+}
+
+#press-button.active {
+	color: black;
 }
 
 /*responsive*/

@@ -312,7 +312,7 @@ let lastMousePos = { x: 0, y: 0 };
 let isMoving = false;
 let hoverTimer = null;
 const stopThreshold = 2;
-const stopDelay = 50;
+const stopDelay = 30;
 
 let scrollLock = false;
 
@@ -768,9 +768,10 @@ function showProject(slug) {
 	});
 };
 
-// about
-
 $(document).ready(function () {
+
+	// about
+
     const aboutButton = $('#about-button');
     const about = $('#about');
 
@@ -786,4 +787,26 @@ $(document).ready(function () {
             aboutButton.removeClass('active');
         }
     });
+
+	// press
+
+	const pressButton = $('#press-button');
+    const press = $('#press .content');
+
+    pressButton.on('click', function (e) {
+	press.toggleClass('active');
+	pressButton.toggleClass('active');
+
+	if (press.hasClass('active')) {
+		let totalHeight = 0;
+		press.children().each(function () {
+			totalHeight += $(this).outerHeight(true);
+		});
+
+		press.css('max-height', totalHeight + 'px');
+	} else {
+		press.css('max-height', '');
+	}
+});
+
 });
