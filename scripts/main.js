@@ -37,8 +37,9 @@ $(document).ready(function () {
 
 				const $slide = $('<div>')
 					.addClass('thumbnail')
+					.addClass(category)
 					.attr('data-index', index)
-					.attr('data-category', category);
+					// .attr('data-category', category);
 
 				if (project.media && project.media.length > 0) {
 					const firstMedia = project.media[0];
@@ -74,11 +75,11 @@ $(document).ready(function () {
 								const minutes = Math.floor(durationSeconds / 60);
 								const seconds = durationSeconds % 60;
 								const formattedDuration = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-								console.log(formattedDuration);
+								// console.log(formattedDuration);
 
 								project.fields.duration = formattedDuration;
 
-								const $durationField = $(`.thumbnail[data-index="${index}"] .list-item span:last-child`);
+								const $durationField = $(`.thumbnail[data-index="${index}"] .post-data span:last-child`);
 								if ($durationField.length) {
 									$durationField.text(formattedDuration);
 								}
@@ -96,6 +97,7 @@ $(document).ready(function () {
 							.then(([w, h]) => {
 								const ratio = w / h;
 								$iframe[0].style.aspectRatio = ratio;
+								setHeight();
 							});
 
 						if (firstMedia.start !== undefined && firstMedia.end !== undefined) {
@@ -127,7 +129,7 @@ $(document).ready(function () {
 				// info
 
 				if (project.fields) {
-					const $fieldsContainer = $('<div>').addClass('list-item');
+					const $fieldsContainer = $('<div>').addClass('post-data');
 
 					if (project.fields.category) {
 						const categoryClass = project.fields.category
@@ -184,7 +186,7 @@ $(document).ready(function () {
 								const minutes = Math.floor(durationSeconds / 60);
 								const seconds = durationSeconds % 60;
 								const formattedDuration = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-								console.log(formattedDuration);
+								// console.log(formattedDuration);
 
 								project.fields.duration = formattedDuration;
 
@@ -207,6 +209,7 @@ $(document).ready(function () {
 							.then(([w, h]) => {
 								const ratio = w / h;
 								$iframe[0].style.aspectRatio = ratio;
+								setHeight();
 							});
 
 						if (firstMedia.start !== undefined && firstMedia.end !== undefined) {
@@ -268,6 +271,7 @@ $(document).ready(function () {
 				}
 			});
 		}
+		
 	}
 
 	handleResponsive();
@@ -281,30 +285,31 @@ $(document).ready(function () {
 			lastIsMobile = isMobile;
 		}
 	});
-
-	registerImgs();
 	
 });
 
 // img sizes
 
-function registerImgs() {
-	const imageHeights = new Map();
+function setHeight() {
 
-	document.querySelectorAll('img').forEach(img => {
-		function setHeight() {
-			const h = img.offsetHeight;
-			imageHeights.set(parent, h);
-			img.style.height = h + 'px';
-		}
+	const thumbnails = document.querySelectorAll('.thumbnail');
 
-		if (img.complete) {
-			setHeight();
-		} else {
-			img.addEventListener('load', setHeight);
-		}
+	thumbnails.forEach(thumbnail => {
+		thumbnail.style.height = '';
+		const currentHeight = thumbnail.offsetHeight;
+		thumbnail.style.height = `${currentHeight}px`;
 	});
+
 }
+
+let resizeTimer = null;
+
+$(window).on('resize', () => {
+	clearTimeout(resizeTimer);
+	resizeTimer = setTimeout(() => {
+		setHeight();
+	}, 666);
+});
 
 // list
 
@@ -340,19 +345,19 @@ $(document).on('mousemove', function (e) {
 			} else {
 				setActive(index);
 				centerSlide(index);
-				console.log('bbb');
-				console.log(scrollLock);
+				// console.log(scrollLock);
 			}
 		}
 	}, stopDelay);
 });
 
 function checkActivePostOnScroll() {
-	const $container = $('#gallery-container');
+	const isMobile = window.innerWidth <= 768;
+	const $container = isMobile ? $(window) : $('#gallery-container');
 	const containerScroll = $container.scrollTop();
-	const containerHeight = $container.height();
+	const containerHeight = isMobile ? window.innerHeight : $container.height();
 	const scrollBottom = containerScroll + containerHeight;
-	const scrollHeight = $container[0].scrollHeight;
+	const scrollHeight = isMobile ? $(document).height() : $container[0].scrollHeight;
 
 	const $thumbnails = $('#archive .thumbnail');
 	let activeIndex = null;
@@ -364,27 +369,30 @@ function checkActivePostOnScroll() {
 	} else {
 		$thumbnails.each(function () {
 			const $thumb = $(this);
-			const thumbTop = $thumb.position().top + containerScroll;
+			const thumbTop = isMobile ? $thumb.offset().top : $thumb.position().top;
+			const thumbScroll = isMobile ? containerScroll : 0;
 
-			if (thumbTop <= containerScroll + containerHeight / 2) {
+			if (thumbTop <= (containerHeight / 2) + thumbScroll) {
 				activeIndex = $thumb.data('index');
 			}
 		});
 	}
 
-	if (activeIndex !== null) {
-		setActive(activeIndex);
-	}
+	if (activeIndex !== null) setActive(activeIndex);
 
 	scrollLock = true;
 }
 
 $('#gallery-container').on('scroll', function () {
-	checkActivePostOnScroll();
+	if (window.innerWidth > 768) checkActivePostOnScroll();
+});
+
+$(window).on('scroll', function () {
+	if (window.innerWidth <= 768) checkActivePostOnScroll();
 });
 
 function setActive(index) {
-	var items = $('.list-item');
+	var items = $('.list-item, .post-data');
 	items.removeClass('active unactive');
 	items.eq(index).addClass('active');
 	items.not(items.eq(index)).addClass('unactive');
@@ -412,6 +420,7 @@ function centerSlide(index) {
 // category filter
 
 $(document).ready(function () {
+
 	const filmButton = $('#film-button');
 	const photoButton = $('#photo-button');
 
@@ -423,6 +432,7 @@ $(document).ready(function () {
 		$(this).siblings().removeClass('active');
 		postPhoto.toggleClass('filter');
 		postFilm.removeClass('filter');
+
 	});
 
 	photoButton.on('click', function () {
@@ -430,10 +440,12 @@ $(document).ready(function () {
 		$(this).siblings().removeClass('active');
 		postFilm.toggleClass('filter');
 		postPhoto.removeClass('filter');
+
 	});
 });
 
-// --- PROJECT ROUTING WITH HASH ---
+// url
+
 $(document).on('click', '.list-item, #archive .thumbnail a, #single-index a', function(e) {
     e.preventDefault();
     const slug = $(this).attr('href').substring(1);
@@ -443,12 +455,12 @@ $(document).on('click', '.list-item, #archive .thumbnail a, #single-index a', fu
 });
 
 $(window).on('popstate', function () {
-	const hash = window.location.hash; // ejemplo: "#parajumpers"
+	const hash = window.location.hash;
 	if (hash) {
 		const slug = hash.substring(1);
 		showProject(slug);
 	} else {
-		handleResponsive(); // volver al listado
+		handleResponsive();
 	}
 });
 
@@ -725,7 +737,7 @@ function showProject(slug) {
 
 	const creditsHeight = creditsContainer.outerHeight();
 
-	console.log(creditsHeight);
+	// console.log(creditsHeight);
 
 	// functions
 
@@ -735,14 +747,12 @@ function showProject(slug) {
 	const videoWrap = $('.video-wrapper');
 
 	function showControls() {
-		console.log('hola');
 		videoControls.removeClass('hidden');
 		clearTimeout(hideTimeout);
 		hideTimeout = setTimeout(() => {
 			videoControls.addClass('hidden');
 		}, 2000);
 
-		console.log(videoWrap.height());
 	}
 
 	videoWrap.on('mousemove', showControls);
