@@ -4,7 +4,7 @@ const content = {
       fields: {
         title: "Huevos",
         client: "Ministerio de Igualdad",
-        category: "Film",
+        category: ["Film"],
         duration: "",
       },
       credits: [
@@ -16,18 +16,13 @@ const content = {
       ],
       media: [
         { type: "video", id: "1119488041", start: 30, end: 35 },
-        { type: "image", src: "images/estergmera_1.webp" },
-        { type: "image", src: "images/estergmera_2.webp" },
-        { type: "image", src: "images/estergmera_3.webp" },
-        { type: "image", src: "images/estergmera_4.webp" },
-        { type: "image", src: "images/estergmera_5.webp" }
       ]
     },
     {
       fields: {
         title: "A Mar Libre",
         client: "A Mar Libre",
-        category: "Film",
+        category: ["Film", "Photo"],
         duration: "",
       },
       credits: [
@@ -39,18 +34,13 @@ const content = {
       ],
       media: [
         { type: "video", id: "1093329338", start: 30, end: 35 },
-        { type: "image", src: "images/estergmera_2.webp" },
-        { type: "image", src: "images/estergmera_3.webp" },
-        { type: "image", src: "images/estergmera_4.webp" },
-        { type: "image", src: "images/estergmera_5.webp" },
-        { type: "image", src: "images/estergmera_1.webp" }
       ]
     },
     {
       fields: {
         title: "Music Makers",
         client: "Caixa Forum +",
-        category: "Film",
+        category: ["Film"],
         duration: "",
       },
       credits: [
@@ -61,14 +51,14 @@ const content = {
         "Stylist Marta Rosmeri",
       ],
       media: [
-        { type: "video", id: "1128803603", start: 30, end: 35 },
+        { type: "video", id: "1134943062", start: 30, end: 35 },
       ]
     },
     {
       fields: {
         title: "Parajumpers",
         client: "METAL",
-        category: "Film",
+        category: ["Film"],
         duration: "",
       },
       credits: [
@@ -86,25 +76,7 @@ const content = {
       fields: {
         title: "UOC Manifesto",
         client: "UOC",
-        category: "Photo",
-        duration: "00",
-      },
-      credits: [
-        "Direction Ester G. Mera",
-        "Production Paula Roselló",
-        "DOP Darío Rivera",
-        "Art Direction Joel Izeon & Aitor Rubio",
-        "Stylist Marta Rosmeri",
-      ],
-      media: [
-        { type: "video", id: "1026899601", start: 30, end: 35 },
-      ]
-    },
-    {
-      fields: {
-        title: "ISDIN Body Oil",
-        client: "ISDIN",
-        category: "Film",
+        category: ["Film"],
         duration: "",
       },
       credits: [
@@ -115,14 +87,32 @@ const content = {
         "Stylist Marta Rosmeri",
       ],
       media: [
-        { type: "video", id: "983143474", start: 30, end: 35 },
+        { type: "video", id: "1134936907", start: 30, end: 35 },
       ]
     },
+    // {
+    //   fields: {
+    //     title: "ISDIN Body Oil",
+    //     client: "ISDIN",
+    //     category: ["Film"],
+    //     duration: "",
+    //   },
+    //   credits: [
+    //     "Direction Ester G. Mera",
+    //     "Production Paula Roselló",
+    //     "DOP Darío Rivera",
+    //     "Art Direction Joel Izeon & Aitor Rubio",
+    //     "Stylist Marta Rosmeri",
+    //   ],
+    //   media: [
+    //     { type: "video", id: "983143474", start: 30, end: 35 },
+    //   ]
+    // },
     {
       fields: {
         title: "Soul Blackout",
         client: "Hadren",
-        category: "Film",
+        category: ["Film"],
         duration: "",
       },
       credits: [
@@ -140,7 +130,7 @@ const content = {
       fields: {
         title: "Equilibrio",
         client: "Sila Lua",
-        category: "Film",
+        category: ["Film"],
         duration: "",
       },
       credits: [
@@ -158,7 +148,7 @@ const content = {
       fields: {
         title: "Lo Que Romp Es Coret",
         client: "Maria Jaume",
-        category: "Film",
+        category: ["Film"],
         duration: "",
       },
       credits: [
@@ -175,9 +165,9 @@ const content = {
     {
       fields: {
         title: "Feitizo",
-        client: "Lorem Ipsum",
-        category: "Photo",
-        duration: "00",
+        client: "Personal",
+        category: ["Film", "Photo"],
+        duration: "",
       },
       credits: [
         "Direction Ester G. Mera",
@@ -194,7 +184,7 @@ const content = {
       fields: {
         title: "Qué Voy a Hacer?",
         client: "shego, Natalia Lacunza",
-        category: "Film",
+        category: ["Film"],
         duration: "",
       },
       credits: [
@@ -212,7 +202,7 @@ const content = {
       fields: {
         title: "Mal de Ojo",
         client: "Anaju",
-        category: "Film",
+        category: ["Film"],
         duration: "",
       },
       credits: [
@@ -230,7 +220,7 @@ const content = {
       fields: {
         title: "Le Plaisir",
         client: "Anna Puigpinòs",
-        category: "Film",
+        category: ["Film"],
         duration: "",
       },
       credits: [
@@ -248,7 +238,7 @@ const content = {
       fields: {
         title: "Lucky",
         client: "shego",
-        category: "Film",
+        category: ["Film"],
         duration: "",
       },
       credits: [
@@ -266,7 +256,7 @@ const content = {
       fields: {
         title: "Buenísssima",
         client: "Raúl Clyde",
-        category: "Film",
+        category: ["Film"],
         duration: "",
       },
       credits: [
@@ -284,7 +274,7 @@ const content = {
       fields: {
         title: "Oxígeno",
         client: "Álvaro Soler",
-        category: "Film",
+        category: ["Film"],
         duration: "",
       },
       credits: [
@@ -296,6 +286,31 @@ const content = {
       ],
       media: [
         { type: "video", id: "862437822", start: 30, end: 35 },
+      ]
+    },
+    {
+      fields: {
+        title: "Pitaya",
+        client: "Pitaya",
+        category: ["Photo"],
+        duration: "",
+      },
+      credits: [
+        "Direction Ester G. Mera",
+        "Production Paula Roselló",
+        "DOP Darío Rivera",
+        "Art Direction Joel Izeon & Aitor Rubio",
+        "Stylist Marta Rosmeri",
+      ],
+      media: [
+        { type: "image", src: "images/estergmera_pitaya_1.webp" },
+        { type: "image", src: "images/estergmera_pitaya_2.webp" },
+        { type: "image", src: "images/estergmera_pitaya_3.webp" },
+        { type: "image", src: "images/estergmera_pitaya_4.webp" },
+        { type: "image", src: "images/estergmera_pitaya_5.webp" },
+        { type: "image", src: "images/estergmera_pitaya_6.webp" },
+        { type: "image", src: "images/estergmera_pitaya_7.webp" },
+        { type: "image", src: "images/estergmera_pitaya_8.webp" }
       ]
     },
   ]
