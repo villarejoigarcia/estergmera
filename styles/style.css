@@ -148,6 +148,7 @@ nav>*.active a {
 
 #title a {
 	color: black;
+	width: fit-content;
 }
 
 #title a:hover {

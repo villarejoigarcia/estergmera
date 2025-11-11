@@ -290,7 +290,7 @@ const content = {
     },
     {
       fields: {
-        title: "Pitaya",
+        title: "Astromaniac",
         client: "Pitaya",
         category: ["Photo"],
         duration: "",

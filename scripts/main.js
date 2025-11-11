@@ -138,14 +138,12 @@ $(document).ready(function () {
 			// desktop
 			
 			c.projects.forEach((project, index) => {
-				const categories = Array.isArray(project.fields.category)
-					? project.fields.category
-					: [project.fields.category || ''];
+				const categories = project.fields.category;
 
 				const $slide = $('<div>')
 					.addClass('thumbnail')
 					.attr('data-index', index)
-					.attr('data-category', categories.join(',').toLowerCase());
+					// .attr('data-category', categories.join(',').toLowerCase());
 
 				// Añadir clases de categoría
 				categories.forEach(cat => {
@@ -235,23 +233,21 @@ $(document).ready(function () {
 				$carousel.append($slide);
 			});
 
-			// LISTADO
+			// list
+
 			const $list = $('#list');
 			$list.empty();
 
 			c.projects.forEach((project, index) => {
-				const categories = Array.isArray(project.fields.category)
-					? project.fields.category
-					: [project.fields.category || ''];
+				const categories = project.fields.category;
 
 				if (project.fields) {
 					const $fields = $('<a>')
 						.addClass('list-item')
 						.attr('href', `#${project.slug}`)
 						.attr('data-index', index)
-						.attr('data-category', categories.join(',').toLowerCase());
+						// .attr('data-category', categories.join(',').toLowerCase());
 
-					// Añadir clases de categoría
 					categories.forEach(cat => {
 						const categoryClass = cat.trim().toLowerCase().replace(/\s+/g, '-');
 						$fields.addClass(categoryClass);
@@ -260,7 +256,11 @@ $(document).ready(function () {
 					$fields.append($('<span>').addClass('index').text(`${index + 1}.`));
 
 					Object.entries(project.fields).forEach(([key, value]) => {
-						$fields.append($('<span>').text(value));
+						if (Array.isArray(value)) {
+							$fields.append($('<span>').text(value.join('/')));
+						} else {
+							$fields.append($('<span>').text(value));
+						}
 					});
 
 					$list.append($fields);
