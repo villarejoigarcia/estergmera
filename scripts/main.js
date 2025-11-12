@@ -20,12 +20,12 @@ $(document).ready(function () {
 		project.slug = slug;
 	});
 
-	const $carousel = $('#archive');
-	$carousel.empty();
+	// load
 
 	function handleResponsive() {
 		const isMobile = window.innerWidth <= 768;
 
+		const $carousel = $('#archive');
 		$carousel.empty();
 
 		if (isMobile) {
@@ -37,8 +37,9 @@ $(document).ready(function () {
 					? project.fields.category
 					: [project.fields.category || ''];
 
-				const $slide = $('<div>')
+				const $slide = $('<a>')
 					.addClass('thumbnail')
+					.attr('href', `#${project.slug}`)
 					.attr('data-index', index)
 					.attr('data-category', categories.join(',').toLowerCase());
 
@@ -77,6 +78,8 @@ $(document).ready(function () {
 									$thumbImg.css('opacity', 0);
 								});
 
+								setHeight();
+
 								const durationSeconds = data[0].duration;
 								const minutes = Math.floor(durationSeconds / 60);
 								const seconds = durationSeconds % 60;
@@ -99,7 +102,7 @@ $(document).ready(function () {
 							.then(([w, h]) => {
 								const ratio = w / h;
 								$iframe[0].style.aspectRatio = ratio;
-								setHeight();
+								// setHeight();
 							});
 
 						if (firstMedia.start !== undefined && firstMedia.end !== undefined) {
@@ -124,9 +127,15 @@ $(document).ready(function () {
 				// Info
 				if (project.fields) {
 					const $fieldsContainer = $('<div>').addClass('post-data');
+					
 					Object.entries(project.fields).forEach(([key, value]) => {
-						$fieldsContainer.append($('<span>').text(value));
+						if (Array.isArray(value)) {
+							$fieldsContainer.append($('<span>').text(value.join('/')));
+						} else {
+							$fieldsContainer.append($('<span>').text(value));
+						}
 					});
+					
 					$slide.append($fieldsContainer);
 				}
 
@@ -136,14 +145,13 @@ $(document).ready(function () {
 		} else {
 
 			// desktop
-			
+
 			c.projects.forEach((project, index) => {
 				const categories = project.fields.category;
 
 				const $slide = $('<div>')
 					.addClass('thumbnail')
 					.attr('data-index', index)
-					// .attr('data-category', categories.join(',').toLowerCase());
 
 				// Añadir clases de categoría
 				categories.forEach(cat => {
@@ -192,6 +200,8 @@ $(document).ready(function () {
 
 								const $durationField = $(`#list .list-item[data-index="${index}"] span:last-child`);
 								if ($durationField.length) $durationField.text(finalText);
+
+								setHeight();
 							});
 
 						const $iframe = $('<iframe>')
@@ -206,7 +216,7 @@ $(document).ready(function () {
 							.then(([w, h]) => {
 								const ratio = w / h;
 								$iframe[0].style.aspectRatio = ratio;
-								setHeight();
+								// setHeight();
 							});
 
 						if (firstMedia.start !== undefined && firstMedia.end !== undefined) {
@@ -246,7 +256,7 @@ $(document).ready(function () {
 						.addClass('list-item')
 						.attr('href', `#${project.slug}`)
 						.attr('data-index', index)
-						// .attr('data-category', categories.join(',').toLowerCase());
+					// .attr('data-category', categories.join(',').toLowerCase());
 
 					categories.forEach(cat => {
 						const categoryClass = cat.trim().toLowerCase().replace(/\s+/g, '-');
@@ -281,6 +291,98 @@ $(document).ready(function () {
 		}
 	});
 
+	// categories
+
+	const container = $('#gallery-container');
+
+	const filmButton = $('#film-button');
+	const photoButton = $('#photo-button');
+
+	filmButton.on('click', function () {
+
+		const postPhoto = $('.photo');
+		const postFilm = $('.film');
+
+		if (container.hasClass('single-view')) {
+			// Clear URL hash
+			history.pushState({}, '', window.location.pathname);
+
+			container.children().addClass('hide');
+			$('#single-index').addClass('hide');
+			$('#loading').addClass('hide');
+			setTimeout(() => {
+
+				container.removeClass('single-view');
+				container.empty();
+
+				const archive = $('<div>').attr('id', 'archive').addClass('hide');
+				container.append(archive);
+
+				const list = $('<div>').attr('id', 'list').addClass('hide');
+				container.append(list);
+				handleResponsive();
+				const postPhoto = $('.photo:not(.film.photo)');
+
+				$('#single-index').empty();
+				$('#loading').empty();
+
+				setTimeout(() => {
+					archive.removeClass();
+					list.removeClass();
+					postPhoto.addClass('filter');
+				}, 500);
+			}, 500);
+		} else {
+			console.log('home');
+			postPhoto.toggleClass('filter');
+			postFilm.removeClass('filter');
+		}
+		$(this).toggleClass('active');
+		$(this).siblings().removeClass('active');
+	});
+
+	photoButton.on('click', function () {
+		const postPhoto = $('.photo');
+		const postFilm = $('.film');
+
+		if (container.hasClass('single-view')) {
+			// Clear URL hash
+			history.pushState({}, '', window.location.pathname);
+
+			container.children().addClass('hide');
+			$('#single-index').addClass('hide');
+			$('#loading').addClass('hide');
+			setTimeout(() => {
+
+				container.removeClass('single-view');
+				container.empty();
+
+				const archive = $('<div>').attr('id', 'archive').addClass('hide');
+				container.append(archive);
+
+				const list = $('<div>').attr('id', 'list').addClass('hide');
+				container.append(list);
+				handleResponsive();
+				const postFilm = $('.film:not(.film.photo)');
+
+				$('#single-index').empty();
+				$('#loading').empty();
+
+				setTimeout(() => {
+					archive.removeClass();
+					list.removeClass();
+					postFilm.addClass('filter');
+				}, 500);
+			}, 500);
+		} else {
+			console.log('home');
+			postFilm.toggleClass('filter');
+			postPhoto.removeClass('filter');
+		}
+		$(this).toggleClass('active');
+		$(this).siblings().removeClass('active');
+	});
+
 });
 
 // img sizes
@@ -311,7 +413,7 @@ $(window).on('resize', () => {
 let lastMousePos = { x: 0, y: 0 };
 let isMoving = false;
 let hoverTimer = null;
-const stopThreshold = 2;
+const stopThreshold = 1;
 const stopDelay = 30;
 
 let scrollLock = false;
@@ -414,30 +516,56 @@ function centerSlide(index) {
 
 // category filter
 
-$(document).ready(function () {
+// $(document).ready(function () {
 
-	const filmButton = $('#film-button');
-	const photoButton = $('#photo-button');
+// 	const container = $('#gallery-container');
 
-	const postPhoto = $('.photo');
-	const postFilm = $('.film');
+// 	const filmButton = $('#film-button');
+// 	const photoButton = $('#photo-button');
 
-	filmButton.on('click', function () {
-		$(this).toggleClass('active');
-		$(this).siblings().removeClass('active');
-		postPhoto.toggleClass('filter');
-		postFilm.removeClass('filter');
+// 	const postPhoto = $('.photo');
+// 	const postFilm = $('.film');
 
-	});
+// 	filmButton.on('click', function () {
+// 		if (container.hasClass('single-view')) {
+// 			container.removeClass('single-view');
+// 			container.children().addClass('hide');
+// 			$('#single-index').addClass('hide');
+// 			$('#loading').addClass('hide');
+// 			setTimeout(() => {
+// 				container.empty();
+// 				$('#single-index').empty();
+// 				$('#loading').empty();
+// 			}, 1000);
+// 		} else {
+// 			$(this).toggleClass('active');
+// 			$(this).siblings().removeClass('active');
+// 			postPhoto.toggleClass('filter');
+// 			postFilm.removeClass('filter');
+// 		}
+// 	});
 
-	photoButton.on('click', function () {
-		$(this).toggleClass('active');
-		$(this).siblings().removeClass('active');
-		postFilm.toggleClass('filter');
-		postPhoto.removeClass('filter');
+// 	photoButton.on('click', function () {
+// 		if (container.hasClass('single-view')) {
+// 			container.removeClass('single-view');
+// 			container.children().addClass('hide');
+// 			$('#single-index').addClass('hide');
+// 			$('#loading').addClass('hide');
+// 			setTimeout(() => {
+// 				container.empty();
+// 				$('#single-index').empty();
+// 				$('#loading').empty();
+// 			}, 1000);
+// 		} else {
+// 			$(this).toggleClass('active');
+// 			$(this).siblings().removeClass('active');
+// 			postFilm.toggleClass('filter');
+// 			postPhoto.removeClass('filter');
+// 		}
 
-	});
-});
+// 	});
+
+// });
 
 // url
 
@@ -472,11 +600,25 @@ $(document).ready(function () {
 function showProject(slug) {
 	const project = window.content.projects.find(p => p.slug === slug);
 	const container = $('#gallery-container');
+	// const listItem = $('.list-item');
+	// const thumbnails = $('.thumbnail');
+	const transition = 1000;
+
+	$('nav>*').removeClass('active');
+
 	if (!project) return;
 
-	container.empty();
+	// listItem.addClass('filter');
+	// thumbnails.addClass('filter');
+	container.children().addClass('hide');
+
+	setTimeout(() => {
+		container.empty();
+	}, transition);
+
 	container.addClass('single-view');
-	$('#list').empty();
+
+	// $('#list').empty();
 
 	// const category = project.fields.category.toLowerCase();
 
@@ -485,7 +627,7 @@ function showProject(slug) {
 		: [project.fields.category || ''];
 	const category = categories[0].trim().toLowerCase();
 
-	const $postContainer = $('<div>').attr('id', 'post');
+	const $postContainer = $('<div>').attr('id', 'post').addClass('hide');
 
 	const singleGallery = $('<div>').attr('id', 'single-gallery');
 
@@ -500,23 +642,10 @@ function showProject(slug) {
 				singleGallery.append($img);
 			} else if (m.type === "video") {
 				const videoId = m.id;
-				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=0&loop=1&background=1`;
+				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
 				const videoWrapper = $('<div>')
 					.addClass('video-wrapper post-image')
 					.toggleClass('active', i === 0);
-
-				// fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
-				// 	.then(res => res.json())
-				// 	.then(data => {
-				// 		const thumb = data[0].thumbnail_large;
-				// 		const $thumbImg = $('<img>').attr('src', thumb).addClass('vimeo-thumb');
-				// 		videoWrapper.append($thumbImg);
-				// 		player.on('play', () => {
-				// 			$thumbImg.css('opacity', 0);
-				// 			// $thumbImg.css('filter', 'blur(0)');
-				// 		});
-
-				// 	})
 
 				const $iframe = $('<iframe>')
 					.attr('src', vimeoUrl)
@@ -537,6 +666,30 @@ function showProject(slug) {
 				videoWrapper.append(controls);
 
 				const player = new Vimeo.Player($iframe[0]);
+
+				player.on('loaded', function () {
+					setTimeout(() => {
+
+						let hideTimeout;
+						const videoControls = $('.video-controls');
+						const videoWrap = $('.video-wrapper');
+
+						function showControls() {
+							videoControls.removeClass('hidden');
+							clearTimeout(hideTimeout);
+							hideTimeout = setTimeout(() => {
+								videoControls.addClass('hidden');
+							}, transition * 2);
+
+						}
+
+						videoWrap.on('mousemove', showControls);
+
+						showControls();
+
+					}, transition * 2);
+				});
+
 				// ratio
 				Promise.all([player.getVideoWidth(), player.getVideoHeight()])
 					.then(([w, h]) => {
@@ -544,9 +697,8 @@ function showProject(slug) {
 						$iframe[0].style.aspectRatio = ratio;
 						controls[0].style.aspectRatio = ratio;
 					})
-				// PLAY / PAUSE
-				const $playPause = controls.find('.play-pause');
-				$playPause.on('click', () => {
+				// PLAY / PAUSE function
+				const togglePlayPause = () => {
 					player.getPaused().then(paused => {
 						if (paused) {
 							player.play();
@@ -556,6 +708,19 @@ function showProject(slug) {
 							$playPause.text('Play');
 						}
 					});
+				};
+
+				const $playPause = controls.find('.play-pause');
+				$playPause.on('click', togglePlayPause);
+
+				// Click en el iframe
+				$iframe.on('click', togglePlayPause);
+
+				// Click en el fondo de video-controls (no en sus hijos)
+				controls.on('click', function (e) {
+					if (e.target === this) {
+						togglePlayPause();
+					}
 				});
 
 				// MUTE / SOUND
@@ -693,7 +858,13 @@ function showProject(slug) {
 				.attr('href', `#${p.slug}`)
 				.text(p.fields.title);
 			$item.append($link);
+
 			singleIndex.append($item);
+
+			setTimeout(() => {
+				singleIndex.removeClass('hide');
+			}, transition);
+
 		});
 	}
 
@@ -710,6 +881,14 @@ function showProject(slug) {
 	const activeIndex = visibleLinks.toArray().findIndex(link => $(link).attr('href') === `#${slug}`);
 
 	centerSingleIndexItem(activeIndex);
+
+	// loading
+
+	const loading = $('#loading').text('Loading...');
+
+	setTimeout(() => {
+		loading.removeClass('hide');
+	}, transition);
 
 	// credits
 
@@ -735,28 +914,20 @@ function showProject(slug) {
 		$postContainer.append(creditsContainer);
 	}
 
-	container.append($postContainer);
+	// add content 
+
+	setTimeout(() => {
+		container.removeClass('hide');
+		container.append($postContainer);
+	}, transition * 2);
+
+	setTimeout(() => {
+		$postContainer.removeClass('hide');
+	}, transition * 4);
 
 	const creditsHeight = creditsContainer.outerHeight();
 
 	// functions
-
-	let hideTimeout;
-	const videoControls = $('.video-controls');
-	const videoWrap = $('.video-wrapper');
-
-	function showControls() {
-		videoControls.removeClass('hidden');
-		clearTimeout(hideTimeout);
-		hideTimeout = setTimeout(() => {
-			videoControls.addClass('hidden');
-		}, 2000);
-
-	}
-
-	videoWrap.on('mousemove', showControls);
-
-	showControls();
 
 	function centerSingleIndexItem(index) {
 		const $container = $('#single-index');
@@ -782,14 +953,29 @@ function showProject(slug) {
 		creditsButton.toggleClass('active');
 		const creditsHeight = creditsContainer.outerHeight();
 
+		if (window.innerWidth <= 768) {
+
+		}
+
 		singleGallery.toggleClass('credits');
 		singleIndex.toggleClass('credits');
 
 		creditsContainer.toggleClass('active');
 
-		document.documentElement.style.setProperty('--credits-height', `-${creditsHeight}px`);
+		document.documentElement.style.setProperty('--credits-height', `${creditsHeight}px`);
 	});
 };
+
+$(document).on('mouseenter', '#thumbnails .thumbnail-item', function () {
+	const $thumbnails = $('#thumbnails .thumbnail-item');
+	const index = $thumbnails.index(this);
+
+	$thumbnails.removeClass('active');
+	$(this).addClass('active');
+
+	$('#post .post-image').removeClass('active');
+	$('#post .post-image').eq(index).addClass('active');
+});
 
 $(document).ready(function () {
 
