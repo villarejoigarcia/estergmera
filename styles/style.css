@@ -46,6 +46,7 @@ iframe {
 	top: 0;
 	left: 0;
 	width: 100%;
+	transition: var(--transition);
 }
 
 .vimeo-thumb {
@@ -588,7 +589,8 @@ input[type="range"]:hover::-webkit-slider-thumb {
 @media (min-width: 768px) {
 
 	#prev-next,
-	#preview {
+	#preview,
+	.post-data {
 		display: none;
 	}
 }

@@ -514,59 +514,6 @@ function centerSlide(index) {
 	}
 }
 
-// category filter
-
-// $(document).ready(function () {
-
-// 	const container = $('#gallery-container');
-
-// 	const filmButton = $('#film-button');
-// 	const photoButton = $('#photo-button');
-
-// 	const postPhoto = $('.photo');
-// 	const postFilm = $('.film');
-
-// 	filmButton.on('click', function () {
-// 		if (container.hasClass('single-view')) {
-// 			container.removeClass('single-view');
-// 			container.children().addClass('hide');
-// 			$('#single-index').addClass('hide');
-// 			$('#loading').addClass('hide');
-// 			setTimeout(() => {
-// 				container.empty();
-// 				$('#single-index').empty();
-// 				$('#loading').empty();
-// 			}, 1000);
-// 		} else {
-// 			$(this).toggleClass('active');
-// 			$(this).siblings().removeClass('active');
-// 			postPhoto.toggleClass('filter');
-// 			postFilm.removeClass('filter');
-// 		}
-// 	});
-
-// 	photoButton.on('click', function () {
-// 		if (container.hasClass('single-view')) {
-// 			container.removeClass('single-view');
-// 			container.children().addClass('hide');
-// 			$('#single-index').addClass('hide');
-// 			$('#loading').addClass('hide');
-// 			setTimeout(() => {
-// 				container.empty();
-// 				$('#single-index').empty();
-// 				$('#loading').empty();
-// 			}, 1000);
-// 		} else {
-// 			$(this).toggleClass('active');
-// 			$(this).siblings().removeClass('active');
-// 			postFilm.toggleClass('filter');
-// 			postPhoto.removeClass('filter');
-// 		}
-
-// 	});
-
-// });
-
 // url
 
 $(document).on('click', '.list-item, #archive .thumbnail a, #single-index a', function (e) {
@@ -978,8 +925,6 @@ function showProject(slug) {
 		loading.addClass('hide');
 	}, transition * 4);
 
-	// const creditsHeight = creditsContainer.outerHeight();
-
 	// functions
 
 	function centerSingleIndexItem(index) {
@@ -1015,6 +960,19 @@ function showProject(slug) {
 		thumbContainer.toggleClass('credits');
 
 		document.documentElement.style.setProperty('--credits-height', `-${creditsHeight}px`);
+	});
+
+	$(window).on('scroll', function () {
+		const scrollTop = $(window).scrollTop();
+		const windowHeight = $(window).height();
+		const docHeight = $(document).height();
+		const atBottom = (scrollTop + windowHeight) >= (docHeight - 2);
+
+		if (!atBottom) {
+			if (creditsContainer.hasClass('active')) {
+				creditsButton.trigger('click');
+			}
+		}
 	});
 };
 
