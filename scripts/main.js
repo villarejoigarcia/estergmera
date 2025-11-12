@@ -824,32 +824,6 @@ function showProject(slug) {
 		preview.toggleClass('active');
 	});
 
-	// prev next
-
-		const currentProjectIndex = window.content.projects.findIndex(p => p.slug === slug);
-		const totalProjects = window.content.projects.length;
-
-		const prevIndex = (currentProjectIndex - 1 + totalProjects) % totalProjects;
-		const nextIndex = (currentProjectIndex + 1) % totalProjects;
-
-		const prevProject = window.content.projects[prevIndex];
-		const nextProject = window.content.projects[nextIndex];
-
-		const prevNextContainer = $('<div>').attr('id', 'prev-next');
-
-		const prevDiv = $('<div>')
-			.attr('id', 'prev')
-			.html(`<a href="#${prevProject.slug}">${prevProject.fields.title}</a>`);
-
-		const nextDiv = $('<div>')
-			.attr('id', 'next')
-			.html(`<a href="#${nextProject.slug}">${nextProject.fields.title}</a>`);
-
-		prevNextContainer.append(prevDiv);
-		prevNextContainer.append(nextDiv);
-
-		$postContainer.append(prevNextContainer);
-
 	// single thumbnails
 
 	const thumbContainer = $('<div>').attr('id', 'thumbnails');
@@ -900,6 +874,34 @@ function showProject(slug) {
 		});
 	}
 	$postContainer.append(thumbContainer);
+
+	// prev next
+
+		const currentProjectIndex = window.content.projects.findIndex(p => p.slug === slug);
+		const totalProjects = window.content.projects.length;
+
+		const prevIndex = (currentProjectIndex - 1 + totalProjects) % totalProjects;
+		const nextIndex = (currentProjectIndex + 1) % totalProjects;
+
+		const prevProject = window.content.projects[prevIndex];
+		const nextProject = window.content.projects[nextIndex];
+
+		const prevNextContainer = $('<div>').attr('id', 'prev-next');
+
+		const prevDiv = $('<div>')
+			.attr('id', 'prev')
+			.html(`<a href="#${prevProject.slug}">${prevProject.fields.title}</a>`);
+
+		const nextDiv = $('<div>')
+			.attr('id', 'next')
+			.html(`<a href="#${nextProject.slug}">${nextProject.fields.title}</a>`);
+
+		prevNextContainer.append(prevDiv);
+		prevNextContainer.append(nextDiv);
+
+		$postContainer.append(prevNextContainer);
+
+		// single index
 
 	const relatedProjects = window.content.projects.filter(p => {
 		const categories = p.fields.category;
