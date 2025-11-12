@@ -657,7 +657,7 @@ function showProject(slug) {
 				const controls = $(`
 					<div class="video-controls">
 					<p class="play-pause">Pause</p>
-					<p class="mute-toggle">Mute</p>
+					<p class="mute-toggle">Sound</p>
 					<p class="fullscreen-toggle">Full screen</p>
 					<input type="range" class="timeline" min="0" max="100" value="0">
 					</div>
@@ -728,11 +728,11 @@ function showProject(slug) {
 				let isMuted = true;
 				$muteToggle.on('click', () => {
 					if (isMuted) {
-						player.setVolume(0);
-						$muteToggle.text('Sound');
-					} else {
 						player.setVolume(1);
 						$muteToggle.text('Mute');
+					} else {
+						player.setVolume(0);
+						$muteToggle.text('Sound');
 					}
 					isMuted = !isMuted;
 				});
