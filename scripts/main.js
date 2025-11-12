@@ -600,16 +600,12 @@ $(document).ready(function () {
 function showProject(slug) {
 	const project = window.content.projects.find(p => p.slug === slug);
 	const container = $('#gallery-container');
-	// const listItem = $('.list-item');
-	// const thumbnails = $('.thumbnail');
 	const transition = 1000;
 
 	$('nav>*').removeClass('active');
 
 	if (!project) return;
 
-	// listItem.addClass('filter');
-	// thumbnails.addClass('filter');
 	container.children().addClass('hide');
 
 	setTimeout(() => {
@@ -617,10 +613,6 @@ function showProject(slug) {
 	}, transition);
 
 	container.addClass('single-view');
-
-	// $('#list').empty();
-
-	// const category = project.fields.category.toLowerCase();
 
 	const categories = Array.isArray(project.fields.category)
 		? project.fields.category
@@ -792,6 +784,25 @@ function showProject(slug) {
 
 	$postContainer.append(singleGallery);
 
+	// loading
+
+	const loading = $('#loading').text('Loading...');
+
+	setTimeout(() => {
+		loading.removeClass('hide');
+	}, transition);
+
+	// preview
+
+	const preview = $('<a>').attr('id', 'preview').text('Preview');
+
+	$postContainer.append(preview);
+
+	preview.on('click', function () {
+		thumbContainer.toggleClass('active');
+		preview.toggleClass('active');
+	});
+
 	// single thumbnails
 
 	const thumbContainer = $('<div>').attr('id', 'thumbnails');
@@ -882,14 +893,6 @@ function showProject(slug) {
 
 	centerSingleIndexItem(activeIndex);
 
-	// loading
-
-	const loading = $('#loading').text('Loading...');
-
-	setTimeout(() => {
-		loading.removeClass('hide');
-	}, transition);
-
 	// credits
 
 	const creditsButton = $('<div>').attr('id', 'credits-button');
@@ -923,6 +926,7 @@ function showProject(slug) {
 
 	setTimeout(() => {
 		$postContainer.removeClass('hide');
+		loading.addClass('hide');
 	}, transition * 4);
 
 	const creditsHeight = creditsContainer.outerHeight();
@@ -962,7 +966,7 @@ function showProject(slug) {
 
 		creditsContainer.toggleClass('active');
 
-		document.documentElement.style.setProperty('--credits-height', `${creditsHeight}px`);
+		document.documentElement.style.setProperty('--credits-height', `-${creditsHeight}px`);
 	});
 };
 

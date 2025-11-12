@@ -16,8 +16,10 @@ const content = {
       ],
       media: [
         { type: "video", id: "1119488041", start: 30, end: 35 },
-        { type: "image", src: "images/estergmera_pitaya_7.webp" },
-        { type: "image", src: "images/estergmera_pitaya_8.webp" }
+        { type: "image", src: "images/estergmera_1.webp" },
+        { type: "image", src: "images/estergmera_2.webp" },
+        { type: "image", src: "images/estergmera_3.webp" },
+        { type: "image", src: "images/estergmera_4.webp" },
       ]
     },
     {
