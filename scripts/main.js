@@ -621,6 +621,27 @@ function showProject(slug) {
 
 	const $postContainer = $('<div>').attr('id', 'post').addClass('hide');
 
+	// title
+
+	const titleDiv = $('<div>').addClass('post-data');
+
+	const titleText = project.fields?.title || '';
+	// Try common client field names (adapt if your data uses a different key)
+	const clientText = project.fields?.client || project.fields?.client_name || project.fields?.cliente || '';
+	const categoriesText = Array.isArray(project.fields?.category)
+		? project.fields.category.join(' / ')
+		: (project.fields?.category || '');
+
+	// Name / Client / Category similar to mobile thumbnail post-data
+	titleDiv.append($('<span>').addClass('project-title').text(titleText));
+	if (clientText) titleDiv.append($('<span>').addClass('project-client').text(clientText));
+	if (categoriesText) titleDiv.append($('<span>').addClass('project-category').text(categoriesText));
+
+	$postContainer.append(titleDiv);
+	
+
+	// media
+
 	const singleGallery = $('<div>').attr('id', 'single-gallery');
 
 	if (project.media && project.media.length > 0) {
@@ -803,6 +824,32 @@ function showProject(slug) {
 		preview.toggleClass('active');
 	});
 
+	// prev next
+
+		const currentProjectIndex = window.content.projects.findIndex(p => p.slug === slug);
+		const totalProjects = window.content.projects.length;
+
+		const prevIndex = (currentProjectIndex - 1 + totalProjects) % totalProjects;
+		const nextIndex = (currentProjectIndex + 1) % totalProjects;
+
+		const prevProject = window.content.projects[prevIndex];
+		const nextProject = window.content.projects[nextIndex];
+
+		const prevNextContainer = $('<div>').attr('id', 'prev-next');
+
+		const prevDiv = $('<div>')
+			.attr('id', 'prev')
+			.html(`<a href="#${prevProject.slug}">${prevProject.fields.title}</a>`);
+
+		const nextDiv = $('<div>')
+			.attr('id', 'next')
+			.html(`<a href="#${nextProject.slug}">${nextProject.fields.title}</a>`);
+
+		prevNextContainer.append(prevDiv);
+		prevNextContainer.append(nextDiv);
+
+		$postContainer.append(prevNextContainer);
+
 	// single thumbnails
 
 	const thumbContainer = $('<div>').attr('id', 'thumbnails');
@@ -929,7 +976,7 @@ function showProject(slug) {
 		loading.addClass('hide');
 	}, transition * 4);
 
-	const creditsHeight = creditsContainer.outerHeight();
+	// const creditsHeight = creditsContainer.outerHeight();
 
 	// functions
 
@@ -957,14 +1004,13 @@ function showProject(slug) {
 		creditsButton.toggleClass('active');
 		const creditsHeight = creditsContainer.outerHeight();
 
-		if (window.innerWidth <= 768) {
-
-		}
-
 		singleGallery.toggleClass('credits');
 		singleIndex.toggleClass('credits');
 
 		creditsContainer.toggleClass('active');
+		prevNextContainer.toggleClass('active');
+		preview.toggleClass('credits');
+		thumbContainer.toggleClass('credits');
 
 		document.documentElement.style.setProperty('--credits-height', `-${creditsHeight}px`);
 	});
