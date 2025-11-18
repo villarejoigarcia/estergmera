@@ -400,7 +400,7 @@ nav>*.active a {
 }
 
 #credits-button {
-	position: absolute;
+	position: fixed;
 	top: 50vh;
 	left: calc((100vw/6 * 5));
 }
@@ -569,7 +569,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 #press .content {
 	display: flex;
 	flex-wrap: wrap;
-	max-height: 144px;
+	max-height: 162px;
 	gap: var(--key_value) 0;
 	padding-right: calc(100vw/24*4);
 	transition: var(--transition_l);

@@ -708,7 +708,7 @@ function showProject(slug) {
 				singleGallery.append($img);
 			} else if (m.type === "video") {
 				const videoId = m.id;
-				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
+				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=0&muted=1&loop=1&background=1`;
 				const videoWrapper = $('<div>')
 					.addClass('video-wrapper post-image')
 					.toggleClass('active', i === 0);
@@ -720,10 +720,18 @@ function showProject(slug) {
 					.attr('allowfullscreen', true)
 
 				// Crear controles
+				// const controls = $(`
+				// 	<div class="video-controls">
+				// 	<p class="play-pause">Play</p>
+				// 	<p class="mute-toggle">Sound</p>
+				// 	<p class="fullscreen-toggle">Full screen</p>
+				// 	<input type="range" class="timeline" min="0" max="100" value="0">
+				// 	</div>
+				// `);
+
 				const controls = $(`
 					<div class="video-controls">
-					<p class="play-pause">Pause</p>
-					<p class="mute-toggle">Sound</p>
+					<p class="play-pause">Play</p>
 					<p class="fullscreen-toggle">Full screen</p>
 					<input type="range" class="timeline" min="0" max="100" value="0">
 					</div>
@@ -768,9 +776,11 @@ function showProject(slug) {
 					player.getPaused().then(paused => {
 						if (paused) {
 							player.play();
+							player.setVolume(1);
 							$playPause.text('Pause');
 						} else {
 							player.pause();
+							player.setVolume(0);
 							$playPause.text('Play');
 						}
 					});
@@ -790,18 +800,18 @@ function showProject(slug) {
 				});
 
 				// MUTE / SOUND
-				const $muteToggle = controls.find('.mute-toggle');
-				let isMuted = true;
-				$muteToggle.on('click', () => {
-					if (isMuted) {
-						player.setVolume(1);
-						$muteToggle.text('Mute');
-					} else {
-						player.setVolume(0);
-						$muteToggle.text('Sound');
-					}
-					isMuted = !isMuted;
-				});
+				// const $muteToggle = controls.find('.mute-toggle');
+				// let isMuted = true;
+				// $muteToggle.on('click', () => {
+				// 	if (isMuted) {
+				// 		player.setVolume(1);
+				// 		$muteToggle.text('Mute');
+				// 	} else {
+				// 		player.setVolume(0);
+				// 		$muteToggle.text('Sound');
+				// 	}
+				// 	isMuted = !isMuted;
+				// });
 
 				// TIMELINE
 				const $timeline = controls.find('.timeline');
