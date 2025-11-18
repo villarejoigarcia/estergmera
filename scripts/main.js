@@ -5,6 +5,64 @@ $(document).ready(function () {
 	if (!window.content || !window.content.projects) return;
 	const c = window.content;
 
+	// about
+
+	const bioContainer = $('#bio');
+	bioContainer.empty();
+
+	const bio = $('<p>');
+	bio.append(c.about.bio);
+	bioContainer.append(bio);
+
+	// contact 
+
+	const contact = $('#not-social');
+	contact.empty();
+
+	const mailUrl = c.about.contact.mail;
+	const phoneUrl = c.about.contact.phone;
+
+	const mail = $('<a>')
+		.attr('href', `mailto:${mailUrl}`)
+		.text(mailUrl);
+
+	contact.append(mail);
+
+	const phone = $('<a>')
+		.attr('href', `tel:${phoneUrl}`)
+		.text(phoneUrl);
+
+	contact.append(phone);
+
+	// social
+
+	const socialContainer = $('#social');
+	socialContainer.empty();
+
+	
+	Object.entries(c.about.social).forEach(([key, item]) => {
+		const link = $('<a>')
+			.attr('href', item)
+			.attr('target', '_blank')
+			.text(key);
+
+		socialContainer.append(link);
+	});
+
+	// press
+
+	const press = $('#press .content');
+	press.empty();
+
+	c.press.forEach(item => {
+		const link = $('<a>')
+			.attr('href', item.url)
+			.attr('target', '_blank')
+			.text(item.title); 
+
+			press.append(link);
+	});
+
 	// slugs
 
 	c.projects.forEach(project => {
@@ -172,7 +230,7 @@ $(document).ready(function () {
 						const text = imageCount.toString();
 						project.fields.duration = text;
 
-						const $durationField = $(`#list .list-item[data-index="${index}"] span:last-child`);
+						const $durationField = $(`#list .list-item[data-index="${index}"]>*:last-child`);
 						if ($durationField.length) $durationField.text(text);
 
 					} else if (firstMedia.type === "video") {
@@ -198,7 +256,7 @@ $(document).ready(function () {
 								const finalText = `${formattedDuration}${imageText}`;
 								project.fields.duration = finalText;
 
-								const $durationField = $(`#list .list-item[data-index="${index}"] span:last-child`);
+								const $durationField = $(`#list .list-item[data-index="${index}"]>*:last-child`);
 								if ($durationField.length) $durationField.text(finalText);
 
 								setHeight();
@@ -266,11 +324,15 @@ $(document).ready(function () {
 					$fields.append($('<span>').addClass('index').text(`${index + 1}.`));
 
 					Object.entries(project.fields).forEach(([key, value]) => {
+						const div = $('<div>').addClass(key);
 						if (Array.isArray(value)) {
-							$fields.append($('<span>').text(value.join('/')));
+							const span = $('<span>').text(value.join('/'));
+							div.append(span);
 						} else {
-							$fields.append($('<span>').text(value));
+							const span = $('<span>').text(value);
+							div.append(span);
 						}
+						$fields.append(div);
 					});
 
 					$list.append($fields);
@@ -410,42 +472,86 @@ $(window).on('resize', () => {
 
 // list
 
+// let lastMousePos = { x: 0, y: 0 };
+// let isMoving = false;
+// let hoverTimer = null;
+// const stopThreshold = 10;
+// const stopDelay = 0;
+
+// let scrollLock = false;
+
+// $(document).on('mousemove', function (e) {
+// 	const dx = Math.abs(e.pageX - lastMousePos.x);
+// 	const dy = Math.abs(e.pageY - lastMousePos.y);
+
+// 	lastMousePos.x = e.pageX;
+// 	lastMousePos.y = e.pageY;
+
+// 	if (dx > stopThreshold || dy > stopThreshold) {
+// 		isMoving = true;
+// 		clearTimeout(hoverTimer);
+// 	}
+
+// 	hoverTimer = setTimeout(() => {
+// 		isMoving = false;
+
+// 		const $target = $(e.target).closest('.list-item .title');
+// 		if ($target.length) {
+// 			const index = $target.parent().data('index');
+
+// 			if (scrollLock) {
+// 				scrollLock = false;
+// 			} else {
+// 				setActive(index);
+// 				centerSlide(index);
+// 				// console.log(scrollLock);
+// 			}
+// 		}
+// 	}, stopDelay);
+// });
+
 let lastMousePos = { x: 0, y: 0 };
-let isMoving = false;
 let hoverTimer = null;
 const stopThreshold = 1;
-const stopDelay = 30;
-
-let scrollLock = false;
+const stopDelay = 100;
+let currentActiveIndex = null;
 
 $(document).on('mousemove', function (e) {
-	const dx = Math.abs(e.pageX - lastMousePos.x);
-	const dy = Math.abs(e.pageY - lastMousePos.y);
+    const dx = Math.abs(e.pageX - lastMousePos.x);
+    const dy = Math.abs(e.pageY - lastMousePos.y);
 
-	lastMousePos.x = e.pageX;
-	lastMousePos.y = e.pageY;
+    lastMousePos.x = e.pageX;
+    lastMousePos.y = e.pageY;
 
-	if (dx > stopThreshold || dy > stopThreshold) {
-		isMoving = true;
-		clearTimeout(hoverTimer);
-	}
+    if (dx > stopThreshold || dy > stopThreshold) {
+        clearTimeout(hoverTimer);
+    }
 
-	hoverTimer = setTimeout(() => {
-		isMoving = false;
+    hoverTimer = setTimeout(() => {
 
-		const $target = $(e.target).closest('.list-item');
-		if ($target.length) {
-			const index = $target.data('index');
+        const $target = $(document.elementFromPoint(e.clientX, e.clientY))
+            .closest('.list-item .title>*');
 
-			if (scrollLock) {
-				scrollLock = false;
-			} else {
-				setActive(index);
-				centerSlide(index);
-				// console.log(scrollLock);
-			}
-		}
-	}, stopDelay);
+        if ($target.length) {
+            const index = $target.parent().parent().data('index');
+			if (index === currentActiveIndex) return;
+			currentActiveIndex = index;
+            setActive(index);
+            centerSlide(index);
+        } 
+
+    }, stopDelay);
+});
+
+const gallery = document.getElementById('gallery-container');
+const list = document.getElementById('list');
+
+list.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    gallery.scrollBy({
+        top: e.deltaY,
+        behavior: 'auto'
+    });
 });
 
 function checkActivePostOnScroll() {

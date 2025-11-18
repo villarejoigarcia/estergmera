@@ -172,6 +172,14 @@ nav>*.active a {
 	top: calc(100vw/24 + var(--header));
 }
 
+#list {
+	pointer-events: none;
+}
+
+.list-item .title>* {
+	pointer-events: auto;
+}
+
 .list-item {
 	display: flex;
 	overflow: hidden;
@@ -565,6 +573,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	gap: var(--key_value) 0;
 	padding-right: calc(100vw/24*4);
 	transition: var(--transition_l);
+	overflow: hidden;
 }
 
 #press .heading {
@@ -572,7 +581,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 }
 
 #press .heading>* {
-	width: calc(100vw/24);
+	width: calc(100vw/24 * 3);
 	white-space: nowrap;
 	font-weight: 500;
 	text-transform: uppercase;
@@ -768,6 +777,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 
 	#press .heading>* {
 		width: calc((100vw - var(--key_value) * 2) / 8 * 2);
+		white-space: normal;
 	}
 
 	#press .content {
