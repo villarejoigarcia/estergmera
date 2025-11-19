@@ -434,7 +434,7 @@ $(document).ready(function () {
 					archive.removeClass();
 					list.removeClass();
 					postPhoto.addClass('filter');
-				}, 500);
+				}, 2000);
 			}, 500);
 		} else {
 			console.log('home');
@@ -476,7 +476,7 @@ $(document).ready(function () {
 					archive.removeClass();
 					list.removeClass();
 					postFilm.addClass('filter');
-				}, 500);
+				}, 2000);
 			}, 500);
 		} else {
 			console.log('home');
