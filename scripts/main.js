@@ -899,7 +899,9 @@ function showProject(slug) {
 
 	const preview = $('<a>').attr('id', 'preview').text('Preview');
 
-	$postContainer.append(preview);
+	if (project.media && project.media.length > 1) {
+		$postContainer.append(preview);
+	}
 
 	preview.on('click', function () {
 		thumbContainer.toggleClass('active');
