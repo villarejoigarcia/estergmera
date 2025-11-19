@@ -425,7 +425,7 @@ nav>*.active a {
 	position: fixed;
 	left: 0;
 	bottom: 0;
-	padding: var(--key_value);
+	padding: var(--key_value) calc(100vw/24 + var(--key_value) * 2) var(--key_value) var(--key_value);
 	transform: translateY(100%);
 }
 
