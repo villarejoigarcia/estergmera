@@ -645,7 +645,6 @@ function checkActivePostOnScroll() {
 
 	if (activeIndex !== null) setActive(activeIndex);
 
-	scrollLock = true;
 }
 
 $('#gallery-container').on('scroll', function () {
