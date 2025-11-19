@@ -534,24 +534,16 @@ const content = {
       url: "https://www.galicia21journal.org/K/pdf/Galicia21_K_02_G.Mera.pdf"
     },
     {
-      title: "Talk at She Sounds 2025",
-      url: "https://www.shesounds.es/post/she-sounds-cierra-con-éxito-creative-trends-2025-cuatro-días-de-innovación-y-talento"
-    },
-    {
-      title: "Conversation at Retina Festival",
-      url: "https://festivalretina.com/music-makers-desde-el-estudio-de-grabacion-por-cora-novoa-ester-g-mera-y-maria-del-castillo/"
-    },
-    {
-      title: "︎Interview for El Español",
-      url: "https://www.elespanol.com/treintayseis/cultura/audiovisual/20221120/ester-mera-talento-gallego-rueda-videoclips-exito-madrid-barcelona/719928153_0.html"
-    },
-    {
-      title: "︎Interview for Academia Galega do Audiovisual",
-      url: "https://www.academiagalegadoaudiovisual.gal/ester-g-mera/"
+      title: "Premiere of my documentary series Music Makers at In-Edit Festival, now available on CaixaForum+",
+      url: "https://caixaforumplus.org/c/music-makers"
     },
     {
       title: "︎Winner of the IV Maria Luz Morales Award for best international video-essay with my film «Le temps (ne) detruit (pas) tout»",
       url: "https://www.academiagalegadoaudiovisual.gal/iv-premios-maria-luz-morales/"
+    },
+    {
+      title: "︎Interview for Academia Galega do Audiovisual",
+      url: "https://www.academiagalegadoaudiovisual.gal/ester-g-mera/"
     },
     {
       title: "Film critic at A Cuarta Parede",
@@ -563,6 +555,18 @@ const content = {
     },
   ],
   otherPress: [
+    {
+      title: "Talk at She Sounds 2025",
+      url: "https://www.shesounds.es/post/she-sounds-cierra-con-éxito-creative-trends-2025-cuatro-días-de-innovación-y-talento"
+    },
+    {
+      title: "Conversation at Retina Festival",
+      url: "https://festivalretina.com/music-makers-desde-el-estudio-de-grabacion-por-cora-novoa-ester-g-mera-y-maria-del-castillo/"
+    },
+    {
+      title: "︎Interview for El Español",
+      url: "https://www.elespanol.com/treintayseis/cultura/audiovisual/20221120/ester-mera-talento-gallego-rueda-videoclips-exito-madrid-barcelona/719928153_0.html"
+    },
     {
       title: "︎Press article in ACERO Magazine",
       url: "https://acero.metalmagazine.eu/post/tres-directores-de-videoclips-para-tener-en-el-radar"
