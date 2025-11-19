@@ -146,6 +146,8 @@ $(document).ready(function () {
 
 						const player = new Vimeo.Player($iframe[0]);
 
+						$slide.data('player', player);
+
 						Promise.all([player.getVideoWidth(), player.getVideoHeight()])
 							.then(([w, h]) => {
 								const ratio = w / h;
@@ -265,6 +267,8 @@ $(document).ready(function () {
 
 						const player = new Vimeo.Player($iframe[0]);
 
+						$slide.data('player', player);
+
 						Promise.all([player.getVideoWidth(), player.getVideoHeight()])
 							.then(([w, h]) => {
 								const ratio = w / h;
@@ -332,7 +336,6 @@ $(document).ready(function () {
 						.addClass('list-item')
 						.attr('href', `#${project.slug}`)
 						.attr('data-index', index)
-					// .attr('data-category', categories.join(',').toLowerCase());
 
 					categories.forEach(cat => {
 						const categoryClass = cat.trim().toLowerCase().replace(/\s+/g, '-');
@@ -511,44 +514,6 @@ $(window).on('resize', () => {
 
 // list
 
-// let lastMousePos = { x: 0, y: 0 };
-// let isMoving = false;
-// let hoverTimer = null;
-// const stopThreshold = 10;
-// const stopDelay = 0;
-
-// let scrollLock = false;
-
-// $(document).on('mousemove', function (e) {
-// 	const dx = Math.abs(e.pageX - lastMousePos.x);
-// 	const dy = Math.abs(e.pageY - lastMousePos.y);
-
-// 	lastMousePos.x = e.pageX;
-// 	lastMousePos.y = e.pageY;
-
-// 	if (dx > stopThreshold || dy > stopThreshold) {
-// 		isMoving = true;
-// 		clearTimeout(hoverTimer);
-// 	}
-
-// 	hoverTimer = setTimeout(() => {
-// 		isMoving = false;
-
-// 		const $target = $(e.target).closest('.list-item .title');
-// 		if ($target.length) {
-// 			const index = $target.parent().data('index');
-
-// 			if (scrollLock) {
-// 				scrollLock = false;
-// 			} else {
-// 				setActive(index);
-// 				centerSlide(index);
-// 				// console.log(scrollLock);
-// 			}
-// 		}
-// 	}, stopDelay);
-// });
-
 let lastMousePos = { x: 0, y: 0 };
 let hoverTimer = null;
 const stopThreshold = 1;
@@ -601,13 +566,22 @@ function checkActivePostOnScroll() {
 	const scrollBottom = containerScroll + containerHeight;
 	const scrollHeight = isMobile ? $(document).height() : $container[0].scrollHeight;
 
-	const $thumbnails = $('#archive .thumbnail');
+	const $allThumbnails = $('#archive .thumbnail');
+	const $thumbnails = $allThumbnails.filter(function () {
+		return $(this).outerHeight() > 0;
+	});
+
+	if ($thumbnails.length === 0) return;
+
 	let activeIndex = null;
 
+	const $first = $thumbnails.first();
+	const $last = $thumbnails.last();
+
 	if (containerScroll <= 0) {
-		activeIndex = $thumbnails.first().data('index');
-	} else if (scrollBottom >= scrollHeight - 2) {
-		activeIndex = $thumbnails.last().data('index');
+		activeIndex = $first.data('index');
+	} else if (scrollBottom >= scrollHeight - 1) {
+		activeIndex = $last.data('index');
 	} else {
 		$thumbnails.each(function () {
 			const $thumb = $(this);
@@ -621,7 +595,6 @@ function checkActivePostOnScroll() {
 	}
 
 	if (activeIndex !== null) setActive(activeIndex);
-
 }
 
 $('#gallery-container').on('scroll', function () {
@@ -632,16 +605,31 @@ $(window).on('scroll', function () {
 	if (window.innerWidth <= 768) checkActivePostOnScroll();
 });
 
+let currentActiveVideo = null;
+
 function setActive(index) {
-	var items = $('.list-item, .post-data');
+	if (index === currentActiveVideo) return;
+	currentActiveVideo = index;
+
+	const items = $('.list-item, .post-data');
 	items.removeClass('active unactive');
 	items.eq(index).addClass('active');
 	items.not(items.eq(index)).addClass('unactive');
 
-	var posts = $('#archive .thumbnail');
+	const posts = $('#archive .thumbnail');
 	posts.removeClass('active unactive');
-	posts.filter(`[data-index="${index}"]`).addClass('active');
-	posts.not(posts.filter(`[data-index="${index}"]`)).addClass('unactive');
+
+	const activePost = posts.filter(`[data-index="${index}"]`);
+	activePost.addClass('active');
+	posts.not(activePost).addClass('unactive');
+
+	posts.each(function () {
+		const player = $(this).data('player');
+		if (player) player.pause();
+	});
+
+	const activePlayer = activePost.data('player');
+	if (activePlayer) activePlayer.play().catch(() => { });
 }
 
 function centerSlide(index) {

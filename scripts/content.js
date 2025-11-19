@@ -553,6 +553,14 @@ const content = {
       title: "Radio interview on Radio Galega",
       url: "https://www.agalegaaudio.gal/videos/detail/277538-o-machismo-no-punto-de-mira"
     },
+    {
+      title: "︎Interview for El Español",
+      url: "https://www.elespanol.com/treintayseis/cultura/audiovisual/20221120/ester-mera-talento-gallego-rueda-videoclips-exito-madrid-barcelona/719928153_0.html"
+    },
+    {
+      title: "︎Press article in ACERO Magazine",
+      url: "https://acero.metalmagazine.eu/post/tres-directores-de-videoclips-para-tener-en-el-radar"
+    },
   ],
   otherPress: [
     {
@@ -562,14 +570,6 @@ const content = {
     {
       title: "Conversation at Retina Festival",
       url: "https://festivalretina.com/music-makers-desde-el-estudio-de-grabacion-por-cora-novoa-ester-g-mera-y-maria-del-castillo/"
-    },
-    {
-      title: "︎Interview for El Español",
-      url: "https://www.elespanol.com/treintayseis/cultura/audiovisual/20221120/ester-mera-talento-gallego-rueda-videoclips-exito-madrid-barcelona/719928153_0.html"
-    },
-    {
-      title: "︎Press article in ACERO Magazine",
-      url: "https://acero.metalmagazine.eu/post/tres-directores-de-videoclips-para-tener-en-el-radar"
     },
     {
       title: "Feature on ZigZag (TVG) about my video essay",
