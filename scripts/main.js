@@ -247,9 +247,10 @@ $(document).ready(function () {
 			c.projects.forEach((project, index) => {
 				const categories = project.fields.category;
 
-				const $slide = $('<div>')
+				const $slide = $('<a>')
 					.addClass('thumbnail')
 					.attr('data-index', index)
+					.attr('href', `#${project.slug}`)
 
 				// Añadir clases de categoría
 				categories.forEach(cat => {
