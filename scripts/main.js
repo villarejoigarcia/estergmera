@@ -1187,23 +1187,28 @@ $(document).ready(function () {
 	// press
 
 	const pressButton = $('#press-button');
-	const press = $('#press .content>*');
-	const originalText = pressButton.text();
+	const press = $('.content');
+	const originalText = $('#press-button').text();
 
-	pressButton.on('click', function (e) {
-		press.toggleClass('active');
+	pressButton.on('click', function () {
 		pressButton.toggleClass('active');
 
-		if (press.hasClass('active')) {
-			let totalHeight = 0;
-			press.children().each(function () {
-				totalHeight += $(this).outerHeight(true);
-			});
+		press.children().each(function () {
+			const child = $(this)[0];
 
-			press.css('max-height', totalHeight + 'px');
+			if (!$(child).hasClass('active')) {
+				const childHeight = child.scrollHeight;
+				$(child).css('max-height', childHeight + 'px');
+				$(child).addClass('active');
+			} else {
+				$(child).css('max-height', '');
+				$(child).removeClass('active');
+			}
+		});
+
+		if (pressButton.hasClass('active')) {
 			pressButton.text('- View less');
 		} else {
-			press.css('max-height', '');
 			pressButton.text(originalText);
 		}
 	});
