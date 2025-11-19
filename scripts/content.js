@@ -143,28 +143,28 @@ const content = {
         { type: "video", id: "1134936907", start: 21, end: 36 },
       ]
     },
-    // {
-    //   fields: {
-    //     title: "ISDIN Body Oil",
-    //     client: "ISDIN",
-    //     category: ["Film"],
-    //     duration: "",
-    //   },
-    //   credits: [
-    //     "Produced by Mirinda",
-    //     "Directed by Ester G. Mera",
-    //     "EP Javier Gálvez, Mónica Tadeo",
-    //     "Prod. Manager David Caminal",
-    //     "DOP Nauzet Gaspar",
-    //     "Art Dani de Vito",
-    //     "Stylist Silvia Gutiérrez",
-    //     "MUAH Alma Casal",
-    //     "Edit Dídac Quintana, Juan Pablo Escobar"
-    //   ],
-    //   media: [
-    //     { type: "video", id: "1137743903?h=8a2bb49dd3", start: 0, end: 15 },
-    //   ]
-    // },
+    {
+      fields: {
+        title: "ISDIN Body Oil",
+        client: "ISDIN",
+        category: ["Film"],
+        duration: "",
+      },
+      credits: [
+        "Produced by Mirinda",
+        "Directed by Ester G. Mera",
+        "EP Javier Gálvez, Mónica Tadeo",
+        "Prod. Manager David Caminal",
+        "DOP Nauzet Gaspar",
+        "Art Dani de Vito",
+        "Stylist Silvia Gutiérrez",
+        "MUAH Alma Casal",
+        "Edit Dídac Quintana, Juan Pablo Escobar"
+      ],
+      media: [
+        { type: "video", id: "1137743903", start: 0, end: 15 },
+      ]
+    },
     {
       fields: {
         title: "Soul Blackout",
@@ -395,6 +395,39 @@ const content = {
     },
     {
       fields: {
+        title: "Girl's Clutter",
+        client: "Madame Chocolat",
+        category: ["Photo"],
+        duration: "",
+      },
+      credits: [
+        "Produced by Oximoron",
+        "Photographer Ester G. Mera",
+        "Producer Jorehl",
+        "DOP Darío Rivera",
+        "Art Michi Vázquez",
+        "MUAH Alex Chumillas",
+        "Talent Marilou Hervé, Ara Blasco",
+        "Graphic Design Pol Solà",
+        "Editorial Design Ainara Martí"
+      ],
+      media: [
+        { type: "image", src: "images/estergmera_girlsclutter_1.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_2.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_3.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_4.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_5.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_6.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_7.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_8.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_9.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_10.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_11.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_12.webp" },
+      ]
+    },
+    {
+      fields: {
         title: "Neon Nectar",
         client: "Madame Chocolat",
         category: ["Photo"],
@@ -452,7 +485,7 @@ const content = {
       fields: {
         title: "Los Santos Work Outfit",
         client: "María Fall",
-        category: ["Photo"],
+        category: ["Film", "Photo"],
         duration: "",
       },
       credits: [
@@ -463,6 +496,7 @@ const content = {
       ],
       media: [
         { type: "image", src: "images/estergmera_lossantos_1.webp" },
+        { type: "video", id: "505816587", start: 10, end: 25 },
         { type: "image", src: "images/estergmera_lossantos_2.webp" },
         { type: "image", src: "images/estergmera_lossantos_3.webp" },
         { type: "image", src: "images/estergmera_lossantos_4.webp" },

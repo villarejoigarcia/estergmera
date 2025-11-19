@@ -138,39 +138,11 @@ $(document).ready(function () {
 						const videoId = firstMedia.id;
 						const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
 
-						// Imagen temporal
-						const $thumbImg = $('<img>').addClass('vimeo-thumb');
-						$slide.append($thumbImg);
-
-						fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
-							.then(res => res.json())
-							.then(data => {
-								const thumb = data[0].thumbnail_large;
-								const w = data[0].thumbnail_width;
-								const h = data[0].thumbnail_height;
-								$thumbImg.attr('src', thumb).css('aspect-ratio', `${w} / ${h}`);
-
-								player.on('play', () => {
-									$thumbImg.css('opacity', 0);
-								});
-
-								setHeight();
-
-								const durationSeconds = data[0].duration;
-								const minutes = Math.floor(durationSeconds / 60);
-								const seconds = durationSeconds % 60;
-								const formattedDuration = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-								project.fields.duration = formattedDuration;
-
-								const $durationField = $(`.thumbnail[data-index="${index}"] .post-data span:last-child`);
-								if ($durationField.length) $durationField.text(formattedDuration);
-							});
-
 						const $iframe = $('<iframe>')
 							.attr('src', vimeoUrl)
 							.attr('frameborder', '0')
 							.attr('allow', 'autoplay; fullscreen; picture-in-picture')
-							.attr('allowfullscreen', true);
+							.addClass('load');
 
 						const player = new Vimeo.Player($iframe[0]);
 
@@ -178,7 +150,7 @@ $(document).ready(function () {
 							.then(([w, h]) => {
 								const ratio = w / h;
 								$iframe[0].style.aspectRatio = ratio;
-								// setHeight();
+								setHeight();
 							});
 
 						if (firstMedia.start !== undefined && firstMedia.end !== undefined) {
@@ -192,6 +164,11 @@ $(document).ready(function () {
 									player.setCurrentTime(start).then(() => player.play());
 								}
 							});
+
+							player.on('play', () => {
+								$iframe[0].classList.remove('load');
+							});
+
 						} else {
 							player.ready().then(() => player.play()).catch(() => { });
 						}
@@ -275,39 +252,16 @@ $(document).ready(function () {
 						if ($durationField.length) $durationField.text(text);
 
 					} else if (firstMedia.type === "video") {
+
 						const videoId = firstMedia.id;
+
 						const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
-
-						fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
-							.then(res => res.json())
-							.then(data => {
-								const thumb = data[0].thumbnail_large;
-								const $thumbImg = $('<img>').attr('src', thumb).addClass('vimeo-thumb');
-								$slide.append($thumbImg);
-								player.on('play', () => $thumbImg.css('opacity', 0));
-
-								const durationSeconds = data[0].duration;
-								const minutes = Math.floor(durationSeconds / 60);
-								const seconds = durationSeconds % 60;
-								const formattedDuration = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-
-								const imageCount = project.media.filter(m => m.type === "image").length;
-								const imageText = imageCount > 0 ? `/${imageCount} img` : "";
-
-								const finalText = `${formattedDuration}${imageText}`;
-								project.fields.duration = finalText;
-
-								const $durationField = $(`#list .list-item[data-index="${index}"]>*:last-child`);
-								if ($durationField.length) $durationField.text(finalText);
-
-								setHeight();
-							});
 
 						const $iframe = $('<iframe>')
 							.attr('src', vimeoUrl)
 							.attr('frameborder', '0')
 							.attr('allow', 'autoplay; fullscreen; picture-in-picture')
-							.attr('allowfullscreen', true);
+							.addClass('load');
 
 						const player = new Vimeo.Player($iframe[0]);
 
@@ -315,7 +269,7 @@ $(document).ready(function () {
 							.then(([w, h]) => {
 								const ratio = w / h;
 								$iframe[0].style.aspectRatio = ratio;
-								// setHeight();
+								setHeight();
 							});
 
 						if (firstMedia.start !== undefined && firstMedia.end !== undefined) {
@@ -331,6 +285,29 @@ $(document).ready(function () {
 									player.setCurrentTime(start).then(() => player.play());
 								}
 							});
+
+							player.on('play', () => {
+								$iframe[0].classList.remove('load');
+							});
+
+							player.on('loaded', () => {
+								player.getDuration().then(durationSeconds => {
+									const minutes = Math.floor(durationSeconds / 60);
+									const seconds = durationSeconds % 60;
+									const formattedDuration = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+									const imageCount = project.media.filter(m => m.type === "image").length;
+									const imageText = imageCount > 0 ? `/${imageCount} img` : "";
+
+									const finalText = `${formattedDuration}${imageText}`;
+									project.fields.duration = finalText;
+
+									const $durationField = $(`#list .list-item[data-index="${index}"]>*:last-child`);
+									if ($durationField.length) $durationField.text(finalText);
+
+								});
+							});
+
 						} else {
 							player.ready().then(() => player.play()).catch(() => { });
 						}
@@ -743,7 +720,7 @@ function showProject(slug) {
 	// Try common client field names (adapt if your data uses a different key)
 	const clientText = project.fields?.client || project.fields?.client_name || project.fields?.cliente || '';
 	const categoriesText = Array.isArray(project.fields?.category)
-		? project.fields.category.join(' / ')
+		? project.fields.category.join('/')
 		: (project.fields?.category || '');
 
 	// Name / Client / Category similar to mobile thumbnail post-data
@@ -759,15 +736,20 @@ function showProject(slug) {
 	const singleGallery = $('<div>').attr('id', 'single-gallery');
 
 	if (project.media && project.media.length > 0) {
+		
 		project.media.forEach((m, i) => {
+
 			if (m.type === 'image') {
+
 				const $img = $('<img>')
 					.attr('src', m.src)
 					.attr('alt', project.fields.title)
 					.addClass('post-image')
 					.toggleClass('active', i === 0);
 				singleGallery.append($img);
+
 			} else if (m.type === "video") {
+
 				const videoId = m.id;
 				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=0&muted=1&loop=1&background=1`;
 				const videoWrapper = $('<div>')
@@ -778,17 +760,6 @@ function showProject(slug) {
 					.attr('src', vimeoUrl)
 					.attr('frameborder', '0')
 					.attr('allow', 'autoplay; fullscreen; picture-in-picture')
-					.attr('allowfullscreen', true)
-
-				// Crear controles
-				// const controls = $(`
-				// 	<div class="video-controls">
-				// 	<p class="play-pause">Play</p>
-				// 	<p class="mute-toggle">Sound</p>
-				// 	<p class="fullscreen-toggle">Full screen</p>
-				// 	<input type="range" class="timeline" min="0" max="100" value="0">
-				// 	</div>
-				// `);
 
 				const controls = $(`
 					<div class="video-controls">
@@ -823,6 +794,7 @@ function showProject(slug) {
 						showControls();
 
 					}, transition * 2);
+
 				});
 
 				// ratio
@@ -859,20 +831,6 @@ function showProject(slug) {
 						togglePlayPause();
 					}
 				});
-
-				// MUTE / SOUND
-				// const $muteToggle = controls.find('.mute-toggle');
-				// let isMuted = true;
-				// $muteToggle.on('click', () => {
-				// 	if (isMuted) {
-				// 		player.setVolume(1);
-				// 		$muteToggle.text('Mute');
-				// 	} else {
-				// 		player.setVolume(0);
-				// 		$muteToggle.text('Sound');
-				// 	}
-				// 	isMuted = !isMuted;
-				// });
 
 				// TIMELINE
 				const $timeline = controls.find('.timeline');
@@ -953,37 +911,27 @@ function showProject(slug) {
 	const thumbContainer = $('<div>').attr('id', 'thumbnails');
 	if (project.media && project.media.length > 0) {
 		project.media.forEach((m, i) => {
-			if (m.type === 'image') {
+
+			const hasImage = project.media.some(m => m.type === 'image');
+
+			if (m.type === "image") {
 				const $thumb = $('<img>')
 					.attr('src', m.src)
 					.attr('alt', project.fields.title)
 					.addClass('thumbnail-item')
 					.toggleClass('active', i === 0);
 				thumbContainer.append($thumb);
-			} else if (m.type === "video") {
+			} else if (m.type === "video" && hasImage) {
 				const videoId = m.id;
 				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
 				const videoWrapper = $('<div>')
 					.addClass('video-wrapper thumbnail-item')
 					.toggleClass('active', i === 0);
 
-				fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
-					.then(res => res.json())
-					.then(data => {
-						const thumb = data[0].thumbnail_large;
-						const $thumbImg = $('<img>').attr('src', thumb).addClass('vimeo-thumb');
-						videoWrapper.append($thumbImg);
-						player.on('play', () => {
-							$thumbImg.css('opacity', 0);
-						});
-
-					})
-
 				const $iframe = $('<iframe>')
 					.attr('src', vimeoUrl)
 					.attr('frameborder', '0')
 					.attr('allow', 'autoplay; fullscreen; picture-in-picture')
-					.attr('allowfullscreen', true)
 
 				const player = new Vimeo.Player($iframe[0]);
 				Promise.all([player.getVideoWidth(), player.getVideoHeight()])
@@ -991,6 +939,28 @@ function showProject(slug) {
 						const ratio = w / h;
 						$iframe[0].style.aspectRatio = ratio;
 					})
+
+				if (m.start !== undefined && m.end !== undefined) {
+					const start = Number(m.start);
+					const end = Number(m.end);
+
+					player.ready().then(() => {
+						player.setCurrentTime(start).then(() => player.play());
+					});
+
+					player.on('timeupdate', data => {
+						if (data.seconds >= end) {
+							player.setCurrentTime(start).then(() => player.play());
+						}
+					});
+
+					player.on('play', () => {
+						$iframe[0].classList.remove('load');
+					});
+
+				} else {
+					player.ready().then(() => player.play()).catch(() => { });
+				}
 
 				videoWrapper.append($iframe);
 				thumbContainer.append(videoWrapper);
@@ -1088,6 +1058,13 @@ function showProject(slug) {
 		});
 
 		$postContainer.append(creditsContainer);
+	}
+
+	const hasImage = project.media.some(m => m.type === 'image');
+	const hasVideo = project.media.some(m => m.type === 'video');
+
+	if (!hasImage && hasVideo) {
+		creditsButton.addClass('film');
 	}
 
 	// add content 
