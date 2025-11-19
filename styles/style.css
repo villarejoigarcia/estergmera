@@ -779,6 +779,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 
 	#press .heading {
 		margin-bottom: var(--key_value);
+		gap: 0;
 	}
 
 	#press .heading>* {
