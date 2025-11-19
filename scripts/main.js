@@ -49,19 +49,31 @@ $(document).ready(function () {
 		socialContainer.append(link);
 	});
 
-	// press
+	// // press
 
-	const press = $('#press .content');
-	press.empty();
+	// const press = $('#press .main');
+	// press.empty();
 
-	c.press.forEach(item => {
-		const link = $('<a>')
-			.attr('href', item.url)
-			.attr('target', '_blank')
-			.text(item.title); 
+	// c.press.forEach(item => {
+	// 	const link = $('<a>')
+	// 		.attr('href', item.url)
+	// 		.attr('target', '_blank')
+	// 		.text(item.title); 
 
-			press.append(link);
-	});
+	// 		press.append(link);
+	// });
+
+	// const otherPress = $('#press .other');
+	// otherPress.empty();
+
+	// c.otherPress.forEach(item => {
+	// 	const link = $('<a>')
+	// 		.attr('href', item.url)
+	// 		.attr('target', '_blank')
+	// 		.text(item.title); 
+
+	// 		otherPress.append(link);
+	// });
 
 	// slugs
 
@@ -85,6 +97,12 @@ $(document).ready(function () {
 
 		const $carousel = $('#archive');
 		$carousel.empty();
+
+		const press = $('#press .main');
+		press.empty();
+
+		const otherPress = $('#press .other');
+		otherPress.empty();
 
 		if (isMobile) {
 
@@ -199,6 +217,28 @@ $(document).ready(function () {
 
 				$carousel.append($slide);
 			});
+
+			// press
+
+			c.press.forEach(item => {
+				const link = $('<a>')
+					.attr('href', item.url)
+					.attr('target', '_blank')
+					.text(item.title);
+
+				press.append(link);
+			});
+
+			c.otherPress.forEach(item => {
+				const link = $('<a>')
+					.attr('href', item.url)
+					.attr('target', '_blank')
+					.text(item.title);
+
+				press.append(link);
+			});
+
+			$('#press-button').text('+ View');
 
 		} else {
 
@@ -338,6 +378,27 @@ $(document).ready(function () {
 					$list.append($fields);
 				}
 			});
+
+			// list
+
+			c.press.forEach(item => {
+				const link = $('<a>')
+					.attr('href', item.url)
+					.attr('target', '_blank')
+					.text(item.title);
+
+				press.append(link);
+			});
+
+			c.otherPress.forEach(item => {
+				const link = $('<a>')
+					.attr('href', item.url)
+					.attr('target', '_blank')
+					.text(item.title);
+
+				otherPress.append(link);
+			});
+
 		}
 	}
 
@@ -513,7 +574,7 @@ $(window).on('resize', () => {
 let lastMousePos = { x: 0, y: 0 };
 let hoverTimer = null;
 const stopThreshold = 1;
-const stopDelay = 100;
+const stopDelay = 50;
 let currentActiveIndex = null;
 
 $(document).on('mousemove', function (e) {
@@ -1126,7 +1187,8 @@ $(document).ready(function () {
 	// press
 
 	const pressButton = $('#press-button');
-	const press = $('#press .content');
+	const press = $('#press .content>*');
+	const originalText = pressButton.text();
 
 	pressButton.on('click', function (e) {
 		press.toggleClass('active');
@@ -1142,7 +1204,7 @@ $(document).ready(function () {
 			pressButton.text('- View less');
 		} else {
 			press.css('max-height', '');
-			pressButton.text('+ View all');
+			pressButton.text(originalText);
 		}
 	});
 

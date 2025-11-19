@@ -522,7 +522,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	backdrop-filter: blur(10px);
 	display: flex;
 	align-items: end;
-	padding: var(--key_value);
+	padding: var(--key_value) var(--key_value) 0;
 }
 
 #about.active {
@@ -554,7 +554,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 }
 
 #about h1,
-#contact>div>div:not(:last-child) {
+#contact>div>div {
 	margin-bottom: var(--key_value);
 }
 
@@ -566,14 +566,16 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	padding-right: calc(100vw/24);
 }
 
-#press .content {
+#press .content>* {
 	display: flex;
 	flex-wrap: wrap;
-	max-height: 162px;
-	gap: var(--key_value) 0;
 	padding-right: calc(100vw/24*4);
 	transition: var(--transition_l);
 	overflow: hidden;
+}
+
+#press .other {
+	max-height: 0;
 }
 
 #press .heading {
@@ -587,10 +589,11 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	text-transform: uppercase;
 }
 
-.content a {
+#press .content a {
 	/* flex: 1 1 calc(100%/4); */
 	width: calc((100%/3) - calc(100vw/24));
 	margin-right: calc(100vw/24);
+	margin-bottom: var(--key_value);
 }
 
 /*responsive*/
@@ -725,7 +728,8 @@ input[type="range"]:hover::-webkit-slider-thumb {
 		display: flex;
 		flex-direction: column;
 		justify-content: end;
-		padding: var(--key_value) calc(var(--key_value)*1.2);
+		align-items: stretch;
+		padding: var(--key_value) calc(var(--key_value)*1.2) 0;
 		overflow: scroll;
 	}
 
@@ -775,21 +779,23 @@ input[type="range"]:hover::-webkit-slider-thumb {
 		padding-right: calc(100%/6);
 	}
 
+	#press .heading {
+		margin-bottom: var(--key_value);
+	}
+
 	#press .heading>* {
 		width: calc((100vw - var(--key_value) * 2) / 8 * 2);
 		white-space: normal;
 	}
 
-	#press .content {
-		max-height: 0;
-		overflow: hidden;
-		padding: 0 0 0 calc((100vw - var(--key_value) * 2) / 8 * 2);
-		gap: 0;
-	}
+		#press .content {
+			padding: 0 0 0 calc((100vw - var(--key_value) * 2) / 8 * 2);
+		}
 
-	#press .content>* {
-		padding-top: var(--key_value);
-	}
+		#press .content>* {
+	padding-right: 0;
+	max-height: 0;
+}
 
 	/* single */
 

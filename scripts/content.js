@@ -527,6 +527,8 @@ const content = {
       title: "Radio interview on Radio Galega",
       url: "https://www.agalegaaudio.gal/videos/detail/277538-o-machismo-no-punto-de-mira"
     },
+  ],
+  otherPress: [
     {
       title: "︎Press article in ACERO Magazine",
       url: "https://acero.metalmagazine.eu/post/tres-directores-de-videoclips-para-tener-en-el-radar"
