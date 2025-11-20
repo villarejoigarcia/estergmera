@@ -167,6 +167,35 @@ const content = {
     },
     {
       fields: {
+        title: "Astromaniac",
+        client: "Pitaya",
+        category: ["Photo"],
+        duration: "",
+      },
+      credits: [
+        "Produced by Oximoron",
+        "Photographer Ester G. Mera",
+        "Producer Jorehl",
+        "Photo Assist. Nicolau Álvarez",
+        "Stylist Paula Perroni",
+        "MUAH Marta Caudet",
+        "Retouch Cristina Farrarons",
+        "3D Andrea Alonso, David Cruces",
+        "Talent Caile Chiner, Claudia Jara"
+      ],
+      media: [
+        { type: "image", src: "images/estergmera_pitaya_1.webp" },
+        { type: "image", src: "images/estergmera_pitaya_2.webp" },
+        { type: "image", src: "images/estergmera_pitaya_3.webp" },
+        { type: "image", src: "images/estergmera_pitaya_4.webp" },
+        { type: "image", src: "images/estergmera_pitaya_5.webp" },
+        { type: "image", src: "images/estergmera_pitaya_6.webp" },
+        { type: "image", src: "images/estergmera_pitaya_7.webp" },
+        { type: "image", src: "images/estergmera_pitaya_8.webp" }
+      ]
+    },
+    {
+      fields: {
         title: "Soul Blackout",
         client: "Hadren",
         category: ["Film"],
@@ -255,6 +284,39 @@ const content = {
     },
     {
       fields: {
+        title: "Girl's Clutter",
+        client: "Madame Chocolat",
+        category: ["Photo"],
+        duration: "",
+      },
+      credits: [
+        "Produced by Oximoron",
+        "Photographer Ester G. Mera",
+        "Producer Jorehl",
+        "DOP Darío Rivera",
+        "Art Michi Vázquez",
+        "MUAH Alex Chumillas",
+        "Talent Marilou Hervé, Ara Blasco",
+        "Graphic Design Pol Solà",
+        "Editorial Design Ainara Martí"
+      ],
+      media: [
+        { type: "image", src: "images/estergmera_girlsclutter_1.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_2.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_3.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_4.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_5.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_6.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_7.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_8.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_9.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_10.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_11.webp" },
+        { type: "image", src: "images/estergmera_girlsclutter_12.webp" },
+      ]
+    },
+    {
+      fields: {
         title: "Qué Voy a Hacer?",
         client: "shego, Natalia Lacunza",
         category: ["Film"],
@@ -327,6 +389,32 @@ const content = {
     },
     {
       fields: {
+        title: "Neon Nectar",
+        client: "Madame Chocolat",
+        category: ["Photo"],
+        duration: "",
+      },
+      credits: [
+        "Produced by Oximoron",
+        "Photographer Ester G. Mera",
+        "Producer Jorehl",
+        "DOP Darío Rivera",
+        "Art Michi Vázquez",
+        "Stylist Mateo Gargallo",
+        "Talent Laura Martínez, Valentina San Martín"
+      ],
+      media: [
+        { type: "image", src: "images/estergmera_neonnectar_1.webp" },
+        { type: "image", src: "images/estergmera_neonnectar_2.webp" },
+        { type: "image", src: "images/estergmera_neonnectar_3.webp" },
+        { type: "image", src: "images/estergmera_neonnectar_4.webp" },
+        { type: "image", src: "images/estergmera_neonnectar_5.webp" },
+        { type: "image", src: "images/estergmera_neonnectar_6.webp" },
+        { type: "image", src: "images/estergmera_neonnectar_7.webp" },
+      ]
+    },
+    {
+      fields: {
         title: "Lucky",
         client: "shego",
         category: ["Film"],
@@ -391,94 +479,6 @@ const content = {
       ],
       media: [
         { type: "video", id: "862437822", start: 38, end: 53 },
-      ]
-    },
-    {
-      fields: {
-        title: "Girl's Clutter",
-        client: "Madame Chocolat",
-        category: ["Photo"],
-        duration: "",
-      },
-      credits: [
-        "Produced by Oximoron",
-        "Photographer Ester G. Mera",
-        "Producer Jorehl",
-        "DOP Darío Rivera",
-        "Art Michi Vázquez",
-        "MUAH Alex Chumillas",
-        "Talent Marilou Hervé, Ara Blasco",
-        "Graphic Design Pol Solà",
-        "Editorial Design Ainara Martí"
-      ],
-      media: [
-        { type: "image", src: "images/estergmera_girlsclutter_1.webp" },
-        { type: "image", src: "images/estergmera_girlsclutter_2.webp" },
-        { type: "image", src: "images/estergmera_girlsclutter_3.webp" },
-        { type: "image", src: "images/estergmera_girlsclutter_4.webp" },
-        { type: "image", src: "images/estergmera_girlsclutter_5.webp" },
-        { type: "image", src: "images/estergmera_girlsclutter_6.webp" },
-        { type: "image", src: "images/estergmera_girlsclutter_7.webp" },
-        { type: "image", src: "images/estergmera_girlsclutter_8.webp" },
-        { type: "image", src: "images/estergmera_girlsclutter_9.webp" },
-        { type: "image", src: "images/estergmera_girlsclutter_10.webp" },
-        { type: "image", src: "images/estergmera_girlsclutter_11.webp" },
-        { type: "image", src: "images/estergmera_girlsclutter_12.webp" },
-      ]
-    },
-    {
-      fields: {
-        title: "Neon Nectar",
-        client: "Madame Chocolat",
-        category: ["Photo"],
-        duration: "",
-      },
-      credits: [
-        "Produced by Oximoron",
-        "Photographer Ester G. Mera",
-        "Producer Jorehl",
-        "DOP Darío Rivera",
-        "Art Michi Vázquez",
-        "Stylist Mateo Gargallo",
-        "Talent Laura Martínez, Valentina San Martín"
-      ],
-      media: [
-        { type: "image", src: "images/estergmera_neonnectar_1.webp" },
-        { type: "image", src: "images/estergmera_neonnectar_2.webp" },
-        { type: "image", src: "images/estergmera_neonnectar_3.webp" },
-        { type: "image", src: "images/estergmera_neonnectar_4.webp" },
-        { type: "image", src: "images/estergmera_neonnectar_5.webp" },
-        { type: "image", src: "images/estergmera_neonnectar_6.webp" },
-        { type: "image", src: "images/estergmera_neonnectar_7.webp" },
-      ]
-    },
-    {
-      fields: {
-        title: "Astromaniac",
-        client: "Pitaya",
-        category: ["Photo"],
-        duration: "",
-      },
-      credits: [
-        "Produced by Oximoron",
-        "Photographer Ester G. Mera",
-        "Producer Jorehl",
-        "Photo Assist. Nicolau Álvarez",
-        "Stylist Paula Perroni",
-        "MUAH Marta Caudet",
-        "Retouch Cristina Farrarons",
-        "3D Andrea Alonso, David Cruces",
-        "Talent Caile Chiner, Claudia Jara"
-      ],
-      media: [
-        { type: "image", src: "images/estergmera_pitaya_1.webp" },
-        { type: "image", src: "images/estergmera_pitaya_2.webp" },
-        { type: "image", src: "images/estergmera_pitaya_3.webp" },
-        { type: "image", src: "images/estergmera_pitaya_4.webp" },
-        { type: "image", src: "images/estergmera_pitaya_5.webp" },
-        { type: "image", src: "images/estergmera_pitaya_6.webp" },
-        { type: "image", src: "images/estergmera_pitaya_7.webp" },
-        { type: "image", src: "images/estergmera_pitaya_8.webp" }
       ]
     },
     {
