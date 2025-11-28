@@ -327,6 +327,7 @@ nav>*.active a {
 
 #single-gallery>*.active {
 	opacity: 1;
+	z-index: 1;
 }
 
 .single-view .video-wrapper,

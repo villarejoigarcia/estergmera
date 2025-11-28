@@ -1106,7 +1106,7 @@ function showProject(slug) {
 			setActive(activeIndex);
 
 			isThrottled = true;
-			setTimeout(() => isThrottled = false, 1333);
+			setTimeout(() => isThrottled = false, 333);
 		}, { passive: false });
 
 		// swipe
@@ -1153,6 +1153,30 @@ function showProject(slug) {
 				activeIndex = loopIndex(activeIndex - 1);
 				setActive(activeIndex);
 			}
+		});
+
+		// click
+		document.addEventListener('click', (e) => {
+
+			if (e.target.closest('.video-controls') || e.target.closest('a') || e.target.closest('#thumbnails')) {
+				return;
+			}
+
+			const screenWidth = window.innerWidth;
+			const clickX = e.clientX;
+
+			const leftZone = screenWidth * 0.5;
+			const rightZone = screenWidth * 0.5;
+
+			if (clickX < leftZone) {
+				activeIndex = loopIndex(activeIndex - 1);
+				setActive(activeIndex);
+			}
+			else if (clickX > rightZone) {
+				activeIndex = loopIndex(activeIndex + 1);
+				setActive(activeIndex);
+			}
+
 		});
 
 	}, transition * 2);
