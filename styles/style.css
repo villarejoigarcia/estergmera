@@ -936,7 +936,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	#thumbnails iframe {
 		width: auto;
 		height: 100%;
-		pointer-events: all;
+		pointer-events: none;
 	}
 
 	#thumbnails .video-wrapper {
