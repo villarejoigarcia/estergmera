@@ -39,7 +39,7 @@ $(document).ready(function () {
 	const socialContainer = $('#social');
 	socialContainer.empty();
 
-	
+
 	Object.entries(c.about.social).forEach(([key, item]) => {
 		const link = $('<a>')
 			.attr('href', item)
@@ -182,7 +182,7 @@ $(document).ready(function () {
 				// Info
 				if (project.fields) {
 					const $fieldsContainer = $('<div>').addClass('post-data');
-					
+
 					Object.entries(project.fields).forEach(([key, value]) => {
 						if (Array.isArray(value)) {
 							$fieldsContainer.append($('<span>').text(value.join('/')));
@@ -190,7 +190,7 @@ $(document).ready(function () {
 							$fieldsContainer.append($('<span>').text(value));
 						}
 					});
-					
+
 					$slide.append($fieldsContainer);
 				}
 
@@ -521,41 +521,41 @@ const stopDelay = 50;
 let currentActiveIndex = null;
 
 $(document).on('mousemove', function (e) {
-    const dx = Math.abs(e.pageX - lastMousePos.x);
-    const dy = Math.abs(e.pageY - lastMousePos.y);
+	const dx = Math.abs(e.pageX - lastMousePos.x);
+	const dy = Math.abs(e.pageY - lastMousePos.y);
 
-    lastMousePos.x = e.pageX;
-    lastMousePos.y = e.pageY;
+	lastMousePos.x = e.pageX;
+	lastMousePos.y = e.pageY;
 
-    if (dx > stopThreshold || dy > stopThreshold) {
-        clearTimeout(hoverTimer);
-    }
+	if (dx > stopThreshold || dy > stopThreshold) {
+		clearTimeout(hoverTimer);
+	}
 
-    hoverTimer = setTimeout(() => {
+	hoverTimer = setTimeout(() => {
 
-        const $target = $(document.elementFromPoint(e.clientX, e.clientY))
-            .closest('.list-item .title>*');
+		const $target = $(document.elementFromPoint(e.clientX, e.clientY))
+			.closest('.list-item .title>*');
 
-        if ($target.length) {
-            const index = $target.parent().parent().data('index');
+		if ($target.length) {
+			const index = $target.parent().parent().data('index');
 			if (index === currentActiveIndex) return;
 			currentActiveIndex = index;
-            setActive(index);
-            centerSlide(index);
-        } 
+			setActive(index);
+			centerSlide(index);
+		}
 
-    }, stopDelay);
+	}, stopDelay);
 });
 
 const gallery = document.getElementById('gallery-container');
 const list = document.getElementById('list');
 
 list.addEventListener('wheel', (e) => {
-    e.preventDefault();
-    gallery.scrollBy({
-        top: e.deltaY,
-        behavior: 'auto'
-    });
+	e.preventDefault();
+	gallery.scrollBy({
+		top: e.deltaY,
+		behavior: 'auto'
+	});
 });
 
 function checkActivePostOnScroll() {
@@ -717,14 +717,14 @@ function showProject(slug) {
 	if (categoriesText) titleDiv.append($('<span>').addClass('project-category').text(categoriesText));
 
 	$postContainer.append(titleDiv);
-	
+
 
 	// media
 
 	const singleGallery = $('<div>').attr('id', 'single-gallery');
 
 	if (project.media && project.media.length > 0) {
-		
+
 		project.media.forEach((m, i) => {
 
 			if (m.type === 'image') {
@@ -961,31 +961,31 @@ function showProject(slug) {
 
 	// prev next
 
-		const currentProjectIndex = window.content.projects.findIndex(p => p.slug === slug);
-		const totalProjects = window.content.projects.length;
+	const currentProjectIndex = window.content.projects.findIndex(p => p.slug === slug);
+	const totalProjects = window.content.projects.length;
 
-		const prevIndex = (currentProjectIndex - 1 + totalProjects) % totalProjects;
-		const nextIndex = (currentProjectIndex + 1) % totalProjects;
+	const prevIndex = (currentProjectIndex - 1 + totalProjects) % totalProjects;
+	const nextIndex = (currentProjectIndex + 1) % totalProjects;
 
-		const prevProject = window.content.projects[prevIndex];
-		const nextProject = window.content.projects[nextIndex];
+	const prevProject = window.content.projects[prevIndex];
+	const nextProject = window.content.projects[nextIndex];
 
-		const prevNextContainer = $('<div>').attr('id', 'prev-next');
+	const prevNextContainer = $('<div>').attr('id', 'prev-next');
 
-		const prevDiv = $('<div>')
-			.attr('id', 'prev')
-			.html(`<a href="#${prevProject.slug}">${prevProject.fields.title}</a>`);
+	const prevDiv = $('<div>')
+		.attr('id', 'prev')
+		.html(`<a href="#${prevProject.slug}">${prevProject.fields.title}</a>`);
 
-		const nextDiv = $('<div>')
-			.attr('id', 'next')
-			.html(`<a href="#${nextProject.slug}">${nextProject.fields.title}</a>`);
+	const nextDiv = $('<div>')
+		.attr('id', 'next')
+		.html(`<a href="#${nextProject.slug}">${nextProject.fields.title}</a>`);
 
-		prevNextContainer.append(prevDiv);
-		prevNextContainer.append(nextDiv);
+	prevNextContainer.append(prevDiv);
+	prevNextContainer.append(nextDiv);
 
-		$postContainer.append(prevNextContainer);
+	$postContainer.append(prevNextContainer);
 
-		// single index
+	// single index
 
 	const relatedProjects = window.content.projects.filter(p => {
 		const categories = p.fields.category;
@@ -1106,19 +1106,19 @@ function showProject(slug) {
 			setActive(activeIndex);
 
 			isThrottled = true;
-			setTimeout(() => isThrottled = false, 333);
+			setTimeout(() => isThrottled = false, 300);
 		}, { passive: false });
 
 		// swipe
-		let touchStartY = 0;
+		let touchStartX = 0;
 
 		singleGallery.addEventListener('touchstart', (e) => {
-			touchStartY = e.touches[0].clientY;
+			touchStartX = e.touches[0].clientX;
 		}, { passive: true });
 
 		singleGallery.addEventListener('touchend', (e) => {
-			const touchEndY = e.changedTouches[0].clientY;
-			const delta = touchStartY - touchEndY;
+			const touchEndX = e.changedTouches[0].clientX;
+			const delta = touchStartX - touchEndX;
 
 			if (Math.abs(delta) < 30) return;
 
@@ -1132,11 +1132,24 @@ function showProject(slug) {
 		});
 
 		// hover
+		const isMobile = window.innerWidth <= 768;
+
 		thumbnails.forEach((thumb, i) => {
-			thumb.addEventListener('mouseenter', () => {
+
+			function activeThumb() {
 				activeIndex = i;
 				setActive(activeIndex);
-			});
+			}
+
+			if (!isMobile) {
+				thumb.addEventListener('mouseenter', () => {
+					activeThumb();
+				});
+			} else {
+				thumb.addEventListener('click', () => {
+					activeThumb();
+				});
+			}
 		});
 
 		// arrows
@@ -1197,17 +1210,18 @@ function showProject(slug) {
 		$container.css('transform', `translateY(${offset}px)`);
 	}
 
-	$('#thumbnails .thumbnail-item').on('mouseenter', function () {
-		const index = $(this).index();
+	// $('#thumbnails .thumbnail-item').on('mouseenter', function (e) {
 
-		$('#thumbnails .thumbnail-item').removeClass('active');
-		$(this).addClass('active');
+	// 	const index = $(this).index();
 
-		$('#post .post-image').removeClass('active');
-		$('#post .post-image').eq(index).addClass('active');
-	});
+	// 	$('#thumbnails .thumbnail-item').removeClass('active');
+	// 	$(this).addClass('active');
 
-	creditsButton.on('click', function () {
+	// 	$('#post .post-image').removeClass('active');
+	// 	$('#post .post-image').eq(index).addClass('active');
+	// });
+
+	creditsButton.find('a').on('click', function () {
 
 		creditsButton.toggleClass('active');
 		const creditsHeight = creditsContainer.outerHeight();
@@ -1237,7 +1251,7 @@ function showProject(slug) {
 	});
 };
 
-$(document).on('mouseenter', '#thumbnails .thumbnail-item', function () {
+$(document).on('click', '#thumbnails .thumbnail-item', function () {
 	const $thumbnails = $('#thumbnails .thumbnail-item');
 	const index = $thumbnails.index(this);
 

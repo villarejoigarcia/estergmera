@@ -875,6 +875,10 @@ input[type="range"]:hover::-webkit-slider-thumb {
 		transition: var(--transition);
 	}
 
+	#credits-button>* {
+		width: fit-content;
+	}
+
 	#credits-button.active,
 	#prev-next.active {
 		transform: translateY(calc(var(--credits-height)));
@@ -921,6 +925,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	#thumbnails>*,
 	#thumbnails img {
 		height: 100%;
+		width: auto;
 		margin: 0;
 	}
 
@@ -931,6 +936,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	#thumbnails iframe {
 		width: auto;
 		height: 100%;
+		pointer-events: all;
 	}
 
 	#thumbnails .video-wrapper {
