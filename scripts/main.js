@@ -1062,6 +1062,99 @@ function showProject(slug) {
 	setTimeout(() => {
 		container.removeClass('hide');
 		container.append($postContainer);
+
+		const singleGallery = document.querySelector('#single-gallery');
+		const items = Array.from(singleGallery.children);
+
+		const thumbnailContainer = document.querySelector('#thumbnails');
+		const thumbnails = thumbnailContainer ? Array.from(thumbnailContainer.children) : [];
+
+		let activeIndex = 0;
+		let isThrottled = false;
+		let isTouchThrottled = false;
+
+		function loopIndex(index) {
+			const last = items.length - 1;
+			if (index > last) return 0;
+			if (index < 0) return last;
+			return index;
+		}
+
+		function setActive(index) {
+			items.forEach((item, i) => {
+				item.classList.toggle('active', i === index);
+			});
+
+			thumbnails.forEach((thumb, i) => {
+				thumb.classList.toggle('active', i === index);
+			});
+		}
+
+		setActive(activeIndex);
+
+		// scroll
+		singleGallery.addEventListener('wheel', (e) => {
+			e.preventDefault();
+			if (isThrottled) return;
+
+			if (e.deltaY > 0 || e.deltaX > 0) {
+				activeIndex = loopIndex(activeIndex + 1);
+			} else {
+				activeIndex = loopIndex(activeIndex - 1);
+			}
+
+			setActive(activeIndex);
+
+			isThrottled = true;
+			setTimeout(() => isThrottled = false, 1333);
+		}, { passive: false });
+
+		// swipe
+		let touchStartY = 0;
+
+		singleGallery.addEventListener('touchstart', (e) => {
+			touchStartY = e.touches[0].clientY;
+		}, { passive: true });
+
+		singleGallery.addEventListener('touchend', (e) => {
+			const touchEndY = e.changedTouches[0].clientY;
+			const delta = touchStartY - touchEndY;
+
+			if (Math.abs(delta) < 30) return;
+
+			if (delta > 0) {
+				activeIndex = loopIndex(activeIndex + 1);
+			} else {
+				activeIndex = loopIndex(activeIndex - 1);
+			}
+
+			setActive(activeIndex);
+		});
+
+		// hover
+		thumbnails.forEach((thumb, i) => {
+			thumb.addEventListener('mouseenter', () => {
+				activeIndex = i;
+				setActive(activeIndex);
+			});
+		});
+
+		// arrows
+		document.addEventListener('keydown', (e) => {
+			const nextKeys = ['ArrowDown', 'ArrowRight'];
+			const prevKeys = ['ArrowUp', 'ArrowLeft'];
+
+			if (nextKeys.includes(e.key)) {
+				activeIndex = loopIndex(activeIndex + 1);
+				setActive(activeIndex);
+			}
+
+			if (prevKeys.includes(e.key)) {
+				activeIndex = loopIndex(activeIndex - 1);
+				setActive(activeIndex);
+			}
+		});
+
 	}, transition * 2);
 
 	setTimeout(() => {
