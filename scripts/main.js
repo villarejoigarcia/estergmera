@@ -135,6 +135,9 @@ $(document).ready(function () {
 						$slide.append($media);
 
 					} else if (firstMedia.type === "video") {
+
+						setHeight();
+
 						const videoId = firstMedia.id;
 						const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
 
@@ -173,7 +176,6 @@ $(document).ready(function () {
 							});
 
 							player.on('timeupdate', data => {
-								setHeight();
 								if (data.seconds >= end) {
 									player.setCurrentTime(start).then(() => player.play());
 								}
@@ -276,6 +278,8 @@ $(document).ready(function () {
 
 					} else if (firstMedia.type === "video") {
 
+						setHeight();
+
 						const videoId = firstMedia.id;
 
 						const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
@@ -315,7 +319,6 @@ $(document).ready(function () {
 							});
 
 							player.on('timeupdate', data => {
-								setHeight();
 								if (data.seconds >= end) {
 									player.setCurrentTime(start).then(() => player.play());
 								}
@@ -532,7 +535,8 @@ $(document).ready(function () {
 
 function setHeight() {
 
-	const thumbnails = document.querySelectorAll('.thumbnail');
+	// const thumbnails = document.querySelectorAll('.thumbnail');
+	const thumbnails = document.querySelectorAll('.vimeo-thumb');
 
 	thumbnails.forEach(thumbnail => {
 		thumbnail.style.height = '';
