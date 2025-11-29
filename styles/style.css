@@ -551,6 +551,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	pointer-events: none;
 	transition: var(--transition);
 	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
 	display: flex;
 	align-items: end;
 	padding: var(--key_value) var(--key_value) 0;
@@ -558,7 +559,8 @@ input[type="range"]:hover::-webkit-slider-thumb {
 
 #about.active {
 	opacity: 1;
-	pointer-events: auto;
+	pointer-events: all;
+	overflow: scroll;
 }
 
 #about h1,
@@ -950,7 +952,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 
 	#thumbnails.active {
 		pointer-events: auto;
-		overflow: scroll;
+		overflow-x: scroll;
 		max-height: calc(var(--thumb-height) + var(--key_value));
 		padding-bottom: calc(var(--key_value)*1.2);
 	}
