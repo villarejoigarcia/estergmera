@@ -1177,9 +1177,9 @@ function showProject(slug) {
 		// click
 		singleGallery.addEventListener('click', (e) => {
 
-			// if (e.target.closest('.video-controls') || e.target.closest('a') || e.target.closest('#thumbnails')) {
-			// 	return;
-			// }
+			if (e.target.closest('.video-controls')) {
+				return;
+			}
 
 			const screenWidth = window.innerWidth;
 			const clickX = e.clientX;
