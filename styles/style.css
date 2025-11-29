@@ -434,22 +434,31 @@ nav>*.active a {
 @media (min-width: 1024px) {
 
 	#single-gallery.credits {
-		transform: translate(-50%, calc(var(--credits-height)*-1));
+		transform: translate(-50%, calc((var(--credits-height)*-1) - (var(--key_value)*2)));
 	}
 
 }
 
 #single-index.credits {
-	top: calc(50vh - var(--credits-height))
+	top: calc(50vh - calc(var(--credits-height) + var(--key_value)*2));
 }
 
 #credits {
 	position: fixed;
 	left: 0;
 	bottom: 0;
-	padding: var(--key_value) calc(100vw/24 + var(--key_value) * 2) var(--key_value) var(--key_value);
-	transform: translateY(100%);
+	padding: 0 calc(100vw/24 + var(--key_value) * 2) 0 var(--key_value);
+	/* transform: translateY(100%); */
+	max-height: 0;
+	overflow: hidden;
 	transition: var(--transition);
+	box-sizing: content-box;
+}
+
+#credits.active {
+	/* transform: none; */
+	max-height: calc(var(--credits-height));
+	padding-bottom: var(--key_value);
 }
 
 #credits span {
@@ -457,9 +466,9 @@ nav>*.active a {
 	/* color: var(--color-grey); */
 }
 
-#credits.active {
+/* #credits.active {
 	transform: translateY(0);
-}
+} */
 
 .video-controls {
 	position: absolute;
@@ -695,6 +704,10 @@ input[type="range"]:hover::-webkit-slider-thumb {
 		margin-bottom: 0;
 	}
 
+	.thumbnail.unactive {
+	filter: blur(0);
+}
+
 	.vimeo-thumb {
 		width: 100%;
 		height: auto;
@@ -915,7 +928,6 @@ input[type="range"]:hover::-webkit-slider-thumb {
 		gap: 5px;
 		top: 0;
 		right: 0;
-		/* padding-bottom: calc(var(--key_value)*1.2); */
 		padding-bottom: 0;
 		width: 100%;
 		overflow: scroll;
@@ -927,8 +939,9 @@ input[type="range"]:hover::-webkit-slider-thumb {
 
 	#thumbnails.active {
 		pointer-events: auto;
-		max-height: var(--thumb-height);
-		margin-bottom: calc(var(--key_value)*1.2);
+		overflow: scroll;
+		max-height: calc(var(--thumb-height) + var(--key_value));
+		padding-bottom: calc(var(--key_value)*1.2);
 	}
 
 	#thumbnails>*,
@@ -958,16 +971,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	#credits {
 		position: relative;
 		padding: 0 calc(var(--key_value)*1.2);
-		transform: translateY(0%);
-		max-height: 0;
-		overflow: hidden;
 	}
-
-#credits.active {
-	transform: none;
-	max-height: calc(var(--credits-height));
-	margin-bottom: var(--key_value);
-}
 
 	#preview {
 		position: relative;

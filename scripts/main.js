@@ -1019,7 +1019,7 @@ function showProject(slug) {
 		const thumbHeight = thumbContainer[0].scrollHeight;
 
 		document.documentElement.style.setProperty('--thumb-height', `${thumbHeight}px`);
-		
+
 		thumbContainer.toggleClass('active');
 		preview.toggleClass('active');
 	});
@@ -1208,7 +1208,6 @@ function showProject(slug) {
 	}, transition * 4);
 
 	// functions
-
 	function centerSingleIndexItem(index) {
 		const $container = $('#single-index');
 		const itemHeight = $container.children().first().outerHeight(true);
@@ -1217,6 +1216,18 @@ function showProject(slug) {
 
 		$container.css('transform', `translateY(${offset}px)`);
 	}
+
+	// thumbnails
+	$('#thumbnails .thumbnail-item').on('mouseenter', function (e) {
+
+		const index = $(this).index();
+
+		$('#thumbnails .thumbnail-item').removeClass('active');
+		$(this).addClass('active');
+
+		$('#post .post-image').removeClass('active');
+		$('#post .post-image').eq(index).addClass('active');
+	});
 	
 	// credits
 	creditsButton.find('a').on('click', function () {
