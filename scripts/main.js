@@ -184,12 +184,11 @@ $(document).ready(function () {
 							// });
 
 							player.on('loaded', () => {
-								setHeight();
 								Promise.all([player.getVideoWidth(), player.getVideoHeight()])
 									.then(([w, h]) => {
 										const ratio = w / h;
 										$iframe[0].style.aspectRatio = ratio;
-										// setHeight();
+										setHeight();
 									});
 							});
 
@@ -325,10 +324,7 @@ $(document).ready(function () {
 							// 	$iframe[0].classList.remove('load');
 							// });
 
-							player.on('loaded', () => {
-
-								setHeight();
-	
+							player.on('loaded', () => {	
 								player.getDuration().then(durationSeconds => {
 									const minutes = Math.floor(durationSeconds / 60);
 									const seconds = durationSeconds % 60;
@@ -349,7 +345,7 @@ $(document).ready(function () {
 									.then(([w, h]) => {
 										const ratio = w / h;
 										$iframe[0].style.aspectRatio = ratio;
-										// setHeight();
+										setHeight();
 									});
 							});
 
