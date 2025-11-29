@@ -56,14 +56,21 @@ iframe {
 	transition-delay: 1s;
 }
 
-#archive iframe.load {
+#archive .vimeo-thumb.load {
 	opacity: 0;
 	filter: blur(10px);
 }
 
+/* #archive iframe.load {
+	opacity: 0;
+	filter: blur(10px);
+} */
+
 .vimeo-thumb {
-	display: none;
-	position: relative;
+	/* display: none; */
+	position: absolute;
+	top: 0;
+	left: 0;
 	z-index: -1;
 	/* filter: blur(20px);
 	opacity: .5;

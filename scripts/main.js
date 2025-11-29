@@ -151,25 +151,44 @@ $(document).ready(function () {
 						if (firstMedia.start !== undefined && firstMedia.end !== undefined) {
 							const start = Number(firstMedia.start);
 							const end = Number(firstMedia.end);
+
+							fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
+							.then(res => res.json())
+							.then(data => {
+								const thumb = data[0].thumbnail_large;
+								const $thumbImg = $('<img>').attr('src', thumb).addClass('vimeo-thumb load');
+								$slide.append($thumbImg);
+								player.on('play', () => {
+									$thumbImg.css('opacity', 0);
+								});
+
+								setTimeout(() => {
+									$thumbImg.removeClass('load');
+								}, 1000);
+
+							})
+
 							player.ready().then(() => {
 								player.setCurrentTime(start).then(() => player.play());
 							});
+
 							player.on('timeupdate', data => {
+								setHeight();
 								if (data.seconds >= end) {
 									player.setCurrentTime(start).then(() => player.play());
 								}
 							});
 
-							player.on('play', () => {
-								$iframe[0].classList.remove('load');
-							});
+							// player.on('play', () => {
+							// 	$iframe[0].classList.remove('load');
+							// });
 
 							player.on('loaded', () => {
 								Promise.all([player.getVideoWidth(), player.getVideoHeight()])
 									.then(([w, h]) => {
 										const ratio = w / h;
 										$iframe[0].style.aspectRatio = ratio;
-										setHeight();
+										// setHeight();
 									});
 							});
 
@@ -265,7 +284,7 @@ $(document).ready(function () {
 							.attr('src', vimeoUrl)
 							.attr('frameborder', '0')
 							.attr('allow', 'autoplay; fullscreen; picture-in-picture')
-							.addClass('load');
+							// .addClass('load');
 
 						const player = new Vimeo.Player($iframe[0]);
 
@@ -275,21 +294,39 @@ $(document).ready(function () {
 							const start = Number(firstMedia.start);
 							const end = Number(firstMedia.end);
 
+							fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
+							.then(res => res.json())
+							.then(data => {
+								const thumb = data[0].thumbnail_large;
+								const $thumbImg = $('<img>').attr('src', thumb).addClass('vimeo-thumb load');
+								$slide.append($thumbImg);
+								player.on('play', () => {
+									$thumbImg.css('opacity', 0);
+								});
+
+								setTimeout(() => {
+									$thumbImg.removeClass('load');
+								}, 1000);
+
+							})
+
 							player.ready().then(() => {
 								player.setCurrentTime(start).then(() => player.play());
 							});
 
 							player.on('timeupdate', data => {
+								setHeight();
 								if (data.seconds >= end) {
 									player.setCurrentTime(start).then(() => player.play());
 								}
 							});
 
-							player.on('play', () => {
-								$iframe[0].classList.remove('load');
-							});
+							// player.on('play', () => {
+							// 	$iframe[0].classList.remove('load');
+							// });
 
 							player.on('loaded', () => {
+	
 								player.getDuration().then(durationSeconds => {
 									const minutes = Math.floor(durationSeconds / 60);
 									const seconds = durationSeconds % 60;
@@ -310,7 +347,7 @@ $(document).ready(function () {
 									.then(([w, h]) => {
 										const ratio = w / h;
 										$iframe[0].style.aspectRatio = ratio;
-										setHeight();
+										// setHeight();
 									});
 							});
 
