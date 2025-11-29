@@ -963,13 +963,11 @@ function showProject(slug) {
 						$iframe[0].classList.remove('load');
 					});
 
-					player.on('loaded', () => {
-						Promise.all([player.getVideoWidth(), player.getVideoHeight()])
-							.then(([w, h]) => {
-								const ratio = w / h;
-								$iframe[0].style.aspectRatio = ratio;
-							})
-					});
+					Promise.all([player.getVideoWidth(), player.getVideoHeight()])
+						.then(([w, h]) => {
+							const ratio = w / h;
+							$iframe[0].style.aspectRatio = ratio;
+						})
 
 				} else {
 					player.ready().then(() => player.play()).catch(() => { });
