@@ -148,13 +148,6 @@ $(document).ready(function () {
 
 						$slide.data('player', player);
 
-						Promise.all([player.getVideoWidth(), player.getVideoHeight()])
-							.then(([w, h]) => {
-								const ratio = w / h;
-								$iframe[0].style.aspectRatio = ratio;
-								setHeight();
-							});
-
 						if (firstMedia.start !== undefined && firstMedia.end !== undefined) {
 							const start = Number(firstMedia.start);
 							const end = Number(firstMedia.end);
@@ -169,6 +162,15 @@ $(document).ready(function () {
 
 							player.on('play', () => {
 								$iframe[0].classList.remove('load');
+							});
+
+							player.on('loaded', () => {
+								Promise.all([player.getVideoWidth(), player.getVideoHeight()])
+									.then(([w, h]) => {
+										const ratio = w / h;
+										$iframe[0].style.aspectRatio = ratio;
+										setHeight();
+									});
 							});
 
 						} else {
@@ -269,13 +271,6 @@ $(document).ready(function () {
 
 						$slide.data('player', player);
 
-						Promise.all([player.getVideoWidth(), player.getVideoHeight()])
-							.then(([w, h]) => {
-								const ratio = w / h;
-								$iframe[0].style.aspectRatio = ratio;
-								setHeight();
-							});
-
 						if (firstMedia.start !== undefined && firstMedia.end !== undefined) {
 							const start = Number(firstMedia.start);
 							const end = Number(firstMedia.end);
@@ -310,6 +305,13 @@ $(document).ready(function () {
 									if ($durationField.length) $durationField.text(finalText);
 
 								});
+
+								Promise.all([player.getVideoWidth(), player.getVideoHeight()])
+									.then(([w, h]) => {
+										const ratio = w / h;
+										$iframe[0].style.aspectRatio = ratio;
+										setHeight();
+									});
 							});
 
 						} else {
@@ -705,13 +707,11 @@ function showProject(slug) {
 	const titleDiv = $('<div>').addClass('post-data');
 
 	const titleText = project.fields?.title || '';
-	// Try common client field names (adapt if your data uses a different key)
 	const clientText = project.fields?.client || project.fields?.client_name || project.fields?.cliente || '';
 	const categoriesText = Array.isArray(project.fields?.category)
 		? project.fields.category.join('/')
 		: (project.fields?.category || '');
 
-	// Name / Client / Category similar to mobile thumbnail post-data
 	titleDiv.append($('<span>').addClass('project-title').text(titleText));
 	if (clientText) titleDiv.append($('<span>').addClass('project-client').text(clientText));
 	if (categoriesText) titleDiv.append($('<span>').addClass('project-category').text(categoriesText));
@@ -720,7 +720,6 @@ function showProject(slug) {
 
 
 	// media
-
 	const singleGallery = $('<div>').attr('id', 'single-gallery');
 
 	if (project.media && project.media.length > 0) {
@@ -762,6 +761,15 @@ function showProject(slug) {
 				const player = new Vimeo.Player($iframe[0]);
 
 				player.on('loaded', function () {
+
+					// ratio
+					Promise.all([player.getVideoWidth(), player.getVideoHeight()])
+						.then(([w, h]) => {
+							const ratio = w / h;
+							$iframe[0].style.aspectRatio = ratio;
+							controls[0].style.aspectRatio = ratio;
+						})
+
 					setTimeout(() => {
 
 						let hideTimeout;
@@ -785,14 +793,7 @@ function showProject(slug) {
 
 				});
 
-				// ratio
-				Promise.all([player.getVideoWidth(), player.getVideoHeight()])
-					.then(([w, h]) => {
-						const ratio = w / h;
-						$iframe[0].style.aspectRatio = ratio;
-						controls[0].style.aspectRatio = ratio;
-					})
-				// PLAY / PAUSE function
+				//play pause
 				const togglePlayPause = () => {
 					player.getPaused().then(paused => {
 						if (paused) {
@@ -810,26 +811,22 @@ function showProject(slug) {
 				const $playPause = controls.find('.play-pause');
 				$playPause.on('click', togglePlayPause);
 
-				// Click en el iframe
 				$iframe.on('click', togglePlayPause);
 
-				// Click en el fondo de video-controls (no en sus hijos)
 				controls.on('click', function (e) {
 					if (e.target === this) {
 						togglePlayPause();
 					}
 				});
 
-				// TIMELINE
+				// timeline
 				const $timeline = controls.find('.timeline');
 
-				// Actualizar barra de progreso
 				player.on('timeupdate', (data) => {
 					const progress = (data.seconds / data.duration) * 100;
 					$timeline.val(progress);
 				});
 
-				// Buscar al mover slider
 				$timeline.on('input', (e) => {
 					const percent = e.target.value;
 					player.getDuration().then(duration => {
@@ -839,7 +836,6 @@ function showProject(slug) {
 				});
 
 				// fullscreen
-
 				const $fullscreenToggle = controls.find('.fullscreen-toggle');
 
 				$fullscreenToggle.on('click', () => {
@@ -876,28 +872,52 @@ function showProject(slug) {
 	$postContainer.append(singleGallery);
 
 	// loading
-
 	const loading = $('#loading').text('Loading...');
+
+	//post footer
+	const postFooter = $('<div>').attr('id', 'post-footer');
+	const postButtons = $('<div>').attr('id', 'post-buttons');
 
 	setTimeout(() => {
 		loading.removeClass('hide');
 	}, transition);
 
-	// preview
+	// prev next
+	const currentProjectIndex = window.content.projects.findIndex(p => p.slug === slug);
+	const totalProjects = window.content.projects.length;
 
-	const preview = $('<a>').attr('id', 'preview').text('Preview');
+	const prevIndex = (currentProjectIndex - 1 + totalProjects) % totalProjects;
+	const nextIndex = (currentProjectIndex + 1) % totalProjects;
 
-	if (project.media && project.media.length > 1) {
-		$postContainer.append(preview);
-	}
+	const prevProject = window.content.projects[prevIndex];
+	const nextProject = window.content.projects[nextIndex];
 
-	preview.on('click', function () {
-		thumbContainer.toggleClass('active');
-		preview.toggleClass('active');
-	});
+	const prevNextContainer = $('<div>').attr('id', 'prev-next');
+
+	const prevDiv = $('<div>')
+		.attr('id', 'prev')
+		.html(`<a href="#${prevProject.slug}">${prevProject.fields.title}</a>`);
+
+	const nextDiv = $('<div>')
+		.attr('id', 'next')
+		.html(`<a href="#${nextProject.slug}">${nextProject.fields.title}</a>`);
+
+	prevNextContainer.append(prevDiv);
+	prevNextContainer.append(nextDiv);
+
+	postFooter.append(prevNextContainer);
+
+	// credits button
+	const creditsButton = $('<div>').attr('id', 'credits-button');
+	const creditsButtonText = $('<a>').text('Credits');
+
+	creditsButton.append(creditsButtonText);
+
+	postButtons.append(creditsButton);
+
+	postFooter.append(postButtons);
 
 	// single thumbnails
-
 	const thumbContainer = $('<div>').attr('id', 'thumbnails');
 	if (project.media && project.media.length > 0) {
 		project.media.forEach((m, i) => {
@@ -924,11 +944,6 @@ function showProject(slug) {
 					.attr('allow', 'autoplay; fullscreen; picture-in-picture')
 
 				const player = new Vimeo.Player($iframe[0]);
-				Promise.all([player.getVideoWidth(), player.getVideoHeight()])
-					.then(([w, h]) => {
-						const ratio = w / h;
-						$iframe[0].style.aspectRatio = ratio;
-					})
 
 				if (m.start !== undefined && m.end !== undefined) {
 					const start = Number(m.start);
@@ -948,6 +963,14 @@ function showProject(slug) {
 						$iframe[0].classList.remove('load');
 					});
 
+					player.on('loaded', () => {
+						Promise.all([player.getVideoWidth(), player.getVideoHeight()])
+							.then(([w, h]) => {
+								const ratio = w / h;
+								$iframe[0].style.aspectRatio = ratio;
+							})
+					});
+
 				} else {
 					player.ready().then(() => player.play()).catch(() => { });
 				}
@@ -957,36 +980,53 @@ function showProject(slug) {
 			}
 		});
 	}
-	$postContainer.append(thumbContainer);
 
-	// prev next
+	postFooter.append(thumbContainer);
 
-	const currentProjectIndex = window.content.projects.findIndex(p => p.slug === slug);
-	const totalProjects = window.content.projects.length;
+	// credits
+	const creditsContainer = $('<div>').attr('id', 'credits');
 
-	const prevIndex = (currentProjectIndex - 1 + totalProjects) % totalProjects;
-	const nextIndex = (currentProjectIndex + 1) % totalProjects;
+	if (project.credits) {
 
-	const prevProject = window.content.projects[prevIndex];
-	const nextProject = window.content.projects[nextIndex];
+		const entries = Object.entries(project.credits);
 
-	const prevNextContainer = $('<div>').attr('id', 'prev-next');
+		entries.forEach(([key, value], index) => {
+			creditsContainer.append($('<span>').text(value));
+			if (index < entries.length - 1) {
+				creditsContainer.append($('<span>').text(' / '));
+			}
+		});
 
-	const prevDiv = $('<div>')
-		.attr('id', 'prev')
-		.html(`<a href="#${prevProject.slug}">${prevProject.fields.title}</a>`);
+		postFooter.append(creditsContainer);
+	}
 
-	const nextDiv = $('<div>')
-		.attr('id', 'next')
-		.html(`<a href="#${nextProject.slug}">${nextProject.fields.title}</a>`);
+	const hasImage = project.media.some(m => m.type === 'image');
+	const hasVideo = project.media.some(m => m.type === 'video');
 
-	prevNextContainer.append(prevDiv);
-	prevNextContainer.append(nextDiv);
+	if (!hasImage && hasVideo) {
+		creditsButton.addClass('film');
+	}
 
-	$postContainer.append(prevNextContainer);
+	// preview
+	const preview = $('<a>').attr('id', 'preview').text('Preview');
+
+	if (project.media && project.media.length > 1) {
+		postButtons.append(preview);
+	}
+
+	preview.on('click', function () {
+
+		const thumbHeight = thumbContainer[0].scrollHeight;
+
+		document.documentElement.style.setProperty('--thumb-height', `${thumbHeight}px`);
+		
+		thumbContainer.toggleClass('active');
+		preview.toggleClass('active');
+	});
+	
+	$postContainer.append(postFooter);
 
 	// single index
-
 	const relatedProjects = window.content.projects.filter(p => {
 		const categories = p.fields.category;
 
@@ -1026,39 +1066,7 @@ function showProject(slug) {
 
 	centerSingleIndexItem(activeIndex);
 
-	// credits
-
-	const creditsButton = $('<div>').attr('id', 'credits-button');
-	const creditsButtonText = $('<a>').text('Credits');
-
-	creditsButton.append(creditsButtonText);
-	$postContainer.append(creditsButton);
-
-	const creditsContainer = $('<div>').attr('id', 'credits');
-
-	if (project.credits) {
-
-		const entries = Object.entries(project.credits);
-
-		entries.forEach(([key, value], index) => {
-			creditsContainer.append($('<span>').text(value));
-			if (index < entries.length - 1) {
-				creditsContainer.append($('<span>').text(' / '));
-			}
-		});
-
-		$postContainer.append(creditsContainer);
-	}
-
-	const hasImage = project.media.some(m => m.type === 'image');
-	const hasVideo = project.media.some(m => m.type === 'video');
-
-	if (!hasImage && hasVideo) {
-		creditsButton.addClass('film');
-	}
-
 	// add content 
-
 	setTimeout(() => {
 		container.removeClass('hide');
 		container.append($postContainer);
@@ -1097,7 +1105,7 @@ function showProject(slug) {
 			e.preventDefault();
 			if (isThrottled) return;
 
-			if (e.deltaY > 0 || e.deltaX > 0) {
+			if (e.deltaY > 0) {
 				activeIndex = loopIndex(activeIndex + 1);
 			} else {
 				activeIndex = loopIndex(activeIndex - 1);
@@ -1209,32 +1217,19 @@ function showProject(slug) {
 
 		$container.css('transform', `translateY(${offset}px)`);
 	}
-
-	// $('#thumbnails .thumbnail-item').on('mouseenter', function (e) {
-
-	// 	const index = $(this).index();
-
-	// 	$('#thumbnails .thumbnail-item').removeClass('active');
-	// 	$(this).addClass('active');
-
-	// 	$('#post .post-image').removeClass('active');
-	// 	$('#post .post-image').eq(index).addClass('active');
-	// });
-
+	
+	// credits
 	creditsButton.find('a').on('click', function () {
 
 		creditsButton.toggleClass('active');
-		const creditsHeight = creditsContainer.outerHeight();
+		const creditsHeight = creditsContainer[0].scrollHeight;
 
 		singleGallery.toggleClass('credits');
 		singleIndex.toggleClass('credits');
 
 		creditsContainer.toggleClass('active');
-		prevNextContainer.toggleClass('active');
-		preview.toggleClass('credits');
-		thumbContainer.toggleClass('credits');
 
-		document.documentElement.style.setProperty('--credits-height', `-${creditsHeight}px`);
+		document.documentElement.style.setProperty('--credits-height', `${creditsHeight}px`);
 	});
 
 	$(window).on('scroll', function () {
@@ -1312,3 +1307,6 @@ $(document).ready(function () {
 	});
 
 });
+
+// single: bloquear el scroll vertical cuando se hace swipe horizontal en mobile
+// cerrar credits si le das a cualquier parte de la pantalla (eso deshabilita durante un click el prev/next del index)
