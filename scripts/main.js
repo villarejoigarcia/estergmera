@@ -1405,3 +1405,4 @@ $(document).ready(function () {
 
 // single: bloquear el scroll vertical cuando se hace swipe horizontal en mobile
 // cerrar credits si le das a cualquier parte de la pantalla (eso deshabilita durante un click el prev/next del index)
+// cambiar el estado del first-child cuando se filtre por categoria

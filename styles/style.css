@@ -415,6 +415,10 @@ nav>*.active a {
 	order: -1;
 }
 
+#thumbnails iframe {
+	width: 100%;
+}
+
 #thumbnails>*.active {
 	opacity: 1;
 }
