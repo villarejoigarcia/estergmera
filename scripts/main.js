@@ -331,7 +331,7 @@ $(document).ready(function () {
 									const formattedDuration = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
 									const imageCount = project.media.filter(m => m.type === "image").length;
-									const imageText = imageCount > 0 ? `/${imageCount} img` : "";
+									const imageText = imageCount > 0 ? `/${imageCount}` : "";
 
 									const finalText = `${formattedDuration}${imageText}`;
 									project.fields.duration = finalText;
@@ -444,6 +444,8 @@ $(document).ready(function () {
 		const postPhoto = $('.photo');
 		const postFilm = $('.film');
 
+		// activateFirstThumbnail();
+
 		if (container.hasClass('single-view')) {
 			// Clear URL hash
 			history.pushState({}, '', window.location.pathname);
@@ -485,6 +487,8 @@ $(document).ready(function () {
 	photoButton.on('click', function () {
 		const postPhoto = $('.photo');
 		const postFilm = $('.film');
+
+		// activateFirstThumbnail();
 
 		if (container.hasClass('single-view')) {
 			// Clear URL hash
@@ -530,8 +534,8 @@ $(document).ready(function () {
 
 function setHeight() {
 
+	// const thumbnailsContainer = document.querySelectorAll('.thumbnail');
 	const thumbnails = document.querySelectorAll('.thumbnail');
-	// const thumbnails = document.querySelectorAll('.vimeo-thumb');
 
 	thumbnails.forEach(thumbnail => {
 		thumbnail.style.height = '';
@@ -1379,6 +1383,24 @@ $(document).ready(function () {
 			}
 	});
 
+});
+
+// status
+
+function activateFirstThumbnail() {
+    const $firstThumb = $('#archive .thumbnail').first();
+
+    if ($firstThumb.length) {
+        const firstIndex = $firstThumb.data('index');
+        setActive(firstIndex);   // ✔ activa primer thumbnail + lista
+        return firstIndex;       // opcional, por si quieres saber cuál es
+    }
+
+    return null;
+}
+
+$(document).ready(function () {
+	activateFirstThumbnail();
 });
 
 // single: bloquear el scroll vertical cuando se hace swipe horizontal en mobile

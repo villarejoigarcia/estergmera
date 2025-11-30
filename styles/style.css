@@ -641,10 +641,17 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	#press .other {
 		position: absolute;
 		transform: translateY(100%);
+		width: 100%;
 	}
 
 	#press .other.active {
 		transform: translateY(0);
+	}
+}
+
+@media (min-width: 2560px) {
+#press .content a {
+		margin-right: calc(100vw/24);
 	}
 }
 
