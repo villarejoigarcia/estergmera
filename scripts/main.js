@@ -650,9 +650,13 @@ function setActive(index) {
 	currentActiveVideo = index;
 
 	const items = $('.list-item, .post-data');
-	items.removeClass('active unactive');
-	items.eq(index).addClass('active');
-	items.not(items.eq(index)).addClass('unactive');
+	const isMobile = window.innerWidth <= 768;
+
+	if (!isMobile) {
+		items.removeClass('active unactive');
+		items.eq(index).addClass('active');
+		items.not(items.eq(index)).addClass('unactive');
+	}
 
 	const posts = $('#archive .thumbnail');
 	posts.removeClass('active unactive');
@@ -1307,6 +1311,7 @@ $(document).ready(function () {
 	// about
 
 	const aboutButton = $('#about-button');
+	const filterButtons = $('nav*>:not(:last-child)');
 	const about = $('#about');
 
 	aboutButton.on('click', function (e) {
@@ -1320,6 +1325,11 @@ $(document).ready(function () {
 			about.removeClass('active');
 			aboutButton.removeClass('active');
 		}
+	});
+
+	filterButtons.on('click', function (e) {
+			about.removeClass('active');
+			aboutButton.removeClass('active');
 	});
 
 	// press
