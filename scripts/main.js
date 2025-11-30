@@ -1336,13 +1336,21 @@ $(document).ready(function () {
 
 	const pressButton = $('#press-button');
 	const press = $('.content');
-	const originalText = $('#press-button').text();
+	const pressContainer = $('#press');
+	const originalText = pressButton.text();
+
+	const isMobile = window.innerWidth <= 768;
 
 	pressButton.on('click', function () {
 		pressButton.toggleClass('active');
 
+		// Último hijo
+		const lastChild = press.children().last()[0];
+		const lastChildHeight = lastChild.scrollHeight;
+
+		// Recorrer hijos para aplicar max-height como antes
 		press.children().each(function () {
-			const child = $(this)[0];
+			const child = this;
 
 			if (!$(child).hasClass('active')) {
 				const childHeight = child.scrollHeight;
@@ -1354,11 +1362,21 @@ $(document).ready(function () {
 			}
 		});
 
-		if (pressButton.hasClass('active')) {
-			pressButton.text('- View less');
-		} else {
-			pressButton.text(originalText);
-		}
+		
+			// Si está abierto → mover hacia arriba
+			if (pressButton.hasClass('active')) {
+				if (!isMobile) {
+					pressContainer.css('transform', `translateY(-${lastChildHeight}px)`);
+				}
+				pressButton.text('- View less');
+			}
+			// Si está cerrado → reset
+			else {
+				if (!isMobile) {
+					pressContainer.css('transform', '');
+				}
+				pressButton.text(originalText);
+			}
 	});
 
 });
