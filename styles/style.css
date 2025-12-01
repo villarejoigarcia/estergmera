@@ -969,6 +969,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	#post-buttons {
 		display: flex;
 		justify-content: space-between;
+		padding-bottom: calc(var(--key_value) * 1.2);
 	}
 
 	#credits-button {
@@ -1019,7 +1020,8 @@ input[type="range"]:hover::-webkit-slider-thumb {
 		pointer-events: auto;
 		overflow-x: scroll;
 		max-height: calc(var(--thumb-height) + var(--key_value));
-		padding-bottom: calc(var(--key_value)*1.2);
+		/* padding-bottom: calc(var(--key_value)/1.2); */
+		padding-bottom: 10px;
 	}
 
 	#thumbnails>*,
@@ -1067,7 +1069,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	#prev-next {
 		margin-top: auto;
 		display: flex;
-		padding-bottom: calc(var(--key_value)*2);
+		/* padding-bottom: calc(var(--key_value)*2); */
 		width: 100%;
 		justify-content: space-between;
 		transition: var(--transition);

@@ -113,9 +113,9 @@ $(document).ready(function () {
 					? project.fields.category
 					: [project.fields.category || ''];
 
-				const $slide = $('<div>')
+				const $slide = $('<a>')
 					.addClass('thumbnail')
-					// .attr('href', `#${project.slug}`)
+					.attr('href', `#${project.slug}`)
 					.attr('data-index', index)
 					.attr('data-category', categories.join(',').toLowerCase());
 
@@ -135,12 +135,12 @@ $(document).ready(function () {
 						$slide.append($media);
 
 					} else if (firstMedia.type === "video") {
-						// En content.js, firstMedia.clip contiene la ruta del video .webm
-						const videoSrc = firstMedia.clip; // ej: "videos/video1.webm"
+
+						const videoSrc = firstMedia.clip;
 
 						const $video = $('<video>')
 							.attr('src', videoSrc)
-							.attr('autoplay', true)
+							// .attr('autoplay', true)
 							.attr('muted', true)
 							.attr('loop', true)
 							.attr('playsinline', true)
@@ -150,6 +150,7 @@ $(document).ready(function () {
 
 						$video.on('canplay', () => {
 							$video.removeClass('load');
+							setHeight();
 						});
 					}
 				}
@@ -235,7 +236,6 @@ $(document).ready(function () {
 
 						const $video = $('<video>')
 							.attr('src', videoSrc)
-							.attr('autoplay', true)
 							.attr('muted', true)
 							.attr('loop', true)
 							.attr('playsinline', true)
@@ -245,6 +245,7 @@ $(document).ready(function () {
 
 						$video.on('canplay', () => {
 							$video.removeClass('load');
+							setHeight();
 						});
 						
 					}
@@ -539,19 +540,17 @@ function setActive(index) {
 	activePost.addClass('active');
 	posts.not(activePost).addClass('unactive');
 
-	// Pause todos los videos dentro de los thumbnails
     posts.each(function () {
         const video = $(this).find('video').get(0);
         if (video) {
             video.pause();
-            video.currentTime = 0; // opcional: reinicia el video al inicio
         }
     });
 
-    // Reproducir video del thumbnail activo
     const activeVideo = activePost.find('video').get(0);
     if (activeVideo) {
-        activeVideo.play().catch(() => { /* evita errores de autoplay */ });
+		activeVideo.muted = true;
+        activeVideo.play().catch(() => {});
     }
 }
 
@@ -575,6 +574,7 @@ $(document).on('click', '.list-item, #archive .thumbnail a, #single-index a', fu
 	e.preventDefault();
 	const slug = $(this).attr('href').substring(1);
 
+	$('#single-index').removeClass('credits');
 	history.pushState({ slug }, '', `#${slug}`);
 	showProject(slug);
 });
@@ -595,6 +595,29 @@ $(document).ready(function () {
 		const slug = hash.substring(1);
 		showProject(slug);
 	}
+});
+
+// img sizes
+
+function setHeight() {
+
+	const thumbnails = document.querySelectorAll('.thumbnail');
+
+	thumbnails.forEach(thumbnail => {
+		thumbnail.style.height = '';
+		const currentHeight = thumbnail.offsetHeight;
+		thumbnail.style.height = `${currentHeight}px`;
+	});
+
+}
+
+let resizeTimer = null;
+
+$(window).on('resize', () => {
+	clearTimeout(resizeTimer);
+	resizeTimer = setTimeout(() => {
+		setHeight();
+	}, 100);
 });
 
 // single
@@ -803,6 +826,13 @@ function showProject(slug) {
 		loading.removeClass('hide');
 	}, transition);
 
+	// preview
+	const preview = $('<a>').attr('id', 'preview').text('Preview');
+
+	if (project.media && project.media.length > 2) {
+		postButtons.append(preview);
+	}
+
 	// credits button
 	const creditsButton = $('<div>').attr('id', 'credits-button');
 	const creditsButtonText = $('<a>').text('Credits');
@@ -850,6 +880,11 @@ function showProject(slug) {
 
 				videoWrapper.append($video);
 				thumbContainer.append(videoWrapper);
+
+				$video.on('canplay', function () {
+					this.play().catch(() => {});
+				});
+
 			}
 		});
 	}
@@ -879,7 +914,6 @@ function showProject(slug) {
 
 	postFooter.append(prevNextContainer);
 
-
 	postFooter.append(thumbContainer);
 
 	// credits
@@ -907,12 +941,6 @@ function showProject(slug) {
 	}
 
 	// preview
-	const preview = $('<a>').attr('id', 'preview').text('Preview');
-
-	if (project.media && project.media.length > 2) {
-		postButtons.append(preview);
-	}
-
 	preview.on('click', function () {
 
 		const thumbHeight = thumbContainer[0].scrollHeight;

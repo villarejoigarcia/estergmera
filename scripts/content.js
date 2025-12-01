@@ -28,7 +28,7 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_huevos.webm" },
-        { type: "video", id: "1119488041", start: 8, end: 23 },
+        { type: "video", id: "1119488041" },
       ]
     },
     {
@@ -53,7 +53,7 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_amarlibre.webm" },
-        { type: "video", id: "1093329338", start: 13, end: 28 },
+        { type: "video", id: "1093329338" },
         { type: "image", src: "images/estergmera_amarlibre_1.webp" },
         { type: "image", src: "images/estergmera_amarlibre_2.webp" },
         { type: "image", src: "images/estergmera_amarlibre_3.webp" },
@@ -97,7 +97,7 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_musicmakers.webm" },
-        { type: "video", id: "1134943062", start: 0, end: 15 },
+        { type: "video", id: "1134943062" },
       ]
     },
     {
@@ -120,7 +120,32 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_parajumpers.webm" },
-        { type: "video", id: "1128799092", start: 16, end: 31 },
+        { type: "video", id: "1128799092" },
+      ]
+    },
+    {
+      fields: {
+        title: "Shoot BCN",
+        client: "Personal",
+        category: ["Photo"],
+        duration: "",
+      },
+      credits: [
+        "Produced by Oximoron",
+        "Photographer Ester G. Mera",
+        "Producer Jorehl",
+      ],
+      media: [
+        { type: "image", src: "images/estergmera_shootbcn_1.webp" },
+        { type: "image", src: "images/estergmera_shootbcn_2.webp" },
+        { type: "image", src: "images/estergmera_shootbcn_3.webp" },
+        { type: "image", src: "images/estergmera_shootbcn_4.webp" },
+        { type: "image", src: "images/estergmera_shootbcn_5.webp" },
+        { type: "image", src: "images/estergmera_shootbcn_6.webp" },
+        { type: "image", src: "images/estergmera_shootbcn_7.webp" },
+        { type: "image", src: "images/estergmera_shootbcn_8.webp" },
+        { type: "image", src: "images/estergmera_shootbcn_9.webp" },
+        { type: "image", src: "images/estergmera_shootbcn_10.webp" },
       ]
     },
     {
@@ -145,7 +170,7 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_uocmanifesto.webm" },
-        { type: "video", id: "1134936907", start: 21, end: 36 },
+        { type: "video", id: "1134936907" },
       ]
     },
     {
@@ -168,7 +193,7 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_isdin.webm" },
-        { type: "video", id: "1137743903", start: 0, end: 15 },
+        { type: "video", id: "1137743903" },
       ]
     },
     {
@@ -221,7 +246,7 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_soulblackout.webm" },
-        { type: "video", id: "815613535", start: 133, end: 148 },
+        { type: "video", id: "815613535" },
       ]
     },
     {
@@ -245,7 +270,40 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_equilibrio.webm" },
-        { type: "video", id: "941912084", start: 51, end: 66 },
+        { type: "video", id: "941912084" },
+      ]
+    },
+    {
+      fields: {
+        title: "Leti AT4",
+        client: "Leti Pharma",
+        category: ["Photo"],
+        duration: "",
+      },
+      credits: [
+        "Produced by We Are CP",
+        "Directed by Ester G. Mera",
+        "EP Jejo Serra, Iñaki Serra",
+        "Prod. Manager Arnau Giol",
+        "DOP Darío Rivera",
+        "MUAH Valeria López",
+        "Talent Sarah Perriez, Theophile Dreyfus, Robbie Dreyfus"
+      ],
+      media: [
+        { type: "image", src: "images/estergmera_leti_1.webp" },
+        { type: "image", src: "images/estergmera_leti_2.webp" },
+        { type: "image", src: "images/estergmera_leti_3.webp" },
+        { type: "image", src: "images/estergmera_leti_4.webp" },
+        { type: "image", src: "images/estergmera_leti_5.webp" },
+        { type: "image", src: "images/estergmera_leti_6.webp" },
+        { type: "image", src: "images/estergmera_leti_7.webp" },
+        { type: "image", src: "images/estergmera_leti_8.webp" },
+        { type: "image", src: "images/estergmera_leti_9.webp" },
+        { type: "image", src: "images/estergmera_leti_10.webp" },
+        { type: "image", src: "images/estergmera_leti_11.webp" },
+        { type: "image", src: "images/estergmera_leti_12.webp" },
+        { type: "image", src: "images/estergmera_leti_13.webp" },
+        { type: "image", src: "images/estergmera_leti_14.webp" },
       ]
     },
     {
@@ -267,7 +325,7 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_loquerompescoret.webm" },
-        { type: "video", id: "836491645", start: 93, end: 108 },
+        { type: "video", id: "836491645" },
       ]
     },
     {
@@ -289,7 +347,7 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_feitizo.webm" },
-        { type: "video", id: "705712476", start: 0, end: 15 },
+        { type: "video", id: "705712476" },
       ]
     },
     {
@@ -346,7 +404,7 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_quevoyahacer.webm" },
-        { type: "video", id: "1128849070", start: 132, end: 147 },
+        { type: "video", id: "1128849070" },
       ]
     },
     {
@@ -372,7 +430,7 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_maldeojo.webm" },
-        { type: "video", id: "1128818616", start: 44, end: 59 },
+        { type: "video", id: "1128818616" },
       ]
     },
     {
@@ -397,7 +455,7 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_leplaisir.webm" },
-        { type: "video", id: "729579141", start: 97, end: 112 },
+        { type: "video", id: "729579141" },
       ]
     },
     {
@@ -447,7 +505,7 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_lucky.webm" },
-        { type: "video", id: "1128822383", start: 155, end: 170 },
+        { type: "video", id: "1128822383" },
       ]
     },
     {
@@ -469,7 +527,7 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_buenisssima.webm" },
-        { type: "video", id: "841190921", start: 10, end: 25 },
+        { type: "video", id: "841190921" },
       ]
     },
     {
@@ -494,7 +552,7 @@ const content = {
       ],
       media: [
         { type: "video", clip: "images/estergmera_oxigeno.webm" },
-        { type: "video", id: "862437822", start: 38, end: 53 },
+        { type: "video", id: "862437822" },
       ]
     },
     {
@@ -512,7 +570,7 @@ const content = {
       ],
       media: [
         { type: "image", src: "images/estergmera_lossantos_1.webp" },
-        // { type: "video", id: "505816587", start: 10, end: 25 },
+        // { type: "video", id: "505816587" },
         { type: "image", src: "images/estergmera_lossantos_2.webp" },
         { type: "image", src: "images/estergmera_lossantos_3.webp" },
         { type: "image", src: "images/estergmera_lossantos_4.webp" },
