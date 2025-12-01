@@ -113,9 +113,9 @@ $(document).ready(function () {
 					? project.fields.category
 					: [project.fields.category || ''];
 
-				const $slide = $('<a>')
+				const $slide = $('<div>')
 					.addClass('thumbnail')
-					.attr('href', `#${project.slug}`)
+					// .attr('href', `#${project.slug}`)
 					.attr('data-index', index)
 					.attr('data-category', categories.join(',').toLowerCase());
 
@@ -147,11 +147,6 @@ $(document).ready(function () {
 							.addClass('load');
 
 						$slide.append($video);
-
-						// Reproducir automáticamente cuando se cargue
-						$video.on('loadedmetadata', () => {
-							$video[0].play();
-						});
 
 						$video.on('canplay', () => {
 							$video.removeClass('load');
@@ -251,6 +246,7 @@ $(document).ready(function () {
 						$video.on('canplay', () => {
 							$video.removeClass('load');
 						});
+						
 					}
 
 				}
@@ -428,30 +424,6 @@ $(document).ready(function () {
 
 });
 
-// img sizes
-
-function setHeight() {
-
-	// const thumbnailsContainer = document.querySelectorAll('.thumbnail');
-	const thumbnails = document.querySelectorAll('.thumbnail');
-
-	thumbnails.forEach(thumbnail => {
-		thumbnail.style.height = '';
-		const currentHeight = thumbnail.offsetHeight;
-		thumbnail.style.height = `${currentHeight}px`;
-	});
-
-}
-
-let resizeTimer = null;
-
-$(window).on('resize', () => {
-	clearTimeout(resizeTimer);
-	resizeTimer = setTimeout(() => {
-		setHeight();
-	}, 666);
-});
-
 // list
 
 let lastMousePos = { x: 0, y: 0 };
@@ -567,13 +539,20 @@ function setActive(index) {
 	activePost.addClass('active');
 	posts.not(activePost).addClass('unactive');
 
-	posts.each(function () {
-		const player = $(this).data('player');
-		if (player) player.pause();
-	});
+	// Pause todos los videos dentro de los thumbnails
+    posts.each(function () {
+        const video = $(this).find('video').get(0);
+        if (video) {
+            video.pause();
+            video.currentTime = 0; // opcional: reinicia el video al inicio
+        }
+    });
 
-	const activePlayer = activePost.data('player');
-	if (activePlayer) activePlayer.play().catch(() => { });
+    // Reproducir video del thumbnail activo
+    const activeVideo = activePost.find('video').get(0);
+    if (activeVideo) {
+        activeVideo.play().catch(() => { /* evita errores de autoplay */ });
+    }
 }
 
 function centerSlide(index) {
@@ -824,31 +803,6 @@ function showProject(slug) {
 		loading.removeClass('hide');
 	}, transition);
 
-	// prev next
-	const currentProjectIndex = window.content.projects.findIndex(p => p.slug === slug);
-	const totalProjects = window.content.projects.length;
-
-	const prevIndex = (currentProjectIndex - 1 + totalProjects) % totalProjects;
-	const nextIndex = (currentProjectIndex + 1) % totalProjects;
-
-	const prevProject = window.content.projects[prevIndex];
-	const nextProject = window.content.projects[nextIndex];
-
-	const prevNextContainer = $('<div>').attr('id', 'prev-next');
-
-	const prevDiv = $('<div>')
-		.attr('id', 'prev')
-		.html(`<a href="#${prevProject.slug}">${prevProject.fields.title}</a>`);
-
-	const nextDiv = $('<div>')
-		.attr('id', 'next')
-		.html(`<a href="#${nextProject.slug}">${nextProject.fields.title}</a>`);
-
-	prevNextContainer.append(prevDiv);
-	prevNextContainer.append(nextDiv);
-
-	postFooter.append(prevNextContainer);
-
 	// credits button
 	const creditsButton = $('<div>').attr('id', 'credits-button');
 	const creditsButtonText = $('<a>').text('Credits');
@@ -899,6 +853,32 @@ function showProject(slug) {
 			}
 		});
 	}
+
+	// prev next
+	const currentProjectIndex = window.content.projects.findIndex(p => p.slug === slug);
+	const totalProjects = window.content.projects.length;
+
+	const prevIndex = (currentProjectIndex - 1 + totalProjects) % totalProjects;
+	const nextIndex = (currentProjectIndex + 1) % totalProjects;
+
+	const prevProject = window.content.projects[prevIndex];
+	const nextProject = window.content.projects[nextIndex];
+
+	const prevNextContainer = $('<div>').attr('id', 'prev-next');
+
+	const prevDiv = $('<div>')
+		.attr('id', 'prev')
+		.html(`<a href="#${prevProject.slug}">${prevProject.fields.title}</a>`);
+
+	const nextDiv = $('<div>')
+		.attr('id', 'next')
+		.html(`<a href="#${nextProject.slug}">${nextProject.fields.title}</a>`);
+
+	prevNextContainer.append(prevDiv);
+	prevNextContainer.append(nextDiv);
+
+	postFooter.append(prevNextContainer);
+
 
 	postFooter.append(thumbContainer);
 
