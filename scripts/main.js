@@ -135,68 +135,27 @@ $(document).ready(function () {
 						$slide.append($media);
 
 					} else if (firstMedia.type === "video") {
+						// En content.js, firstMedia.clip contiene la ruta del video .webm
+						const videoSrc = firstMedia.clip; // ej: "videos/video1.webm"
 
-						const videoId = firstMedia.id;
-						const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
-
-						const $iframe = $('<iframe>')
-							.attr('src', vimeoUrl)
-							.attr('frameborder', '0')
-							.attr('allow', 'autoplay; fullscreen; picture-in-picture')
+						const $video = $('<video>')
+							.attr('src', videoSrc)
+							.attr('autoplay', true)
+							.attr('muted', true)
+							.attr('loop', true)
+							.attr('playsinline', true)
 							.addClass('load');
 
-						const player = new Vimeo.Player($iframe[0]);
+						$slide.append($video);
 
-						$slide.data('player', player);
+						// Reproducir automáticamente cuando se cargue
+						$video.on('loadedmetadata', () => {
+							$video[0].play();
+						});
 
-						if (firstMedia.start !== undefined && firstMedia.end !== undefined) {
-							const start = Number(firstMedia.start);
-							const end = Number(firstMedia.end);
-
-							fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
-							.then(res => res.json())
-							.then(data => {
-								const thumb = data[0].thumbnail_large;
-								const $thumbImg = $('<img>').attr('src', thumb).addClass('vimeo-thumb load');
-								$slide.append($thumbImg);
-								player.on('play', () => {
-									$thumbImg.css('opacity', 0);
-								});
-
-								setTimeout(() => {
-									$thumbImg.removeClass('load');
-								}, 1000);
-
-							})
-
-							player.ready().then(() => {
-								player.setCurrentTime(start).then(() => player.play());
-							});
-
-							player.on('timeupdate', data => {
-								if (data.seconds >= end) {
-									player.setCurrentTime(start).then(() => player.play());
-								}
-							});
-
-							// player.on('play', () => {
-							// 	$iframe[0].classList.remove('load');
-							// });
-
-							player.on('loaded', () => {
-								Promise.all([player.getVideoWidth(), player.getVideoHeight()])
-									.then(([w, h]) => {
-										const ratio = w / h;
-										$iframe[0].style.aspectRatio = ratio;
-										setHeight();
-									});
-							});
-
-						} else {
-							player.ready().then(() => player.play()).catch(() => { });
-						}
-
-						$slide.append($iframe);
+						$video.on('canplay', () => {
+							$video.removeClass('load');
+						});
 					}
 				}
 
@@ -260,6 +219,7 @@ $(document).ready(function () {
 
 				// Media
 				if (project.media && project.media.length > 0) {
+
 					const firstMedia = project.media[0];
 					let $media;
 
@@ -276,85 +236,23 @@ $(document).ready(function () {
 
 					} else if (firstMedia.type === "video") {
 
-						const videoId = firstMedia.id;
+						const videoSrc = firstMedia.clip;
 
-						const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
+						const $video = $('<video>')
+							.attr('src', videoSrc)
+							.attr('autoplay', true)
+							.attr('muted', true)
+							.attr('loop', true)
+							.attr('playsinline', true)
+							.addClass('load');
 
-						const $iframe = $('<iframe>')
-							.attr('src', vimeoUrl)
-							.attr('frameborder', '0')
-							.attr('allow', 'autoplay; fullscreen; picture-in-picture')
-							// .addClass('load');
+						$slide.append($video);
 
-						const player = new Vimeo.Player($iframe[0]);
-
-						$slide.data('player', player);
-
-						if (firstMedia.start !== undefined && firstMedia.end !== undefined) {
-							const start = Number(firstMedia.start);
-							const end = Number(firstMedia.end);
-
-							fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
-							.then(res => res.json())
-							.then(data => {
-								const thumb = data[0].thumbnail_large;
-								const $thumbImg = $('<img>').attr('src', thumb).addClass('vimeo-thumb load');
-								$slide.append($thumbImg);
-								player.on('play', () => {
-									$thumbImg.css('opacity', 0);
-								});
-
-								setTimeout(() => {
-									$thumbImg.removeClass('load');
-								}, 1000);
-
-							})
-
-							player.ready().then(() => {
-								player.setCurrentTime(start).then(() => player.play());
-							});
-
-							player.on('timeupdate', data => {
-								if (data.seconds >= end) {
-									player.setCurrentTime(start).then(() => player.play());
-								}
-							});
-
-							// player.on('play', () => {
-							// 	$iframe[0].classList.remove('load');
-							// });
-
-							player.on('loaded', () => {	
-								player.getDuration().then(durationSeconds => {
-									const minutes = Math.floor(durationSeconds / 60);
-									const seconds = durationSeconds % 60;
-									const formattedDuration = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-
-									const imageCount = project.media.filter(m => m.type === "image").length;
-									const imageText = imageCount > 0 ? `/${imageCount}` : "";
-
-									const finalText = `${formattedDuration}${imageText}`;
-									project.fields.duration = finalText;
-
-									const $durationField = $(`#list .list-item[data-index="${index}"]>*:last-child`);
-									if ($durationField.length) $durationField.text(finalText);
-
-								});
-
-								Promise.all([player.getVideoWidth(), player.getVideoHeight()])
-									.then(([w, h]) => {
-										const ratio = w / h;
-										$iframe[0].style.aspectRatio = ratio;
-										setHeight();
-									});
-							});
-
-						} else {
-							player.ready().then(() => player.play()).catch(() => { });
-						}
-
-						$slide.append($iframe);
+						$video.on('canplay', () => {
+							$video.removeClass('load');
+						});
 					}
+
 				}
 
 				$carousel.append($slide);
@@ -779,7 +677,7 @@ function showProject(slug) {
 					.toggleClass('active', i === 0);
 				singleGallery.append($img);
 
-			} else if (m.type === "video") {
+			} else if (m.type === "video" && i === 1) {
 
 				const videoId = m.id;
 				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=0&muted=1&loop=1&background=1`;
@@ -964,6 +862,9 @@ function showProject(slug) {
 	// single thumbnails
 	const thumbContainer = $('<div>').attr('id', 'thumbnails');
 	if (project.media && project.media.length > 0) {
+
+		let videoCount = 0;
+
 		project.media.forEach((m, i) => {
 
 			const hasImage = project.media.some(m => m.type === 'image');
@@ -976,48 +877,24 @@ function showProject(slug) {
 					.toggleClass('active', i === 0);
 				thumbContainer.append($thumb);
 			} else if (m.type === "video" && hasImage) {
-				const videoId = m.id;
-				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=1&muted=1&loop=1&background=1`;
+
+				if (videoCount > 0) return;
+				videoCount++;
+
+				const videoSrc = m.clip;
+
+				const $video = $('<video>')
+					.attr('src', videoSrc)
+					.attr('autoplay', true)
+					.attr('muted', true)
+					.attr('loop', true)
+					.attr('playsinline', true)
+
 				const videoWrapper = $('<div>')
 					.addClass('video-wrapper thumbnail-item')
 					.toggleClass('active', i === 0);
 
-				const $iframe = $('<iframe>')
-					.attr('src', vimeoUrl)
-					.attr('frameborder', '0')
-					.attr('allow', 'autoplay; fullscreen; picture-in-picture')
-
-				const player = new Vimeo.Player($iframe[0]);
-
-				if (m.start !== undefined && m.end !== undefined) {
-					const start = Number(m.start);
-					const end = Number(m.end);
-
-					player.ready().then(() => {
-						player.setCurrentTime(start).then(() => player.play());
-					});
-
-					player.on('timeupdate', data => {
-						if (data.seconds >= end) {
-							player.setCurrentTime(start).then(() => player.play());
-						}
-					});
-
-					player.on('play', () => {
-						$iframe[0].classList.remove('load');
-					});
-
-					Promise.all([player.getVideoWidth(), player.getVideoHeight()])
-						.then(([w, h]) => {
-							const ratio = w / h;
-							$iframe[0].style.aspectRatio = ratio;
-						})
-
-				} else {
-					player.ready().then(() => player.play()).catch(() => { });
-				}
-
-				videoWrapper.append($iframe);
+				videoWrapper.append($video);
 				thumbContainer.append(videoWrapper);
 			}
 		});
@@ -1052,7 +929,7 @@ function showProject(slug) {
 	// preview
 	const preview = $('<a>').attr('id', 'preview').text('Preview');
 
-	if (project.media && project.media.length > 1) {
+	if (project.media && project.media.length > 2) {
 		postButtons.append(preview);
 	}
 
