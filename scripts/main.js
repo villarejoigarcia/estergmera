@@ -217,6 +217,7 @@ $(document).ready(function () {
 				if (project.media && project.media.length > 0) {
 
 					const firstMedia = project.media[0];
+					const secondMedia = project.media[1];
 					let $media;
 
 					if (firstMedia.type === "image") {
@@ -247,6 +248,47 @@ $(document).ready(function () {
 							$video.removeClass('load');
 							setHeight();
 						});
+
+						if (secondMedia && secondMedia.type === "video" && secondMedia.id) {
+
+							const vimeoId = secondMedia.id;
+
+							const $hiddenIframe = $('<iframe>')
+								.attr('src', 'https://player.vimeo.com/video/' + vimeoId)
+								.attr('style', 'display:none;')
+								.attr('allow', 'autoplay; fullscreen');
+
+							$('body').append($hiddenIframe);
+
+							const player = new Vimeo.Player($hiddenIframe[0]);
+
+							player.getDuration().then(function (duration) {
+
+								var minutes = Math.floor(duration / 60);
+								var seconds = String(duration % 60).padStart(2, '0');
+								var formattedDuration = minutes + ':' + seconds;
+
+								var imageCount = project.media.filter(function (m) {
+									return m.type === "image";
+								}).length;
+
+								var imageText = imageCount > 0 ? '/' + imageCount : '';
+
+								var finalText = formattedDuration + imageText;
+
+								project.fields.duration = finalText;
+
+								var $durationField = $('#list .list-item[data-index="' + index + '"]')
+									.children()
+									.last()
+									.children();
+
+								$durationField.text(finalText);
+
+								// Limpiar iframe oculto si quieres
+								setTimeout(function () { $hiddenIframe.remove(); }, 500);
+							});
+						}
 						
 					}
 
