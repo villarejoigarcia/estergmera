@@ -290,9 +290,9 @@ $(document).ready(function () {
 						$slide.append($video);
 
 						$video.on('canplay', () => {
-							// setTimeout(() => {
+							setTimeout(() => {
 								$video.removeClass('load');
-							// }, 666);
+							}, 500);
 							setHeight();
 						});
 
