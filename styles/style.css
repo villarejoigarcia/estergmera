@@ -776,6 +776,11 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	filter: blur(0);
 } */
 
+.thumbnail.load {
+	opacity: 0;
+	filter: blur(10px);
+}
+
 	.vimeo-thumb {
 		width: 100%;
 		height: auto;

@@ -114,7 +114,7 @@ $(document).ready(function () {
 					: [project.fields.category || ''];
 
 				const $slide = $('<a>')
-					.addClass('thumbnail')
+					.addClass('thumbnail load')
 					.attr('href', `#${project.slug}`)
 					.attr('data-index', index)
 					.attr('data-category', categories.join(',').toLowerCase());
@@ -134,6 +134,10 @@ $(document).ready(function () {
 						$media = $('<img>').attr('src', firstMedia.src);
 						$slide.append($media);
 
+						setTimeout(() => {
+							$slide.removeClass('load');
+						}, 500);
+
 					} else if (firstMedia.type === "video") {
 
 						const videoSrc = firstMedia.clip;
@@ -143,13 +147,14 @@ $(document).ready(function () {
 							// .attr('autoplay', true)
 							.attr('muted', true)
 							.attr('loop', true)
-							.attr('playsinline', true)
-							.addClass('load');
+							.attr('playsinline', true);
 
 						$slide.append($video);
 
 						$video.on('canplay', () => {
-							$video.removeClass('load');
+							setTimeout(() => {
+								$slide.removeClass('load');
+							}, 500);
 							setHeight();
 						});
 					}
