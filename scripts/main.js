@@ -731,7 +731,7 @@ $(window).on('resize', () => {
 	clearTimeout(resizeTimer);
 	resizeTimer = setTimeout(() => {
 		setHeight();
-	}, 100);
+	}, 500);
 });
 
 // single
@@ -903,12 +903,18 @@ function showProject(slug) {
 						videoWrapper[0].requestFullscreen?.() ||
 							videoWrapper[0].webkitRequestFullscreen?.() ||
 							videoWrapper[0].msRequestFullscreen?.();
+
 						$fullscreenToggle.text('Exit');
+
+						videoWrapper.addClass('fullscreen');
 					} else {
 						document.exitFullscreen?.() ||
 							document.webkitExitFullscreen?.() ||
 							document.msExitFullscreen?.();
+
 						$fullscreenToggle.text('Full screen');
+
+						videoWrapper.removeClass('fullscreen');
 					}
 				});
 

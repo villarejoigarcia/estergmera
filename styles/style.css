@@ -362,6 +362,12 @@ nav>*.active a {
 	width: 100% !important;
 }
 
+.video-wrapper:fullscreen iframe {
+	width: 100vw !important;
+	margin: auto 0;
+	height: 100% !important;
+}
+
 #single-gallery iframe {
 	position: relative;
 }
