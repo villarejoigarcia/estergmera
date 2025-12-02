@@ -200,6 +200,7 @@ $(document).ready(function () {
 			// desktop
 
 			c.projects.forEach((project, index) => {
+
 				const categories = project.fields.category;
 
 				const $slide = $('<a>')
@@ -220,35 +221,7 @@ $(document).ready(function () {
 					const secondMedia = project.media[1];
 					let $media;
 
-					if (firstMedia.type === "image") {
-						$media = $('<img>').attr('src', firstMedia.src);
-						$slide.append($media);
-
-						const imageCount = project.media.filter(m => m.type === "image").length;
-						const text = imageCount.toString();
-						project.fields.duration = text;
-
-						const $durationField = $(`#list .list-item[data-index="${index}"]>*:last-child`);
-						if ($durationField.length) $durationField.text(text);
-
-					} else if (firstMedia.type === "video") {
-
-						const videoSrc = firstMedia.clip;
-
-						const $video = $('<video>')
-							.attr('src', videoSrc)
-							.attr('muted', true)
-							.attr('loop', true)
-							.attr('playsinline', true)
-							.addClass('load');
-
-						$slide.append($video);
-
-						$video.on('canplay', () => {
-							$video.removeClass('load');
-							setHeight();
-						});
-
+					function vimeoDuration() {
 						if (secondMedia && secondMedia.type === "video" && secondMedia.id) {
 
 							const vimeoId = secondMedia.id;
@@ -285,10 +258,85 @@ $(document).ready(function () {
 
 								$durationField.text(finalText);
 
-								// Limpiar iframe oculto si quieres
-								setTimeout(function () { $hiddenIframe.remove(); }, 500);
+								$hiddenIframe.remove();
 							});
 						}
+					}
+
+					if (firstMedia.type === "image") {
+						$media = $('<img>').attr('src', firstMedia.src);
+						$slide.append($media);
+
+						const imageCount = project.media.filter(m => m.type === "image").length;
+						const text = imageCount.toString();
+						project.fields.duration = text;
+
+						const $durationField = $(`#list .list-item[data-index="${index}"]>*:last-child`);
+						if ($durationField.length) $durationField.text(text);
+
+						vimeoDuration();
+
+					} else if (firstMedia.type === "video") {
+
+						const videoSrc = firstMedia.clip;
+
+						const $video = $('<video>')
+							.attr('src', videoSrc)
+							.attr('muted', true)
+							.attr('loop', true)
+							.attr('playsinline', true)
+							.addClass('load');
+
+						$slide.append($video);
+
+						$video.on('canplay', () => {
+							// setTimeout(() => {
+								$video.removeClass('load');
+							// }, 666);
+							setHeight();
+						});
+
+						// if (secondMedia && secondMedia.type === "video" && secondMedia.id) {
+
+						// 	const vimeoId = secondMedia.id;
+
+						// 	const $hiddenIframe = $('<iframe>')
+						// 		.attr('src', 'https://player.vimeo.com/video/' + vimeoId)
+						// 		.attr('style', 'display:none;')
+						// 		.attr('allow', 'autoplay; fullscreen');
+
+						// 	$('body').append($hiddenIframe);
+
+						// 	const player = new Vimeo.Player($hiddenIframe[0]);
+
+						// 	player.getDuration().then(function (duration) {
+
+						// 		var minutes = Math.floor(duration / 60);
+						// 		var seconds = String(duration % 60).padStart(2, '0');
+						// 		var formattedDuration = minutes + ':' + seconds;
+
+						// 		var imageCount = project.media.filter(function (m) {
+						// 			return m.type === "image";
+						// 		}).length;
+
+						// 		var imageText = imageCount > 0 ? '/' + imageCount : '';
+
+						// 		var finalText = formattedDuration + imageText;
+
+						// 		project.fields.duration = finalText;
+
+						// 		var $durationField = $('#list .list-item[data-index="' + index + '"]')
+						// 			.children()
+						// 			.last()
+						// 			.children();
+
+						// 		$durationField.text(finalText);
+
+						// 		$hiddenIframe.remove();
+						// 	});
+						// }
+
+						vimeoDuration();
 						
 					}
 
@@ -307,7 +355,7 @@ $(document).ready(function () {
 
 				if (project.fields) {
 					const $fields = $('<a>')
-						.addClass('list-item')
+						.addClass('list-item load')
 						.attr('href', `#${project.slug}`)
 						.attr('data-index', index)
 
@@ -331,8 +379,32 @@ $(document).ready(function () {
 					});
 
 					$list.append($fields);
+
+					// setTimeout(() => {
+					// 	$fields.removeClass('load');
+					// }, 1000);
 				}
 			});
+
+			const interval = setInterval(function () {
+
+				const all = $('#list .list-item .duration span');
+
+				let pending = false;
+
+				all.each(function () {
+					if ($(this).text().trim() === '') {
+						pending = true;
+						return false;
+					}
+				});
+
+				if (pending) return;
+
+				clearInterval(interval);
+				$('.list-item').removeClass('load');
+
+			}, 0);
 
 			// list
 
@@ -1249,18 +1321,48 @@ $(document).ready(function () {
 		e.stopPropagation();
 		about.toggleClass('active');
 		aboutButton.toggleClass('active');
+
+		setTimeout(() => {
+
+			press.children().removeClass('active');
+			pressButton.removeClass('active');
+			pressButton.text(originalText);
+			pressContainer.css('transform', '');
+			press.children().css('max-height', '');
+
+		}, 1000 / 2);
 	});
 
 	about.on('click', function (e) {
 		if (e.target === this) {
 			about.removeClass('active');
 			aboutButton.removeClass('active');
+
+			setTimeout(() => {
+
+				press.children().removeClass('active');
+				pressButton.removeClass('active');
+				pressButton.text(originalText);
+				pressContainer.css('transform', '');
+				press.children().css('max-height', '');
+
+			}, 1000 / 2);
 		}
 	});
 
 	filterButtons.on('click', function (e) {
-			about.removeClass('active');
-			aboutButton.removeClass('active');
+		about.removeClass('active');
+		aboutButton.removeClass('active');
+
+		setTimeout(() => {
+
+			press.children().removeClass('active');
+			pressButton.removeClass('active');
+			pressButton.text(originalText);
+			pressContainer.css('transform', '');
+			press.children().css('max-height', '');
+
+		}, 1000 / 2);
 	});
 
 	// press

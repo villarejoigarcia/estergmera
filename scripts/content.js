@@ -570,7 +570,7 @@ const content = {
       ],
       media: [
         { type: "image", src: "images/estergmera_lossantos_1.webp" },
-        // { type: "video", id: "505816587" },
+        { type: "video", id: "505816587" },
         { type: "image", src: "images/estergmera_lossantos_2.webp" },
         { type: "image", src: "images/estergmera_lossantos_3.webp" },
         { type: "image", src: "images/estergmera_lossantos_4.webp" },

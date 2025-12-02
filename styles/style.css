@@ -216,6 +216,11 @@ nav>*.active a {
 	position: relative;
 }
 
+.list-item.load {
+	opacity: 0;
+	filter: blur(10px);
+}
+
 .list-item>* {
 	flex: 1;
 }
@@ -652,13 +657,13 @@ input[type="range"]:hover::-webkit-slider-thumb {
 @media (min-width: 1024px) {
 	#press .other {
 		position: absolute;
-		transform: translateY(100%);
+		/* transform: translateY(100%); */
 		width: 100%;
 	}
 
-	#press .other.active {
+	/* #press .other.active {
 		transform: translateY(0);
-	}
+	} */
 }
 
 @media (min-width: 2560px) {
