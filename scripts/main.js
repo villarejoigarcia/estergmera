@@ -458,8 +458,6 @@ $(document).ready(function () {
 		const postPhoto = $('.photo');
 		const postFilm = $('.film');
 
-		// activateFirstThumbnail();
-
 		if (container.hasClass('single-view')) {
 			// Clear URL hash
 			history.pushState({}, '', window.location.pathname);
@@ -487,8 +485,24 @@ $(document).ready(function () {
 					archive.removeClass();
 					list.removeClass();
 					postPhoto.addClass('filter');
+
+					// const $firstThumb = archive.find('.thumbnail').first();
+
+					// if ($firstThumb.length) {
+					// 	const firstIndex = $firstThumb.data('index');
+					// 	setActive(firstIndex);
+					// }
+
 				}, 2000);
+
+				const $firstThumb = archive.find('.thumbnail.film').first();
+
+				if ($firstThumb.length) {
+					const firstIndex = $firstThumb.data('index');
+					setActive(firstIndex);
+				}
 			}, 500);
+
 		} else {
 			console.log('home');
 			postPhoto.toggleClass('filter');
@@ -501,8 +515,6 @@ $(document).ready(function () {
 	photoButton.on('click', function () {
 		const postPhoto = $('.photo');
 		const postFilm = $('.film');
-
-		// activateFirstThumbnail();
 
 		if (container.hasClass('single-view')) {
 			// Clear URL hash
@@ -532,6 +544,14 @@ $(document).ready(function () {
 					list.removeClass();
 					postFilm.addClass('filter');
 				}, 2000);
+
+				const $firstThumb = archive.find('.thumbnail.photo').first();
+
+				if ($firstThumb.length) {
+					const firstIndex = $firstThumb.data('index');
+					setActive(firstIndex);
+				}
+
 			}, 500);
 		} else {
 			console.log('home');
@@ -671,6 +691,8 @@ function setActive(index) {
 		activeVideo.muted = true;
         activeVideo.play().catch(() => {});
     }
+
+	console.log('active');
 }
 
 function centerSlide(index) {
@@ -1432,8 +1454,8 @@ function activateFirstThumbnail() {
 
     if ($firstThumb.length) {
         const firstIndex = $firstThumb.data('index');
-        setActive(firstIndex);   // ✔ activa primer thumbnail + lista
-        return firstIndex;       // opcional, por si quieres saber cuál es
+        setActive(firstIndex);
+        return firstIndex;
     }
 
     return null;
