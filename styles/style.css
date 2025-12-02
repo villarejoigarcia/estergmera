@@ -827,6 +827,10 @@ input[type="range"]:hover::-webkit-slider-thumb {
 		display: none;
 	}
 
+	.post-data span {
+		color: black;
+	}
+
 	/* about */
 
 	#about {

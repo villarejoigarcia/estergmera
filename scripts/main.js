@@ -144,7 +144,6 @@ $(document).ready(function () {
 
 						const $video = $('<video>')
 							.attr('src', videoSrc)
-							// .attr('autoplay', true)
 							.attr('muted', true)
 							.attr('loop', true)
 							.attr('playsinline', true);
@@ -504,7 +503,6 @@ $(document).ready(function () {
 			}, 500);
 
 		} else {
-			console.log('home');
 			postPhoto.toggleClass('filter');
 			postFilm.removeClass('filter');
 		}
@@ -554,7 +552,6 @@ $(document).ready(function () {
 
 			}, 500);
 		} else {
-			console.log('home');
 			postFilm.toggleClass('filter');
 			postPhoto.removeClass('filter');
 		}
@@ -692,7 +689,6 @@ function setActive(index) {
         activeVideo.play().catch(() => {});
     }
 
-	console.log('active');
 }
 
 function centerSlide(index) {
