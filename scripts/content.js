@@ -601,63 +601,82 @@ const content = {
   press: [
     {
       title: "Conference talk at CdeC",
-      url: "https://www.clubdecreativos.com/diascdec/2024-2/ester-garcia-mera/"
+      url: "https://www.clubdecreativos.com/diascdec/2024-2/ester-garcia-mera/",
+      hierarchy: "main",
     },
     {
       title: "Essay published at Galicia 21",
-      url: "https://www.galicia21journal.org/K/pdf/Galicia21_K_02_G.Mera.pdf"
+      url: "https://www.galicia21journal.org/K/pdf/Galicia21_K_02_G.Mera.pdf",
+      hierarchy: "main",
     },
     {
       title: "Premiere of my documentary series Music Makers at In-Edit Festival, now available on CaixaForum+",
-      url: "https://caixaforumplus.org/c/music-makers"
+      url: "https://caixaforumplus.org/c/music-makers",
+      hierarchy: "main",
+    },
+    //
+    {
+      title: "Talk at She Sounds 2025",
+      url: "https://www.shesounds.es/post/she-sounds-cierra-con-éxito-creative-trends-2025-cuatro-días-de-innovación-y-talento",
+      hierarchy: "other"
     },
     {
-      title: "︎Winner of the IV Maria Luz Morales Award for best international video-essay with my film «Le temps (ne) detruit (pas) tout»",
-      url: "https://www.academiagalegadoaudiovisual.gal/iv-premios-maria-luz-morales/"
-    },
-    {
-      title: "︎Interview for Academia Galega do Audiovisual",
-      url: "https://www.academiagalegadoaudiovisual.gal/ester-g-mera/"
-    },
-    {
-      title: "Film critic at A Cuarta Parede",
-      url: "https://www.acuartaparede.com/author/ester-garcia/"
-    },
-    {
-      title: "Radio interview on Radio Galega",
-      url: "https://www.agalegaaudio.gal/videos/detail/277538-o-machismo-no-punto-de-mira"
-    },
-    {
-      title: "︎Interview for El Español",
-      url: "https://www.elespanol.com/treintayseis/cultura/audiovisual/20221120/ester-mera-talento-gallego-rueda-videoclips-exito-madrid-barcelona/719928153_0.html"
-    },
-    {
-      title: "︎Press article in ACERO Magazine",
-      url: "https://acero.metalmagazine.eu/post/tres-directores-de-videoclips-para-tener-en-el-radar"
+      title: "Conversation at Retina Festival",
+      url: "https://festivalretina.com/music-makers-desde-el-estudio-de-grabacion-por-cora-novoa-ester-g-mera-y-maria-del-castillo/",
+      hierarchy: "other"
     },
   ],
   otherPress: [
     {
-      title: "Talk at She Sounds 2025",
-      url: "https://www.shesounds.es/post/she-sounds-cierra-con-éxito-creative-trends-2025-cuatro-días-de-innovación-y-talento"
+      title: "︎Winner of the IV Maria Luz Morales Award for best international video-essay with my film «Le temps (ne) detruit (pas) tout»",
+      url: "https://www.academiagalegadoaudiovisual.gal/iv-premios-maria-luz-morales/",
+      hierarchy: "main",
     },
     {
-      title: "Conversation at Retina Festival",
-      url: "https://festivalretina.com/music-makers-desde-el-estudio-de-grabacion-por-cora-novoa-ester-g-mera-y-maria-del-castillo/"
+      title: "︎Interview for Academia Galega do Audiovisual",
+      url: "https://www.academiagalegadoaudiovisual.gal/ester-g-mera/",
+      hierarchy: "main",
     },
+    //
+    {
+      title: "︎Interview for El Español",
+      url: "https://www.elespanol.com/treintayseis/cultura/audiovisual/20221120/ester-mera-talento-gallego-rueda-videoclips-exito-madrid-barcelona/719928153_0.html",
+      hierarchy: "other"
+    },
+    {
+      title: "︎Press article in ACERO Magazine",
+      url: "https://acero.metalmagazine.eu/post/tres-directores-de-videoclips-para-tener-en-el-radar",
+      hierarchy: "other"
+    },
+  ],
+  thirdPress: [
+    {
+      title: "Film critic at A Cuarta Parede",
+      url: "https://www.acuartaparede.com/author/ester-garcia/",
+      hierarchy: "main",
+    },
+    {
+      title: "Radio interview on Radio Galega",
+      url: "https://www.agalegaaudio.gal/videos/detail/277538-o-machismo-no-punto-de-mira",
+      hierarchy: "main",
+    },
+    //
     {
       title: "Feature on ZigZag (TVG) about my video essay",
-      url: "https://www.crtvg.es/tvg/a-carta/zigzag-diario-4610733?t=860"
+      url: "https://www.crtvg.es/tvg/a-carta/zigzag-diario-4610733?t=860",
+      hierarchy: "other"
     },
     {
       title: "︎Interview for La Región",
-      url: "https://www.laregion.es/articulo/celanova/seria-sueno-venir-dirigir-algun-proyecto-audiovisual-celanova/202309012204131241905.html"
+      url: "https://www.laregion.es/articulo/celanova/seria-sueno-venir-dirigir-algun-proyecto-audiovisual-celanova/202309012204131241905.html",
+      hierarchy: "other"
     },
     {
       title: "︎TV interview in ZigZag Diario for TVG",
-      url: "https://www.crtvg.es/tvg/a-carta/zigzag-diario-5028170"
+      url: "https://www.crtvg.es/tvg/a-carta/zigzag-diario-5028170",
+      hierarchy: "other"
     },
-  ]
+  ],
 };
 
 window.content = content;

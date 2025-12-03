@@ -104,6 +104,9 @@ $(document).ready(function () {
 		const otherPress = $('#press .other');
 		otherPress.empty();
 
+		const thirdPress = $('#press .third');
+		thirdPress.empty();
+
 		if (isMobile) {
 
 			// mobile
@@ -189,6 +192,15 @@ $(document).ready(function () {
 			});
 
 			c.otherPress.forEach(item => {
+				const link = $('<a>')
+					.attr('href', item.url)
+					.attr('target', '_blank')
+					.text(item.title);
+
+				press.append(link);
+			});
+
+			c.thirdPress.forEach(item => {
 				const link = $('<a>')
 					.attr('href', item.url)
 					.attr('target', '_blank')
@@ -413,27 +425,39 @@ $(document).ready(function () {
 			// press
 
 			c.press.forEach(item => {
-				const container = $('<div>');
+				const container = $('<div>').attr('data-hierarchy', item.hierarchy);
 				const link = $('<a>')
 					.attr('href', item.url)
 					.attr('target', '_blank')
 					.text(item.title);
 
-
 				container.append(link);
+				container.filter('[data-hierarchy="other"]').css('max-height', '0');
 				press.append(container);
 			});
 
 			c.otherPress.forEach(item => {
-				const container = $('<div>');
+				const container = $('<div>').attr('data-hierarchy', item.hierarchy);
 				const link = $('<a>')
 					.attr('href', item.url)
 					.attr('target', '_blank')
 					.text(item.title);
 
+				container.append(link);
+				container.filter('[data-hierarchy="other"]').css('max-height', '0');
+				otherPress.append(container);
+			});
+
+			c.thirdPress.forEach(item => {
+				const container = $('<div>').attr('data-hierarchy', item.hierarchy);
+				const link = $('<a>')
+					.attr('href', item.url)
+					.attr('target', '_blank')
+					.text(item.title);
 
 				container.append(link);
-				otherPress.append(container);
+				container.filter('[data-hierarchy="other"]').css('max-height', '0');
+				thirdPress.append(container);
 			});
 
 		}
@@ -1416,32 +1440,24 @@ $(document).ready(function () {
 		const lastChild = press.children().last()[0];
 		const lastChildHeight = lastChild.scrollHeight;
 
-		// Recorrer hijos para aplicar max-height como antes
-		press.children().each(function () {
-			const child = this;
-
-			if (!$(child).hasClass('active')) {
-				const childHeight = child.scrollHeight;
-				$(child).css('max-height', childHeight + 'px');
-				$(child).addClass('active');
-			} else {
-				$(child).css('max-height', '');
-				$(child).removeClass('active');
-			}
-		});
-
+		const pressItems = press.find('[data-hierarchy="other"], [data-hierarchy="other active"]');
 
 		// Si está abierto → mover hacia arriba
 		if (pressButton.hasClass('active')) {
 			if (!isMobile) {
-				pressContainer.css('transform', `translateY(-${lastChildHeight}px)`);
+				pressItems.attr('data-hierarchy', 'other active');
+				pressItems.each(function () {
+					const h = this.scrollHeight;
+					$(this).css('max-height', h + 'px');
+				});
 			}
 			pressButton.text('- View less');
 		}
 		// Si está cerrado → reset
 		else {
 			if (!isMobile) {
-				pressContainer.css('transform', '');
+				pressItems.attr('data-hierarchy', 'other');
+				pressItems.css('max-height', '0px');
 			}
 			pressButton.text(originalText);
 		}
