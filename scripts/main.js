@@ -341,7 +341,7 @@ $(document).ready(function () {
 						// }
 
 						vimeoDuration();
-						
+
 					}
 
 				}
@@ -410,24 +410,30 @@ $(document).ready(function () {
 
 			}, 0);
 
-			// list
+			// press
 
 			c.press.forEach(item => {
+				const container = $('<div>');
 				const link = $('<a>')
 					.attr('href', item.url)
 					.attr('target', '_blank')
 					.text(item.title);
 
-				press.append(link);
+
+				container.append(link);
+				press.append(container);
 			});
 
 			c.otherPress.forEach(item => {
+				const container = $('<div>');
 				const link = $('<a>')
 					.attr('href', item.url)
 					.attr('target', '_blank')
 					.text(item.title);
 
-				otherPress.append(link);
+
+				container.append(link);
+				otherPress.append(container);
 			});
 
 		}
@@ -676,18 +682,18 @@ function setActive(index) {
 	activePost.addClass('active');
 	posts.not(activePost).addClass('unactive');
 
-    posts.each(function () {
-        const video = $(this).find('video').get(0);
-        if (video) {
-            video.pause();
-        }
-    });
+	posts.each(function () {
+		const video = $(this).find('video').get(0);
+		if (video) {
+			video.pause();
+		}
+	});
 
-    const activeVideo = activePost.find('video').get(0);
-    if (activeVideo) {
+	const activeVideo = activePost.find('video').get(0);
+	if (activeVideo) {
 		activeVideo.muted = true;
-        activeVideo.play().catch(() => {});
-    }
+		activeVideo.play().catch(() => { });
+	}
 
 }
 
@@ -1025,7 +1031,7 @@ function showProject(slug) {
 				thumbContainer.append(videoWrapper);
 
 				$video.on('canplay', function () {
-					this.play().catch(() => {});
+					this.play().catch(() => { });
 				});
 
 			}
@@ -1093,7 +1099,7 @@ function showProject(slug) {
 		thumbContainer.toggleClass('active');
 		preview.toggleClass('active');
 	});
-	
+
 	$postContainer.append(postFooter);
 
 	// single index
@@ -1298,7 +1304,7 @@ function showProject(slug) {
 		$('#post .post-image').removeClass('active');
 		$('#post .post-image').eq(index).addClass('active');
 	});
-	
+
 	// credits
 	creditsButton.find('a').on('click', function () {
 
@@ -1424,21 +1430,21 @@ $(document).ready(function () {
 			}
 		});
 
-		
-			// Si está abierto → mover hacia arriba
-			if (pressButton.hasClass('active')) {
-				if (!isMobile) {
-					pressContainer.css('transform', `translateY(-${lastChildHeight}px)`);
-				}
-				pressButton.text('- View less');
+
+		// Si está abierto → mover hacia arriba
+		if (pressButton.hasClass('active')) {
+			if (!isMobile) {
+				pressContainer.css('transform', `translateY(-${lastChildHeight}px)`);
 			}
-			// Si está cerrado → reset
-			else {
-				if (!isMobile) {
-					pressContainer.css('transform', '');
-				}
-				pressButton.text(originalText);
+			pressButton.text('- View less');
+		}
+		// Si está cerrado → reset
+		else {
+			if (!isMobile) {
+				pressContainer.css('transform', '');
 			}
+			pressButton.text(originalText);
+		}
 	});
 
 });
@@ -1446,15 +1452,15 @@ $(document).ready(function () {
 // status
 
 function activateFirstThumbnail() {
-    const $firstThumb = $('#archive .thumbnail').first();
+	const $firstThumb = $('#archive .thumbnail').first();
 
-    if ($firstThumb.length) {
-        const firstIndex = $firstThumb.data('index');
-        setActive(firstIndex);
-        return firstIndex;
-    }
+	if ($firstThumb.length) {
+		const firstIndex = $firstThumb.data('index');
+		setActive(firstIndex);
+		return firstIndex;
+	}
 
-    return null;
+	return null;
 }
 
 $(document).ready(function () {
