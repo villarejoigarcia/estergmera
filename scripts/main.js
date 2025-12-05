@@ -1436,9 +1436,20 @@ $(document).ready(function () {
 	pressButton.on('click', function () {
 		pressButton.toggleClass('active');
 
-		// Último hijo
-		const lastChild = press.children().last()[0];
-		const lastChildHeight = lastChild.scrollHeight;
+		if (isMobile) {
+			press.children().each(function () {
+			const child = this;
+
+			if (pressButton.hasClass('active')) {
+				const childHeight = child.scrollHeight;
+				$(child).css('max-height', childHeight + 'px');
+				$(child).addClass('active');
+			} else {
+				$(child).css('max-height', '');
+				$(child).removeClass('active');
+			}
+		});
+		}
 
 		const pressItems = press.find('[data-hierarchy="other"], [data-hierarchy="other active"]');
 

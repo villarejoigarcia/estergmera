@@ -179,6 +179,8 @@ nav>*.active a {
 #title a {
 	color: black;
 	width: fit-content;
+	white-space: nowrap;
+	margin-right: 10px;
 }
 
 #title a:hover {
@@ -660,7 +662,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	overflow: hidden;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
 	
 	#press .content>* div[data-hierarchy="other"] {
 		margin-bottom: 0;
@@ -889,21 +891,21 @@ input[type="range"]:hover::-webkit-slider-thumb {
 	}
 
 		#press .content {
+			display: block;
 			padding: 0 0 0 calc((100vw - var(--key_value) * 2) / 8 * 2);
 		}
 
 		#press .content>* {
-			display: flex;
-	flex-direction: column;
+			display: block;
+			transition: var(--transition_l);
 	padding-right: 0;
 	max-height: 0;
-	column-count: auto;
-    column-gap: auto; 
-    break-inside: auto;
+	overflow: hidden;
 }
 
 #press .content>* a {
 	width: 100%;
+	margin-bottom: var(--key_value);
 }
 
 	/* single */
