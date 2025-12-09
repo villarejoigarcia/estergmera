@@ -429,10 +429,19 @@ nav>*.active a {
 	margin-bottom: 5px;
 }
 
-#thumbnails .video-wrapper {
+#thumbnails .video-wrapper:last-of-type {
 	padding-bottom: 10px;
 	margin-bottom: 10px !important;
 	border-bottom: 1px solid var(--color-grey);
+}
+
+#thumbnails .video-wrapper:last-of-type.single {
+	padding-bottom: 0;
+	margin-bottom: 5px !important;
+	border: none;
+}
+
+#thumbnails .video-wrapper:first-of-type {
 	order: -1;
 }
 

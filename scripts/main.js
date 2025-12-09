@@ -141,7 +141,7 @@ $(document).ready(function () {
 							$slide.removeClass('load');
 						}, 500);
 
-					} else if (firstMedia.type === "video") {
+					} else if (firstMedia.type === "clip") {
 
 						const videoSrc = firstMedia.clip;
 
@@ -238,7 +238,7 @@ $(document).ready(function () {
 					let $media;
 
 					function vimeoDuration() {
-						if (secondMedia && secondMedia.type === "video" && secondMedia.id) {
+						if (secondMedia && secondMedia.type === "video") {
 
 							const vimeoId = secondMedia.id;
 
@@ -292,7 +292,7 @@ $(document).ready(function () {
 
 						vimeoDuration();
 
-					} else if (firstMedia.type === "video") {
+					} else if (firstMedia.type === "clip") {
 
 						const videoSrc = firstMedia.clip;
 
@@ -846,7 +846,7 @@ function showProject(slug) {
 					.toggleClass('active', i === 0);
 				singleGallery.append($img);
 
-			} else if (m.type === "video" && i === 1) {
+			} else if (m.type === "video") {
 
 				const videoId = m.id;
 				const vimeoUrl = `https://player.vimeo.com/video/${videoId}?autoplay=0&muted=1&loop=1&background=1`;
@@ -1020,7 +1020,7 @@ function showProject(slug) {
 	const thumbContainer = $('<div>').attr('id', 'thumbnails');
 	if (project.media && project.media.length > 0) {
 
-		let videoCount = 0;
+		// let videoCount = 0;
 
 		project.media.forEach((m, i) => {
 
@@ -1033,10 +1033,7 @@ function showProject(slug) {
 					.addClass('thumbnail-item')
 					.toggleClass('active', i === 0);
 				thumbContainer.append($thumb);
-			} else if (m.type === "video" && hasImage) {
-
-				if (videoCount > 0) return;
-				videoCount++;
+			} else if (m.type === "clip" && hasImage || m.type === "clip" && !hasImage) {
 
 				const videoSrc = m.clip;
 
@@ -1050,6 +1047,10 @@ function showProject(slug) {
 				const videoWrapper = $('<div>')
 					.addClass('video-wrapper thumbnail-item')
 					.toggleClass('active', i === 0);
+
+				if (!hasImage) {
+					videoWrapper.last().addClass('single');
+				}
 
 				videoWrapper.append($video);
 				thumbContainer.append(videoWrapper);
@@ -1494,6 +1495,5 @@ $(document).ready(function () {
 	activateFirstThumbnail();
 });
 
-// single: bloquear el scroll vertical cuando se hace swipe horizontal en mobile
 // cerrar credits si le das a cualquier parte de la pantalla (eso deshabilita durante un click el prev/next del index)
 // cambiar el estado del first-child cuando se filtre por categoria

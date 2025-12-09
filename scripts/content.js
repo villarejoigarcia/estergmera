@@ -27,7 +27,7 @@ const content = {
         "Lab Cinelab Romania"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_huevos.webm" },
+        { type: "clip", clip: "images/estergmera_huevos.webm" },
         { type: "video", id: "1119488041" },
       ]
     },
@@ -52,7 +52,7 @@ const content = {
         "Models Arni Cortés, Lília Molina"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_amarlibre.webm" },
+        { type: "clip", clip: "images/estergmera_amarlibre.webm" },
         { type: "video", id: "1093329338" },
         { type: "image", src: "images/estergmera_amarlibre_1.webp" },
         { type: "image", src: "images/estergmera_amarlibre_2.webp" },
@@ -96,7 +96,7 @@ const content = {
         "Graphic Design Sara V. Mallo"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_musicmakers.webm" },
+        { type: "clip", clip: "images/estergmera_musicmakers.webm" },
         { type: "video", id: "1134943062" },
       ]
     },
@@ -119,7 +119,7 @@ const content = {
         "Color Mario Lorente"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_parajumpers.webm" },
+        { type: "clip", clip: "images/estergmera_parajumpers.webm" },
         { type: "video", id: "1128799092" },
       ]
     },
@@ -169,7 +169,7 @@ const content = {
         "Color Lucas Hope",
       ],
       media: [
-        { type: "video", clip: "images/estergmera_uocmanifesto.webm" },
+        { type: "clip", clip: "images/estergmera_uocmanifesto.webm" },
         { type: "video", id: "1134936907" },
       ]
     },
@@ -192,7 +192,7 @@ const content = {
         "Edit Dídac Quintana, Juan Pablo Escobar"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_isdin.webm" },
+        { type: "clip", clip: "images/estergmera_isdin.webm" },
         { type: "video", id: "1137743903" },
       ]
     },
@@ -245,7 +245,7 @@ const content = {
         "Graphic Design DueloDuelo"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_soulblackout.webm" },
+        { type: "clip", clip: "images/estergmera_soulblackout.webm" },
         { type: "video", id: "815613535" },
       ]
     },
@@ -269,7 +269,7 @@ const content = {
         "Graphic Design Pol Solá"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_equilibrio.webm" },
+        { type: "clip", clip: "images/estergmera_equilibrio.webm" },
         { type: "video", id: "941912084" },
       ]
     },
@@ -303,7 +303,6 @@ const content = {
         { type: "image", src: "images/estergmera_leti_11.webp" },
         { type: "image", src: "images/estergmera_leti_12.webp" },
         { type: "image", src: "images/estergmera_leti_13.webp" },
-        { type: "image", src: "images/estergmera_leti_14.webp" },
       ]
     },
     {
@@ -324,7 +323,7 @@ const content = {
         "Color Mario Lorente"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_loquerompescoret.webm" },
+        { type: "clip", clip: "images/estergmera_loquerompescoret.webm" },
         { type: "video", id: "836491645" },
       ]
     },
@@ -332,7 +331,7 @@ const content = {
       fields: {
         title: "Feitizo",
         client: "Personal",
-        category: ["Film"],
+        category: ["Film", "Photo"],
         duration: "",
       },
       credits: [
@@ -346,8 +345,24 @@ const content = {
         "Talent Hanna Tervonen"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_feitizo.webm" },
+        { type: "clip", clip: "images/estergmera_feitizo_1.webm" },
         { type: "video", id: "705712476" },
+        { type: "clip", clip: "images/estergmera_feitizo_2.webm" },
+        { type: "video", id: "698991100" },
+        { type: "image", src: "images/estergmera_feitizo_1.webp" },
+        { type: "image", src: "images/estergmera_feitizo_2.webp" },
+        { type: "image", src: "images/estergmera_feitizo_3.webp" },
+        { type: "image", src: "images/estergmera_feitizo_4.webp" },
+        { type: "image", src: "images/estergmera_feitizo_5.webp" },
+        { type: "image", src: "images/estergmera_feitizo_6.webp" },
+        { type: "image", src: "images/estergmera_feitizo_7.webp" },
+        { type: "image", src: "images/estergmera_feitizo_8.webp" },
+        { type: "image", src: "images/estergmera_feitizo_9.webp" },
+        { type: "image", src: "images/estergmera_feitizo_10.webp" },
+        { type: "image", src: "images/estergmera_feitizo_11.webp" },
+        { type: "image", src: "images/estergmera_feitizo_12.webp" },
+        { type: "image", src: "images/estergmera_feitizo_13.webp" },
+        { type: "image", src: "images/estergmera_feitizo_14.webp" },
       ]
     },
     {
@@ -403,7 +418,7 @@ const content = {
         "Graphic Design DueloDuelo"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_quevoyahacer.webm" },
+        { type: "clip", clip: "images/estergmera_quevoyahacer.webm" },
         { type: "video", id: "1128849070" },
       ]
     },
@@ -429,7 +444,7 @@ const content = {
         "Graphic Design Dani Santiago"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_maldeojo.webm" },
+        { type: "clip", clip: "images/estergmera_maldeojo.webm" },
         { type: "video", id: "1128818616" },
       ]
     },
@@ -454,7 +469,7 @@ const content = {
         "Graphic Benito Gallinad"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_leplaisir.webm" },
+        { type: "clip", clip: "images/estergmera_leplaisir.webm" },
         { type: "video", id: "729579141" },
       ]
     },
@@ -504,7 +519,7 @@ const content = {
         "Graphic Design DueloDuelo"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_lucky.webm" },
+        { type: "clip", clip: "images/estergmera_lucky.webm" },
         { type: "video", id: "1128822383" },
       ]
     },
@@ -526,7 +541,7 @@ const content = {
         "Color Alberto Rodríguez at Artic Pospo"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_buenisssima.webm" },
+        { type: "clip", clip: "images/estergmera_buenisssima.webm" },
         { type: "video", id: "841190921" },
       ]
     },
@@ -551,7 +566,7 @@ const content = {
         "Graphic Design Marta Hernández"
       ],
       media: [
-        { type: "video", clip: "images/estergmera_oxigeno.webm" },
+        { type: "clip", clip: "images/estergmera_oxigeno.webm" },
         { type: "video", id: "862437822" },
       ]
     },
@@ -559,7 +574,7 @@ const content = {
       fields: {
         title: "Los Santos Work Outfit",
         client: "María Fall",
-        category: ["Film", "Photo"],
+        category: ["Photo"],
         duration: "",
       },
       credits: [
@@ -570,7 +585,7 @@ const content = {
       ],
       media: [
         { type: "image", src: "images/estergmera_lossantos_1.webp" },
-        { type: "video", id: "505816587" },
+        // { type: "video", id: "505816587" },
         { type: "image", src: "images/estergmera_lossantos_2.webp" },
         { type: "image", src: "images/estergmera_lossantos_3.webp" },
         { type: "image", src: "images/estergmera_lossantos_4.webp" },
