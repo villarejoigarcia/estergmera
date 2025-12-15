@@ -515,29 +515,33 @@ $(document).ready(function () {
 					list.removeClass();
 					postPhoto.addClass('filter');
 
-					// const $firstThumb = archive.find('.thumbnail').first();
-
-					// if ($firstThumb.length) {
-					// 	const firstIndex = $firstThumb.data('index');
-					// 	setActive(firstIndex);
-					// }
+					firstFilmCategory();
 
 				}, 2000);
 
-				const $firstThumb = archive.find('.thumbnail.film').first();
-
-				if ($firstThumb.length) {
-					const firstIndex = $firstThumb.data('index');
-					setActive(firstIndex);
-				}
 			}, 500);
 
 		} else {
+			container.animate({ scrollTop: 0 }, 666);
 			postPhoto.toggleClass('filter');
 			postFilm.removeClass('filter');
 		}
 		$(this).toggleClass('active');
 		$(this).siblings().removeClass('active');
+
+		function firstFilmCategory() {
+			const archive = $('#archive');
+
+			const $firstThumb = archive.find('.thumbnail.film').first();
+
+			if ($firstThumb.length) {
+				const firstIndex = $firstThumb.data('index');
+				setActive(firstIndex);
+			}
+		}
+		setTimeout(() => {
+			firstFilmCategory();
+		}, 700);
 	});
 
 	photoButton.on('click', function () {
@@ -571,22 +575,32 @@ $(document).ready(function () {
 					archive.removeClass();
 					list.removeClass();
 					postFilm.addClass('filter');
+
+					firstPhotoCategory();
 				}, 2000);
-
-				const $firstThumb = archive.find('.thumbnail.photo').first();
-
-				if ($firstThumb.length) {
-					const firstIndex = $firstThumb.data('index');
-					setActive(firstIndex);
-				}
 
 			}, 500);
 		} else {
+			container.animate({ scrollTop: 0 }, 666);
 			postFilm.toggleClass('filter');
 			postPhoto.removeClass('filter');
 		}
 		$(this).toggleClass('active');
 		$(this).siblings().removeClass('active');
+
+		function firstPhotoCategory() {
+			const archive = $('#archive');
+
+			const $firstThumb = archive.find('.thumbnail.photo').first();
+
+			if ($firstThumb.length) {
+				const firstIndex = $firstThumb.data('index');
+				setActive(firstIndex);
+			}
+		}
+		setTimeout(() => {
+			firstPhotoCategory();
+		}, 700);
 	});
 
 });
@@ -1017,14 +1031,16 @@ function showProject(slug) {
 	postFooter.append(postButtons);
 
 	// single thumbnails
+	
 	const thumbContainer = $('<div>').attr('id', 'thumbnails');
+
 	if (project.media && project.media.length > 0) {
 
-		// let videoCount = 0;
 
 		project.media.forEach((m, i) => {
 
 			const hasImage = project.media.some(m => m.type === 'image');
+			const clipCount = project.media.filter(m => m.type === 'clip').length;
 
 			if (m.type === "image") {
 				const $thumb = $('<img>')
@@ -1033,7 +1049,7 @@ function showProject(slug) {
 					.addClass('thumbnail-item')
 					.toggleClass('active', i === 0);
 				thumbContainer.append($thumb);
-			} else if (m.type === "clip" && hasImage || m.type === "clip" && !hasImage) {
+			} else if (m.type === "clip" && (hasImage || clipCount > 1)) {
 
 				const videoSrc = m.clip;
 
