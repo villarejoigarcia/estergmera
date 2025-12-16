@@ -318,6 +318,11 @@ nav>*.active a {
 	pointer-events: auto;
 }
 
+.thumbnail.film.photo.switch video {
+	opacity: 0;
+	pointer-events: none;
+}
+
 /* #archive .thumbnail::before {
 	content: "Loading...";
 	position: absolute;
