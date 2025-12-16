@@ -49,32 +49,6 @@ $(document).ready(function () {
 		socialContainer.append(link);
 	});
 
-	// // press
-
-	// const press = $('#press .main');
-	// press.empty();
-
-	// c.press.forEach(item => {
-	// 	const link = $('<a>')
-	// 		.attr('href', item.url)
-	// 		.attr('target', '_blank')
-	// 		.text(item.title); 
-
-	// 		press.append(link);
-	// });
-
-	// const otherPress = $('#press .other');
-	// otherPress.empty();
-
-	// c.otherPress.forEach(item => {
-	// 	const link = $('<a>')
-	// 		.attr('href', item.url)
-	// 		.attr('target', '_blank')
-	// 		.text(item.title); 
-
-	// 		otherPress.append(link);
-	// });
-
 	// slugs
 
 	c.projects.forEach(project => {
@@ -132,6 +106,7 @@ $(document).ready(function () {
 				if (project.media && project.media.length > 0) {
 					const firstMedia = project.media[0];
 					let $media;
+					const hasImage = project.media.some(m => m.type === 'image');
 
 					if (firstMedia.type === "image") {
 						$media = $('<img>').attr('src', firstMedia.src);
@@ -141,7 +116,7 @@ $(document).ready(function () {
 							$slide.removeClass('load');
 						}, 500);
 
-					} else if (firstMedia.type === "clip") {
+					} else if (firstMedia.type === "clip" && !hasImage) {
 
 						const videoSrc = firstMedia.clip;
 
@@ -159,6 +134,33 @@ $(document).ready(function () {
 							}, 500);
 							setHeight();
 						});
+					} else if (firstMedia.type === "clip" && hasImage) {
+
+						const videoSrc = firstMedia.clip;
+
+						const $video = $('<video>')
+							.attr('src', videoSrc)
+							.attr('muted', true)
+							.attr('loop', true)
+							.attr('playsinline', true);
+
+						$slide.append($video);
+
+						$video.on('canplay', () => {
+							setTimeout(() => {
+								$slide.removeClass('load');
+							}, 500);
+							setHeight();
+						});
+
+						const firstImage = project.media.find(m => m.type === "image");
+
+						if (firstImage) {
+							const $media = $('<img>')
+								.attr('src', firstImage.src);
+
+							$slide.append($media);
+						}
 					}
 				}
 
@@ -236,6 +238,7 @@ $(document).ready(function () {
 					const firstMedia = project.media[0];
 					const secondMedia = project.media[1];
 					let $media;
+					const hasImage = project.media.some(m => m.type === 'image');
 
 					function vimeoDuration() {
 						if (secondMedia && secondMedia.type === "video") {
@@ -292,7 +295,7 @@ $(document).ready(function () {
 
 						vimeoDuration();
 
-					} else if (firstMedia.type === "clip") {
+					} else if (firstMedia.type === "clip" && !hasImage) {
 
 						const videoSrc = firstMedia.clip;
 
@@ -312,45 +315,43 @@ $(document).ready(function () {
 							setHeight();
 						});
 
-						// if (secondMedia && secondMedia.type === "video" && secondMedia.id) {
+						vimeoDuration();
 
-						// 	const vimeoId = secondMedia.id;
+					} else if (firstMedia.type === "clip" && hasImage) {
 
-						// 	const $hiddenIframe = $('<iframe>')
-						// 		.attr('src', 'https://player.vimeo.com/video/' + vimeoId)
-						// 		.attr('style', 'display:none;')
-						// 		.attr('allow', 'autoplay; fullscreen');
+						const videoSrc = firstMedia.clip;
 
-						// 	$('body').append($hiddenIframe);
+						const $video = $('<video>')
+							.attr('src', videoSrc)
+							.attr('muted', true)
+							.attr('loop', true)
+							.attr('playsinline', true)
+							.addClass('load');
 
-						// 	const player = new Vimeo.Player($hiddenIframe[0]);
+						$slide.append($video);
 
-						// 	player.getDuration().then(function (duration) {
+						$video.on('canplay', () => {
+							setTimeout(() => {
+								$video.removeClass('load');
+							}, 500);
+							setHeight();
+						});
 
-						// 		var minutes = Math.floor(duration / 60);
-						// 		var seconds = String(duration % 60).padStart(2, '0');
-						// 		var formattedDuration = minutes + ':' + seconds;
+						const firstImage = project.media.find(m => m.type === "image");
 
-						// 		var imageCount = project.media.filter(function (m) {
-						// 			return m.type === "image";
-						// 		}).length;
+						if (firstImage) {
+							const $media = $('<img>')
+								.attr('src', firstImage.src);
 
-						// 		var imageText = imageCount > 0 ? '/' + imageCount : '';
+							$slide.append($media);
+						}
 
-						// 		var finalText = formattedDuration + imageText;
+						const imageCount = project.media.filter(m => m.type === "image").length;
+						const text = imageCount.toString();
+						project.fields.duration = text;
 
-						// 		project.fields.duration = finalText;
-
-						// 		var $durationField = $('#list .list-item[data-index="' + index + '"]')
-						// 			.children()
-						// 			.last()
-						// 			.children();
-
-						// 		$durationField.text(finalText);
-
-						// 		$hiddenIframe.remove();
-						// 	});
-						// }
+						const $durationField = $(`#list .list-item[data-index="${index}"]>*:last-child`);
+						if ($durationField.length) $durationField.text(text);
 
 						vimeoDuration();
 
@@ -488,9 +489,11 @@ $(document).ready(function () {
 
 		const postPhoto = $('.photo');
 		const postFilm = $('.film');
+		const postMix = $('.thumbnail.film.photo');
+
+		postMix.removeClass('switch');
 
 		if (container.hasClass('single-view')) {
-			// Clear URL hash
 			history.pushState({}, '', window.location.pathname);
 
 			container.children().addClass('hide');
@@ -517,25 +520,29 @@ $(document).ready(function () {
 					list.removeClass();
 					postPhoto.addClass('filter');
 
-					firstFilmCategory();
+					firstItemCategory();
 
 				}, 2000);
 
 			}, 500);
 
 		} else {
+
 			if (!isMobile) {
 				container.animate({ scrollTop: 0 }, 666);
 			} else {
 				$('html, body').animate({ scrollTop: 0 }, 666);
 			}
+
 			postPhoto.toggleClass('filter');
 			postFilm.removeClass('filter');
+
 		}
+
 		$(this).toggleClass('active');
 		$(this).siblings().removeClass('active');
 
-		function firstFilmCategory() {
+		function firstItemCategory() {
 			const archive = $('#archive');
 
 			const $firstThumb = archive.find('.thumbnail.film').first();
@@ -545,14 +552,22 @@ $(document).ready(function () {
 				setActive(firstIndex);
 			}
 		}
+
 		setTimeout(() => {
-			firstFilmCategory();
+			firstItemCategory();
 		}, 700);
+
+		activeCategory = 'film';
+		setHeight(activeCategory);
+
 	});
 
 	photoButton.on('click', function () {
 		const postPhoto = $('.photo');
 		const postFilm = $('.film');
+		const postMix = $('.thumbnail.film.photo');
+
+		postMix.toggleClass('switch');
 
 		if (container.hasClass('single-view')) {
 			history.pushState({}, '', window.location.pathname);
@@ -581,11 +596,13 @@ $(document).ready(function () {
 					list.removeClass();
 					postFilm.addClass('filter');
 
-					firstPhotoCategory();
+					firstItemCategory();
 				}, 2000);
 
 			}, 500);
+
 		} else {
+
 			if (!isMobile) {
 				container.animate({ scrollTop: 0 }, 666);
 			} else {
@@ -593,11 +610,13 @@ $(document).ready(function () {
 			}
 			postFilm.toggleClass('filter');
 			postPhoto.removeClass('filter');
+
 		}
+
 		$(this).toggleClass('active');
 		$(this).siblings().removeClass('active');
 
-		function firstPhotoCategory() {
+		function firstItemCategory() {
 			const archive = $('#archive');
 
 			const $firstThumb = archive.find('.thumbnail.photo').first();
@@ -608,8 +627,13 @@ $(document).ready(function () {
 			}
 		}
 		setTimeout(() => {
-			firstPhotoCategory();
+			firstItemCategory();
 		}, 700);
+
+		// switch
+		activeCategory = 'photo';
+		setHeight(activeCategory);
+
 	});
 
 });
@@ -789,21 +813,84 @@ $(document).ready(function () {
 
 // img sizes
 
-function setHeight() {
-  const thumbnails = document.querySelectorAll('.thumbnail');
+// function setHeight() {
+//   const thumbnails = document.querySelectorAll('.thumbnail');
+//   const isMobile = window.innerWidth <= 768;
 
-  thumbnails.forEach(thumbnail => {
-    const child = thumbnail.querySelector('img, video');
-    if (!child) return;
+//   thumbnails.forEach(thumbnail => {
+//     const child = thumbnail.querySelector('img, video');
+//     if (!child) return;
 
-    const observer = new ResizeObserver(entries => {
-      for (const entry of entries) {
-        thumbnail.style.height = `${entry.contentRect.height}px`;
-      }
-    });
+//     const observer = new ResizeObserver(entries => {
+//       for (const entry of entries) {
+//         let height = entry.contentRect.height;
 
-    observer.observe(child);
-  });
+//         if (isMobile) {
+//           const postData = thumbnail.querySelector('.post-data');
+//           if (postData) {
+//             height += postData.getBoundingClientRect().height;
+//           }
+//         }
+
+//         thumbnail.style.height = `${height}px`;
+//       }
+//     });
+
+//     observer.observe(child);
+//   });
+// }
+
+let activeCategory = null;
+
+function setHeight(activeCategory = null) {
+	const thumbnails = document.querySelectorAll('.thumbnail');
+	const isMobile = window.innerWidth <= 768;
+
+	thumbnails.forEach(thumbnail => {
+
+		let child = null;
+
+		if (
+			activeCategory &&
+			thumbnail.classList.contains('film') &&
+			thumbnail.classList.contains('photo')
+		) {
+			if (activeCategory === 'film') {
+				child = thumbnail.querySelector('video');
+			}
+			if (activeCategory === 'photo') {
+				child = thumbnail.querySelector('img');
+			}
+		}
+
+		if (!child) {
+			child = thumbnail.querySelector('img, video');
+		}
+
+		if (!child) return;
+
+		if (thumbnail._observer) {
+			thumbnail._observer.disconnect();
+		}
+
+		const observer = new ResizeObserver(entries => {
+			for (const entry of entries) {
+				let height = entry.contentRect.height;
+
+				if (isMobile) {
+					const postData = thumbnail.querySelector('.post-data');
+					if (postData) {
+						height += postData.getBoundingClientRect().height;
+					}
+				}
+
+				thumbnail.style.height = `${height}px`;
+			}
+		});
+
+		thumbnail._observer = observer;
+		observer.observe(child);
+	});
 }
 
 let resizeTimer = null;
@@ -811,7 +898,7 @@ let resizeTimer = null;
 $(window).on('resize', () => {
 	clearTimeout(resizeTimer);
 	resizeTimer = setTimeout(() => {
-		setHeight();
+		setHeight(activeCategory);
 	}, 500);
 });
 

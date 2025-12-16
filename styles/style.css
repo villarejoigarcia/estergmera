@@ -296,6 +296,28 @@ nav>*.active a {
 	opacity: .3;
 }
 
+/* .thumbnail.film.photo.switch>*:first-child {
+	height: 0;
+} */
+
+.thumbnail.film.photo>* {
+	transition: var(--transition);
+}
+
+.thumbnail.film.photo img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	pointer-events: none;
+	/* z-index: -1; */
+}
+
+.thumbnail.film.photo.switch img {
+	opacity: 1;
+	pointer-events: auto;
+}
+
 /* #archive .thumbnail::before {
 	content: "Loading...";
 	position: absolute;
@@ -801,7 +823,11 @@ input[type="range"]:hover::-webkit-slider-thumb {
 		padding: 1px calc(var(--key_value)*1.2);
 		transition: var(--transition);
 		height: var(--key_value);
-		box-sizing: content-box;
+		/* box-sizing: content-box; */
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
 	}
 
 	.post-data.filter {
