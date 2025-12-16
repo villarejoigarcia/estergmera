@@ -482,6 +482,8 @@ $(document).ready(function () {
 	const filmButton = $('#film-button');
 	const photoButton = $('#photo-button');
 
+	const isMobile = window.innerWidth <= 768;
+
 	filmButton.on('click', function () {
 
 		const postPhoto = $('.photo');
@@ -522,7 +524,11 @@ $(document).ready(function () {
 			}, 500);
 
 		} else {
-			container.animate({ scrollTop: 0 }, 666);
+			if (!isMobile) {
+				container.animate({ scrollTop: 0 }, 666);
+			} else {
+				$('html, body').animate({ scrollTop: 0 }, 666);
+			}
 			postPhoto.toggleClass('filter');
 			postFilm.removeClass('filter');
 		}
@@ -549,7 +555,6 @@ $(document).ready(function () {
 		const postFilm = $('.film');
 
 		if (container.hasClass('single-view')) {
-			// Clear URL hash
 			history.pushState({}, '', window.location.pathname);
 
 			container.children().addClass('hide');
@@ -581,7 +586,11 @@ $(document).ready(function () {
 
 			}, 500);
 		} else {
-			container.animate({ scrollTop: 0 }, 666);
+			if (!isMobile) {
+				container.animate({ scrollTop: 0 }, 666);
+			} else {
+				$('html, body').animate({ scrollTop: 0 }, 666);
+			}
 			postFilm.toggleClass('filter');
 			postPhoto.removeClass('filter');
 		}
@@ -785,8 +794,11 @@ function setHeight() {
 	const thumbnails = document.querySelectorAll('.thumbnail');
 
 	thumbnails.forEach(thumbnail => {
+		const child = thumbnail.querySelector('img, video');
+		if (!child) return;
+
 		thumbnail.style.height = '';
-		const currentHeight = thumbnail.offsetHeight;
+		const currentHeight = child.getBoundingClientRect().height;
 		thumbnail.style.height = `${currentHeight}px`;
 	});
 
