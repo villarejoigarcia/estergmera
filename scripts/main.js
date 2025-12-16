@@ -631,7 +631,12 @@ $(document).ready(function () {
 		}, 700);
 
 		// switch
-		activeCategory = 'photo';
+
+		if (postMix.hasClass('switch')) {
+			activeCategory = 'photo';
+		} else {
+			activeCategory = 'film';
+		}
 		setHeight(activeCategory);
 
 	});
