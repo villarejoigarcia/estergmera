@@ -790,18 +790,20 @@ $(document).ready(function () {
 // img sizes
 
 function setHeight() {
+  const thumbnails = document.querySelectorAll('.thumbnail');
 
-	const thumbnails = document.querySelectorAll('.thumbnail');
+  thumbnails.forEach(thumbnail => {
+    const child = thumbnail.querySelector('img, video');
+    if (!child) return;
 
-	thumbnails.forEach(thumbnail => {
-		const child = thumbnail.querySelector('img, video');
-		if (!child) return;
+    const observer = new ResizeObserver(entries => {
+      for (const entry of entries) {
+        thumbnail.style.height = `${entry.contentRect.height}px`;
+      }
+    });
 
-		thumbnail.style.height = '';
-		const currentHeight = child.getBoundingClientRect().height;
-		thumbnail.style.height = `${currentHeight}px`;
-	});
-
+    observer.observe(child);
+  });
 }
 
 let resizeTimer = null;
