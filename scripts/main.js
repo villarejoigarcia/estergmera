@@ -1142,7 +1142,6 @@ function showProject(slug) {
 
 	if (project.media && project.media.length > 0) {
 
-
 		project.media.forEach((m, i) => {
 
 			const hasImage = project.media.some(m => m.type === 'image');
