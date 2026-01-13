@@ -833,6 +833,7 @@ input[type="range"]:hover::-webkit-slider-thumb {
 		bottom: 0;
 		left: 0;
 		width: 100%;
+		
 	}
 
 	.post-data.filter {
