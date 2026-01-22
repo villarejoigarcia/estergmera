@@ -406,6 +406,10 @@ nav>*.active a {
 	height: 100% !important;
 }
 
+.video-wrapper:not(.active) {
+	pointer-events: none;
+}
+
 #single-gallery iframe {
 	position: relative;
 }

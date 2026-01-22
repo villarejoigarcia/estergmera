@@ -1631,5 +1631,23 @@ $(document).ready(function () {
 	activateFirstThumbnail();
 });
 
+// cursor
+
+$(document).on('mousemove', '#single-gallery', function (e) {
+	const offset = $(this).offset();
+	const x = e.pageX - offset.left;
+	const half = $(this).outerWidth() / 2;
+
+	if (x < half) {
+		$(this).css('cursor', 'w-resize');
+	} else {
+		$(this).css('cursor', 'e-resize');
+	}
+});
+
+$(document).on('mouseleave', '#single-gallery', function () {
+	$(this).css('cursor', '');
+});
+
 // cerrar credits si le das a cualquier parte de la pantalla (eso deshabilita durante un click el prev/next del index)
 // cambiar el estado del first-child cuando se filtre por categoria
