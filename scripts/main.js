@@ -301,9 +301,9 @@ $(document).ready(function () {
 
 						const $video = $('<video>')
 							.attr('src', videoSrc)
-							.attr('muted', true)
-							.attr('loop', true)
-							.attr('playsinline', true)
+							.prop('muted', true)
+							.prop('loop', true)
+							.prop('playsinline', true)
 							.addClass('load');
 
 						$slide.append($video);
@@ -323,9 +323,9 @@ $(document).ready(function () {
 
 						const $video = $('<video>')
 							.attr('src', videoSrc)
-							.attr('muted', true)
-							.attr('loop', true)
-							.attr('playsinline', true)
+							.prop('muted', true)
+							.prop('loop', true)
+							.prop('playsinline', true)
 							.addClass('load');
 
 						$slide.append($video);
@@ -762,6 +762,9 @@ function setActive(index) {
 		const video = $(this).find('video').get(0);
 		if (video) {
 			video.pause();
+			if (video.currentTime === 0) {
+				video.currentTime = .1;
+			}
 		}
 	});
 
