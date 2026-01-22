@@ -1174,7 +1174,11 @@ function showProject(slug) {
 					.attr('autoplay', true)
 					.attr('muted', true)
 					.attr('loop', true)
-					.attr('playsinline', true)
+					.attr('playsinline', true);
+
+				$video.on('loadedmetadata', function () {
+					this.currentTime = 0.1;
+				});
 
 				const videoWrapper = $('<div>')
 					.addClass('video-wrapper thumbnail-item')
