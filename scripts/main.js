@@ -122,9 +122,9 @@ $(document).ready(function () {
 
 						const $video = $('<video>')
 							.attr('src', videoSrc)
-							.prop('muted', true)
-							.prop('loop', true)
-							.prop('playsinline', true);
+							.attr('muted', true)
+							.attr('loop', true)
+							.attr('playsinline', true);
 
 						$video.on('loadedmetadata', function () {
 							this.currentTime = 0.1;
@@ -144,9 +144,9 @@ $(document).ready(function () {
 
 						const $video = $('<video>')
 							.attr('src', videoSrc)
-							.prop('muted', true)
-							.prop('loop', true)
-							.prop('playsinline', true);
+							.attr('muted', true)
+							.attr('loop', true)
+							.attr('playsinline', true);
 
 						$video.on('loadedmetadata', function () {
 							this.currentTime = 0.1;
