@@ -770,9 +770,9 @@ function setActive(index) {
 		const video = $(this).find('video').get(0);
 		if (video) {
 			video.pause();
-			// if (video.currentTime === 0) {
-			// 	video.currentTime = .1;
-			// }
+			if (video.currentTime === 0) {
+				video.currentTime = .1;
+			}
 		}
 	});
 
