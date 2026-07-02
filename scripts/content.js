@@ -1,7 +1,6 @@
 const content = {
   
   projects: [
-    
     {
       fields: {
         title: "Hola",
@@ -31,8 +30,7 @@ const content = {
         { type: "clip", clip: "images/estergmera_hola.webm" },
         { type: "video", id: "1202063950" },
       ]
-    },
-    
+    }, 
     {
       fields: {
         title: "Huevos",
