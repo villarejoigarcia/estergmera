@@ -1,7 +1,5 @@
 const content = {
 
-  // projects
-
   projects: [
     {
       fields: {
