@@ -1,7 +1,6 @@
 const content = {
   
   projects: [
-    
     {
       fields: {
         title: "Hola",
