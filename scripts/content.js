@@ -1,4 +1,5 @@
 const content = {
+  
   projects: [
     
     {
@@ -30,6 +31,36 @@ const content = {
       ]
     },
 
+    {
+      fields: {
+        title: "Hola",
+        client: "Generalitat de Catalunya",
+        category: ["Film"],
+        duration: "",
+      },
+      credits: [
+        "Produced by We Are CP",
+        "Directed by Ester G. Mera",
+        "EP Jejo Serra, Iñaki Serra",
+        "Producer Arnau Giol",
+        "Prod. Manager Josep Galí",
+        "DOP Carles F. Galí",
+        "Art Laura Codex",
+        "AD Dani Velázquez",
+        "Stylist Silvia Gutiérrez",
+        "MUAH Valeria López",
+        "Edit Sergio Jacinto",
+        "Sound Design Oido Studios",
+        "Music Nau",
+        "Postproduction Dan Rivas",
+        "Color Dani Granados at Metropolitana",
+        "Casting Cris García",
+      ],
+      media: [
+        { type: "clip", clip: "images/estergmera_hola.webm" },
+        { type: "video", id: "1202063950" },
+      ]
+    }, 
     {
       fields: {
         title: "Huevos",
