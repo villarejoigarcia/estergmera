@@ -24,7 +24,7 @@ const content = {
         "Music Nau",
         "Postproduction Dan Rivas",
         "Color Dani Granados at Metropolitana",
-        "Casting Cris García"
+        "Casting Cris García",
       ],
       media: [
         { type: "clip", clip: "images/estergmera_hola.webm" },
