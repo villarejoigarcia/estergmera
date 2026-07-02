@@ -23,7 +23,7 @@ const content = {
         "Post. Cord. Alex Yaigan",
         "Edit Pablo Marchetto",
         "Color María Nualart at Only Postproduction",
-        "Lab Cinelab Romania"
+        "Lab Cinelab Romania",
       ],
       media: [
         { type: "clip", clip: "images/estergmera_huevos.webm" },
