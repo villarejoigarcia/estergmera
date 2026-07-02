@@ -1,5 +1,35 @@
 const content = {
   projects: [
+    
+    {
+      fields: {
+        title: "Hola",
+        client: "Generalitat de Catalunya",
+        category: ["Film"],
+        duration: "",
+      },
+      credits: [
+        "Produced by Agosto",
+        "Directed by Ester G. Mera",
+        "Agency Ogilvy",
+        "EP Belén Gayán, Toni Moreno",
+        "Producer Olmo Heras",
+        "Prod. Manager Josué Corral",
+        "DOP Lluís Martí",
+        "Art Laura Codex",
+        "MUA Blanca Laporta",
+        "Sound Juan Diego Leal",
+        "Post. Cord. Alex Yaigan",
+        "Edit Pablo Marchetto",
+        "Color María Nualart at Only Postproduction",
+        "Lab Cinelab Romania",
+      ],
+      media: [
+        { type: "clip", clip: "images/estergmera_huevos.webm" },
+        { type: "video", id: "1119488041" },
+      ]
+    },
+
     {
       fields: {
         title: "Huevos",
