@@ -4,7 +4,7 @@ const content = {
     
     {
       fields: {
-        title: "Muy nuestro",
+        title: "Muy Nuestro",
         client: "Ecoembes",
         category: ["Film"],
         duration: "",
