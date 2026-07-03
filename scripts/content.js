@@ -1,7 +1,6 @@
 const content = {
   
   projects: [
-    
     {
       fields: {
         title: "Muy Nuestro",
@@ -31,7 +30,6 @@ const content = {
         { type: "video", id: "1195570884" },
       ]
     },
-
     {
       fields: {
         title: "Huevos",
