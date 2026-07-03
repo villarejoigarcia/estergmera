@@ -3,8 +3,8 @@ const content = {
   projects: [
     {
       fields: {
-        title: "Hola",
-        client: "Generalitat de Catalunya",
+        title: "Muy Nuestro",
+        client: "Ecoembes",
         category: ["Film"],
         duration: "",
       },
@@ -13,24 +13,23 @@ const content = {
         "Directed by Ester G. Mera",
         "EP Jejo Serra, Iñaki Serra",
         "Producer Arnau Giol",
-        "Prod. Manager Josep Galí",
-        "DOP Carles F. Galí",
-        "Art Laura Codex",
-        "AD Dani Velázquez",
+        "Prod. Manager Júlia Rosell",
+        "DOP Nauzet Gaspar",
+        "Art Elena Martínez",
+        "AD Júlia García",
         "Stylist Silvia Gutiérrez",
         "MUAH Valeria López",
-        "Edit Sergio Jacinto",
+        "Edit Dan Rivas",
         "Sound Design Oido Studios",
-        "Music Nau",
-        "Postproduction Dan Rivas",
         "Color Dani Granados at Metropolitana",
-        "Casting Cris García",
       ],
       media: [
-        { type: "clip", clip: "images/estergmera_hola.webm" },
-        { type: "video", id: "1202063950" },
+        { type: "clip", clip: "images/estergmera_muynuestro_1.webm" },
+        { type: "video", id: "1191466161" },
+        { type: "clip", clip: "images/estergmera_muynuestro_2.webm" },
+        { type: "video", id: "1195570884" },
       ]
-    }, 
+    },
     {
       fields: {
         title: "Huevos",
@@ -59,6 +58,36 @@ const content = {
         { type: "video", id: "1119488041" },
       ]
     },
+    {
+      fields: {
+        title: "Hola",
+        client: "Generalitat de Catalunya",
+        category: ["Film"],
+        duration: "",
+      },
+      credits: [
+        "Produced by We Are CP",
+        "Directed by Ester G. Mera",
+        "EP Jejo Serra, Iñaki Serra",
+        "Producer Arnau Giol",
+        "Prod. Manager Josep Galí",
+        "DOP Carles F. Galí",
+        "Art Laura Codex",
+        "AD Dani Velázquez",
+        "Stylist Silvia Gutiérrez",
+        "MUAH Valeria López",
+        "Edit Sergio Jacinto",
+        "Sound Design Oido Studios",
+        "Music Nau",
+        "Postproduction Dan Rivas",
+        "Color Dani Granados at Metropolitana",
+        "Casting Cris García",
+      ],
+      media: [
+        { type: "clip", clip: "images/estergmera_hola.webm" },
+        { type: "video", id: "1202063950" },
+      ]
+    }, 
     {
       fields: {
         title: "A Mar Libre",
