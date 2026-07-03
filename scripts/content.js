@@ -1,9 +1,10 @@
 const content = {
   
   projects: [
+    
     {
       fields: {
-        title: "Muy Nuestro",
+        title: "Muy nuestro",
         client: "Ecoembes",
         category: ["Film"],
         duration: "",
@@ -30,6 +31,7 @@ const content = {
         { type: "video", id: "1195570884" },
       ]
     },
+
     {
       fields: {
         title: "Huevos",
