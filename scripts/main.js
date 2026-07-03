@@ -75,8 +75,8 @@ $(document).ready(function () {
 		const press = $('#press .main');
 		press.empty();
 
-		const otherPress = $('#press .other');
-		otherPress.empty();
+		const secondPress = $('#press .other');
+		secondPress.empty();
 
 		const thirdPress = $('#press .third');
 		thirdPress.empty();
@@ -201,7 +201,7 @@ $(document).ready(function () {
 				press.append(link);
 			});
 
-			c.otherPress.forEach(item => {
+			c.secondPress.forEach(item => {
 				const link = $('<a>')
 					.attr('href', item.url)
 					.attr('target', '_blank')
@@ -445,7 +445,7 @@ $(document).ready(function () {
 				press.append(container);
 			});
 
-			c.otherPress.forEach(item => {
+			c.secondPress.forEach(item => {
 				const container = $('<div>').attr('data-hierarchy', item.hierarchy);
 				const link = $('<a>')
 					.attr('href', item.url)
@@ -454,7 +454,7 @@ $(document).ready(function () {
 
 				container.append(link);
 				container.filter('[data-hierarchy="other"]').css('max-height', '0');
-				otherPress.append(container);
+				secondPress.append(container);
 			});
 
 			c.thirdPress.forEach(item => {
@@ -1079,36 +1079,52 @@ function showProject(slug) {
 
 				// fullscreen
 				const $fullscreenToggle = controls.find('.fullscreen-toggle');
+				const fullscreenElement = () => document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+
+				const updateFullscreenState = (isFullscreen = Boolean(fullscreenElement())) => {
+					$fullscreenToggle.text(isFullscreen ? 'Exit' : 'Full screen');
+					videoWrapper.toggleClass('fullscreen', isFullscreen);
+				};
 
 				$fullscreenToggle.on('click', () => {
-					const iframe = $iframe[0];
+					if (!fullscreenElement()) {
+						player.requestFullscreen()
+							.then(() => {
+								updateFullscreenState(true);
+							})
+							.catch(() => {
+								const requestFullscreen =
+									videoWrapper[0].requestFullscreen ||
+									videoWrapper[0].webkitRequestFullscreen ||
+									videoWrapper[0].msRequestFullscreen;
 
-					if (!document.fullscreenElement) {
-						videoWrapper[0].requestFullscreen?.() ||
-							videoWrapper[0].webkitRequestFullscreen?.() ||
-							videoWrapper[0].msRequestFullscreen?.();
+								if (requestFullscreen) {
+									requestFullscreen.call(videoWrapper[0]);
+								}
 
-						$fullscreenToggle.text('Exit');
-
-						videoWrapper.addClass('fullscreen');
+								updateFullscreenState(Boolean(fullscreenElement()));
+							});
 					} else {
-						document.exitFullscreen?.() ||
-							document.webkitExitFullscreen?.() ||
-							document.msExitFullscreen?.();
+						player.exitFullscreen()
+							.catch(() => {
+								const exitFullscreen =
+									document.exitFullscreen ||
+									document.webkitExitFullscreen ||
+									document.msExitFullscreen;
 
-						$fullscreenToggle.text('Full screen');
-
-						videoWrapper.removeClass('fullscreen');
+								if (exitFullscreen) {
+									exitFullscreen.call(document);
+								}
+							})
+							.finally(() => {
+								updateFullscreenState(false);
+							});
 					}
 				});
 
-				document.addEventListener('fullscreenchange', () => {
-					if (!document.fullscreenElement) {
-						$fullscreenToggle.text('Full screen');
-					} else {
-						$fullscreenToggle.text('Exit');
-					}
-				});
+				document.addEventListener('fullscreenchange', () => updateFullscreenState());
+				document.addEventListener('webkitfullscreenchange', () => updateFullscreenState());
+				player.on('fullscreenchange', ({ fullscreen }) => updateFullscreenState(fullscreen));
 
 				videoWrapper.append($iframe);
 				singleGallery.append(videoWrapper);

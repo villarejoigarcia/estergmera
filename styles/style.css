@@ -406,7 +406,7 @@ nav>*.active a {
 	height: 100% !important;
 }
 
-.video-wrapper:not(.active) {
+.video-wrapper.post-image:not(.active) {
 	pointer-events: none;
 }
 

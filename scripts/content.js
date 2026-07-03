@@ -642,7 +642,6 @@ const content = {
       ],
       media: [
         { type: "image", src: "images/estergmera_lossantos_1.webp" },
-        // { type: "video", id: "505816587" },
         { type: "image", src: "images/estergmera_lossantos_2.webp" },
         { type: "image", src: "images/estergmera_lossantos_3.webp" },
         { type: "image", src: "images/estergmera_lossantos_4.webp" },
@@ -686,7 +685,6 @@ const content = {
       url: "https://caixaforumplus.org/c/music-makers",
       hierarchy: "main",
     },
-    //
     {
       title: "Talk at She Sounds 2025",
       url: "https://www.shesounds.es/post/she-sounds-cierra-con-éxito-creative-trends-2025-cuatro-días-de-innovación-y-talento",
@@ -698,7 +696,7 @@ const content = {
       hierarchy: "other"
     },
   ],
-  otherPress: [
+  secondPress: [
     {
       title: "︎Winner of the IV Maria Luz Morales Award for best international video-essay with my film «Le temps (ne) detruit (pas) tout»",
       url: "https://www.academiagalegadoaudiovisual.gal/iv-premios-maria-luz-morales/",
@@ -709,7 +707,6 @@ const content = {
       url: "https://www.academiagalegadoaudiovisual.gal/ester-g-mera/",
       hierarchy: "main",
     },
-    //
     {
       title: "︎Interview for El Español",
       url: "https://www.elespanol.com/treintayseis/cultura/audiovisual/20221120/ester-mera-talento-gallego-rueda-videoclips-exito-madrid-barcelona/719928153_0.html",
@@ -732,7 +729,6 @@ const content = {
       url: "https://www.agalegaaudio.gal/videos/detail/277538-o-machismo-no-punto-de-mira",
       hierarchy: "main",
     },
-    //
     {
       title: "Feature on ZigZag (TVG) about my video essay",
       url: "https://www.crtvg.es/tvg/a-carta/zigzag-diario-4610733?t=860",
