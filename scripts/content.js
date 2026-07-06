@@ -5,35 +5,6 @@ const content = {
   projects: [
     {
       fields: {
-        title: "Muy Nuestro",
-        client: "Ecoembes",
-        category: ["Film"],
-        duration: "",
-      },
-      credits: [
-        "Produced by We Are CP",
-        "Directed by Ester G. Mera",
-        "EP Jejo Serra, Iñaki Serra",
-        "Producer Arnau Giol",
-        "Prod. Manager Júlia Rosell",
-        "DOP Nauzet Gaspar",
-        "Art Elena Martínez",
-        "AD Júlia García",
-        "Stylist Silvia Gutiérrez",
-        "MUAH Valeria López",
-        "Edit Dan Rivas",
-        "Sound Design Oido Studios",
-        "Color Dani Granados at Metropolitana",
-      ],
-      media: [
-        { type: "clip", clip: "images/estergmera_muynuestro_1.webm" },
-        { type: "video", id: "1191466161" },
-        { type: "clip", clip: "images/estergmera_muynuestro_2.webm" },
-        { type: "video", id: "1195570884" },
-      ]
-    },
-    {
-      fields: {
         title: "Huevos",
         client: "Ministerio de Igualdad",
         category: ["Film"],
@@ -161,6 +132,35 @@ const content = {
     },
     {
       fields: {
+        title: "Muy Nuestro",
+        client: "Ecoembes",
+        category: ["Film"],
+        duration: "",
+      },
+      credits: [
+        "Produced by We Are CP",
+        "Directed by Ester G. Mera",
+        "EP Jejo Serra, Iñaki Serra",
+        "Producer Arnau Giol",
+        "Prod. Manager Júlia Rosell",
+        "DOP Nauzet Gaspar",
+        "Art Elena Martínez",
+        "AD Júlia García",
+        "Stylist Silvia Gutiérrez",
+        "MUAH Valeria López",
+        "Edit Dan Rivas",
+        "Sound Design Oido Studios",
+        "Color Dani Granados at Metropolitana",
+      ],
+      media: [
+        { type: "clip", clip: "images/estergmera_muynuestro_1.webm" },
+        { type: "video", id: "1191466161" },
+        { type: "clip", clip: "images/estergmera_muynuestro_2.webm" },
+        { type: "video", id: "1195570884" },
+      ]
+    },
+    {
+      fields: {
         title: "Parajumpers",
         client: "METAL",
         category: ["Film"],
@@ -184,7 +184,7 @@ const content = {
     },
     {
       fields: {
-        title: "Shoot BCN",
+        title: "Shopie",
         client: "Personal",
         category: ["Photo"],
         duration: "",
