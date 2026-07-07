@@ -153,9 +153,9 @@ const content = {
         "Color Dani Granados at Metropolitana",
       ],
       media: [
-        { type: "clip", clip: "images/estergmera_muynuestro_1.webm" },
-        { type: "video", id: "1191466161" },
         { type: "clip", clip: "images/estergmera_muynuestro_2.webm" },
+        { type: "video", id: "1191466161" },
+        { type: "clip", clip: "images/estergmera_muynuestro_1.webm" },
         { type: "video", id: "1195570884" },
       ]
     },
