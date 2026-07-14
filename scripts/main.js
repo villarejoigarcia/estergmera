@@ -998,6 +998,40 @@ function showProject(slug) {
 					</div>
 				`);
 
+				let hideTimeout;
+				let controlsAutoHideEnabled = true;
+
+				const clearControlsHideTimeout = () => {
+					clearTimeout(hideTimeout);
+				};
+
+				const scheduleControlsHide = () => {
+					clearControlsHideTimeout();
+					hideTimeout = setTimeout(() => {
+						if (controlsAutoHideEnabled) {
+							controls.addClass('hidden');
+						}
+					}, transition * 2);
+				};
+
+				const showControls = () => {
+					controls.removeClass('hidden');
+					if (controlsAutoHideEnabled) {
+						scheduleControlsHide();
+					}
+				};
+
+				const setControlsAutoHide = (enabled) => {
+					controlsAutoHideEnabled = enabled;
+					if (!enabled) {
+						clearControlsHideTimeout();
+						controls.removeClass('hidden');
+						return;
+					}
+
+					scheduleControlsHide();
+				};
+
 				videoWrapper.append(controls);
 
 				const player = new Vimeo.Player($iframe[0]);
@@ -1013,22 +1047,8 @@ function showProject(slug) {
 						})
 
 					setTimeout(() => {
-
-						let hideTimeout;
-						const videoControls = $('.video-controls');
-						const videoWrap = $('.video-wrapper');
-
-						function showControls() {
-							videoControls.removeClass('hidden');
-							clearTimeout(hideTimeout);
-							hideTimeout = setTimeout(() => {
-								videoControls.addClass('hidden');
-							}, transition * 2);
-
-						}
-
-						videoWrap.on('mousemove', showControls);
-
+						videoWrapper.on('mousemove touchstart', showControls);
+						$iframe.on('mouseenter mousemove', showControls);
 						showControls();
 
 					}, transition * 2);
@@ -1080,45 +1100,76 @@ function showProject(slug) {
 				// fullscreen
 				const $fullscreenToggle = controls.find('.fullscreen-toggle');
 				const fullscreenElement = () => document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+				const isMobileViewport = () => window.innerWidth <= 768;
 
 				const updateFullscreenState = (isFullscreen = Boolean(fullscreenElement())) => {
 					$fullscreenToggle.text(isFullscreen ? 'Exit' : 'Full screen');
 					videoWrapper.toggleClass('fullscreen', isFullscreen);
+					setControlsAutoHide(!isFullscreen);
+					showControls();
 				};
 
 				$fullscreenToggle.on('click', () => {
 					if (!fullscreenElement()) {
-						player.requestFullscreen()
-							.then(() => {
-								updateFullscreenState(true);
-							})
-							.catch(() => {
-								const requestFullscreen =
-									videoWrapper[0].requestFullscreen ||
-									videoWrapper[0].webkitRequestFullscreen ||
-									videoWrapper[0].msRequestFullscreen;
+						if (isMobileViewport()) {
+							player.requestFullscreen()
+								.then(() => {
+									updateFullscreenState(true);
+								})
+								.catch(() => {
+									const requestFullscreen =
+										videoWrapper[0].requestFullscreen ||
+										videoWrapper[0].webkitRequestFullscreen ||
+										videoWrapper[0].msRequestFullscreen;
 
-								if (requestFullscreen) {
-									requestFullscreen.call(videoWrapper[0]);
-								}
+									if (requestFullscreen) {
+										requestFullscreen.call(videoWrapper[0]);
+									}
 
-								updateFullscreenState(Boolean(fullscreenElement()));
-							});
+									updateFullscreenState(Boolean(fullscreenElement()));
+								});
+							return;
+						}
+
+						const requestFullscreen =
+							videoWrapper[0].requestFullscreen ||
+							videoWrapper[0].webkitRequestFullscreen ||
+							videoWrapper[0].msRequestFullscreen;
+
+						if (requestFullscreen) {
+							requestFullscreen.call(videoWrapper[0]);
+						}
+
+						updateFullscreenState(Boolean(fullscreenElement()));
 					} else {
-						player.exitFullscreen()
-							.catch(() => {
-								const exitFullscreen =
-									document.exitFullscreen ||
-									document.webkitExitFullscreen ||
-									document.msExitFullscreen;
+						if (isMobileViewport()) {
+							player.exitFullscreen()
+								.catch(() => {
+									const exitFullscreen =
+										document.exitFullscreen ||
+										document.webkitExitFullscreen ||
+										document.msExitFullscreen;
 
-								if (exitFullscreen) {
-									exitFullscreen.call(document);
-								}
-							})
-							.finally(() => {
-								updateFullscreenState(false);
-							});
+									if (exitFullscreen) {
+										exitFullscreen.call(document);
+									}
+								})
+								.finally(() => {
+									updateFullscreenState(false);
+								});
+							return;
+						}
+
+						const exitFullscreen =
+							document.exitFullscreen ||
+							document.webkitExitFullscreen ||
+							document.msExitFullscreen;
+
+						if (exitFullscreen) {
+							exitFullscreen.call(document);
+						}
+
+						updateFullscreenState(false);
 					}
 				});
 
