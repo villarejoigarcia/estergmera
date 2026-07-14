@@ -184,7 +184,7 @@ const content = {
     },
     {
       fields: {
-        title: "Shopie",
+        title: "Sophie",
         client: "Personal",
         category: ["Photo"],
         duration: "",
