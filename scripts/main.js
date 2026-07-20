@@ -1105,7 +1105,7 @@ function showProject(slug) {
 				const updateFullscreenState = (isFullscreen = Boolean(fullscreenElement())) => {
 					$fullscreenToggle.text(isFullscreen ? 'Exit' : 'Full screen');
 					videoWrapper.toggleClass('fullscreen', isFullscreen);
-					setControlsAutoHide(!isFullscreen);
+					setControlsAutoHide(true);
 					showControls();
 				};
 
