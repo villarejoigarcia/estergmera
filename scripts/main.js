@@ -526,7 +526,9 @@ $(document).ready(function () {
 				setTimeout(() => {
 					archive.removeClass();
 					list.removeClass();
+					$('.thumbnail.film.photo').removeClass('switch');
 					postPhoto.addClass('filter');
+					setHeight('film');
 
 					firstItemCategory();
 
@@ -574,10 +576,12 @@ $(document).ready(function () {
 		const postPhoto = $('.photo');
 		const postFilm = $('.film');
 		const postMix = $('.thumbnail.film.photo');
+		const isSingleView = container.hasClass('single-view');
 
 		postMix.toggleClass('switch');
 
-		if (container.hasClass('single-view')) {
+		if (isSingleView) {
+
 			history.pushState({}, '', window.location.pathname);
 
 			container.children().addClass('hide');
@@ -602,7 +606,9 @@ $(document).ready(function () {
 				setTimeout(() => {
 					archive.removeClass();
 					list.removeClass();
+					$('.thumbnail.film.photo').addClass('switch');
 					postFilm.addClass('filter');
+					setHeight('photo');
 
 					firstItemCategory();
 				}, 2000);
@@ -639,8 +645,9 @@ $(document).ready(function () {
 		}, 700);
 
 		// switch
-
-		if (postMix.hasClass('switch')) {
+		if (isSingleView) {
+			activeCategory = 'photo';
+		} else if (postMix.hasClass('switch')) {
 			activeCategory = 'photo';
 		} else {
 			activeCategory = 'film';
@@ -858,7 +865,7 @@ $(document).ready(function () {
 
 let activeCategory = null;
 
-function setHeight(activeCategory = null) {
+function setHeight(category = activeCategory) {
 	const thumbnails = document.querySelectorAll('.thumbnail');
 	const isMobile = window.innerWidth <= 768;
 
@@ -867,14 +874,14 @@ function setHeight(activeCategory = null) {
 		let child = null;
 
 		if (
-			activeCategory &&
+			category &&
 			thumbnail.classList.contains('film') &&
 			thumbnail.classList.contains('photo')
 		) {
-			if (activeCategory === 'film') {
+			if (category === 'film') {
 				child = thumbnail.querySelector('video');
 			}
-			if (activeCategory === 'photo') {
+			if (category === 'photo') {
 				child = thumbnail.querySelector('img');
 			}
 		}
