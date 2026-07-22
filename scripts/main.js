@@ -1,5 +1,68 @@
 // content
 
+let mobileClipObserver = null;
+
+function loadMobileClip(video) {
+	if (!video || video.dataset.loaded === 'true') return;
+
+	const videoSrc = video.dataset.src;
+	if (!videoSrc) return;
+
+	video.dataset.loaded = 'true';
+	video.src = videoSrc;
+	video.load();
+}
+
+function playMobileClip(video) {
+	if (!video) return;
+
+	loadMobileClip(video);
+
+	const playVideo = () => {
+		video.muted = true;
+		video.play().catch(() => { });
+	};
+
+	if (video.readyState >= 2) {
+		playVideo();
+		return;
+	}
+
+	video.addEventListener('canplay', playVideo, { once: true });
+}
+
+function setupMobileClipLazyLoad() {
+	if (mobileClipObserver) {
+		mobileClipObserver.disconnect();
+		mobileClipObserver = null;
+	}
+
+	const videos = Array.from(document.querySelectorAll('#archive .thumbnail video[data-src]'));
+	if (videos.length === 0) return;
+
+	if (!('IntersectionObserver' in window)) {
+		videos.forEach(loadMobileClip);
+		return;
+	}
+
+	mobileClipObserver = new IntersectionObserver((entries) => {
+		entries.forEach(entry => {
+			if (!entry.isIntersecting) return;
+
+			loadMobileClip(entry.target);
+			mobileClipObserver.unobserve(entry.target);
+		});
+	}, {
+		root: null,
+		// rootMargin: '25% 0px 25% 0px',
+		threshold: 0.01
+	});
+
+	videos.forEach(video => {
+		mobileClipObserver.observe(video);
+	});
+}
+
 $(document).ready(function () {
 
 	if (!window.content || !window.content.projects) return;
@@ -69,6 +132,11 @@ $(document).ready(function () {
 	function handleResponsive() {
 		const isMobile = window.innerWidth <= 768;
 
+		if (!isMobile && mobileClipObserver) {
+			mobileClipObserver.disconnect();
+			mobileClipObserver = null;
+		}
+
 		const $carousel = $('#archive');
 		$carousel.empty();
 
@@ -121,7 +189,8 @@ $(document).ready(function () {
 						const videoSrc = firstMedia.clip;
 
 						const $video = $('<video>')
-							.attr('src', videoSrc)
+							.attr('data-src', videoSrc)
+							.attr('preload', 'none')
 							.attr('muted', true)
 							.attr('loop', true)
 							.attr('playsinline', true);
@@ -143,7 +212,8 @@ $(document).ready(function () {
 						const videoSrc = firstMedia.clip;
 
 						const $video = $('<video>')
-							.attr('src', videoSrc)
+							.attr('data-src', videoSrc)
+							.attr('preload', 'none')
 							.attr('muted', true)
 							.attr('loop', true)
 							.attr('playsinline', true);
@@ -189,6 +259,8 @@ $(document).ready(function () {
 
 				$carousel.append($slide);
 			});
+
+			setupMobileClipLazyLoad();
 
 			// press
 
@@ -777,7 +849,7 @@ function setActive(index) {
 		const video = $(this).find('video').get(0);
 		if (video) {
 			video.pause();
-			if (video.currentTime === 0) {
+			if (video.dataset.loaded === 'true' && video.currentTime === 0) {
 				video.currentTime = .1;
 			}
 		}
@@ -785,8 +857,7 @@ function setActive(index) {
 
 	const activeVideo = activePost.find('video').get(0);
 	if (activeVideo) {
-		activeVideo.muted = true;
-		activeVideo.play().catch(() => { });
+		playMobileClip(activeVideo);
 	}
 
 }
